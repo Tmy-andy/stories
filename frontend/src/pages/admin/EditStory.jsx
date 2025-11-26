@@ -48,6 +48,11 @@ function EditStory() {
       return;
     }
     setUser(currentUser);
+    // Set author to current user's username
+    setFormData(prevData => ({
+      ...prevData,
+      author: currentUser.username
+    }));
     loadStory();
   }, [id, navigate]);
 
@@ -102,7 +107,7 @@ function EditStory() {
     e.preventDefault();
     setError('');
 
-    if (!formData.title || !formData.author || !formData.description) {
+    if (!formData.title || !formData.description) {
       setError('Vui lòng điền đầy đủ thông tin bắt buộc');
       return;
     }
@@ -246,11 +251,13 @@ function EditStory() {
                       type="text"
                       name="author"
                       value={formData.author}
-                      onChange={handleChange}
-                      className="w-full h-12 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 px-4 text-text-light dark:text-text-dark focus:border-primary focus:ring-primary"
-                      placeholder="Nhập tên tác giả..."
-                      required
+                      disabled
+                      className="w-full h-12 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 px-4 text-text-secondary-light dark:text-text-secondary-dark focus:border-primary focus:ring-primary cursor-not-allowed"
+                      placeholder="Tác giả sẽ tự động là tên tài khoản"
                     />
+                    <p className="text-text-secondary-light dark:text-text-secondary-dark text-xs mt-1">
+                      Tác giả tự động là tên tài khoản đang đăng nhập
+                    </p>
                   </div>
 
                   {/* Description */}
