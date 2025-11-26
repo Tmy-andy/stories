@@ -60,9 +60,10 @@ function EditStory() {
     try {
       setLoading(true);
       const story = await getStoryById(id);
+      const currentUser = authService.getCurrentUser();
       setFormData({
         title: story.title || '',
-        author: story.author || '',
+        author: currentUser.username,
         description: story.description || '',
         coverImage: story.coverImage || '',
         category: Array.isArray(story.category) ? story.category : [story.category || 'Tiên hiệp'],
@@ -240,24 +241,6 @@ function EditStory() {
                       placeholder="Nhập tên truyện..."
                       required
                     />
-                  </div>
-
-                  {/* Author */}
-                  <div>
-                    <label className="block text-text-light dark:text-text-dark text-sm font-medium mb-2">
-                      Tác giả <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      name="author"
-                      value={formData.author}
-                      disabled
-                      className="w-full h-12 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 px-4 text-text-secondary-light dark:text-text-secondary-dark focus:border-primary focus:ring-primary cursor-not-allowed"
-                      placeholder="Tác giả sẽ tự động là tên tài khoản"
-                    />
-                    <p className="text-text-secondary-light dark:text-text-secondary-dark text-xs mt-1">
-                      Tác giả tự động là tên tài khoản đang đăng nhập
-                    </p>
                   </div>
 
                   {/* Description */}
