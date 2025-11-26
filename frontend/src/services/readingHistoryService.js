@@ -48,6 +48,17 @@ const readingHistoryService = {
     }
   },
 
+  // Get all reading history (no limit)
+  getAllReadingHistory: async () => {
+    try {
+      const response = await client.get('/reading-history/all');
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching all reading history:', error);
+      throw error;
+    }
+  },
+
   // Get reading position for a specific story
   getReadingPosition: async (storyId) => {
     try {

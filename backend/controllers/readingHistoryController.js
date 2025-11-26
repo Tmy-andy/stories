@@ -60,6 +60,22 @@ exports.getReadingHistory = async (req, res) => {
   }
 };
 
+// Get all reading history (for displaying full history)
+exports.getAllReadingHistory = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const history = await ReadingHistory.find({ userId })
+      .populate('storyId', 'title coverImage author')
+      .sort({ updatedAt: -1 });
+
+    res.json(history);
+  } catch (error) {
+    console.error('Error fetching all reading history:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
 // Get reading position for a specific story
 exports.getReadingPosition = async (req, res) => {
   try {

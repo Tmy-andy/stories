@@ -4,6 +4,7 @@ const { authMiddleware } = require('../middleware/auth');
 const {
   saveReadingPosition,
   getReadingHistory,
+  getAllReadingHistory,
   getReadingPosition,
   deleteReadingHistory,
   clearAllReadingHistory,
@@ -20,6 +21,9 @@ router.delete('/:storyId', deleteReadingHistory);
 
 // Clear all reading history
 router.delete('/', clearAllReadingHistory);
+
+// Get all reading history (no limit)
+router.get('/all', getAllReadingHistory);
 
 // Get reading position for specific story
 router.get('/:storyId', getReadingPosition);
