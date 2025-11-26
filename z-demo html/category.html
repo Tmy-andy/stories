@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="vi">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Lam điệp cô ảnh - Khám Phá Tiểu Thuyết</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings:
+                'FILL' 0,
+                'wght' 400,
+                'GRAD' 0,
+                'opsz' 24
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#290ea0",
+                        "background-light": "#F8F9FA",
+                        "background-dark": "#141022",
+                    },
+                    fontFamily: {
+                        "display": ["Noto Serif", "serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="font-display">
+    <div
+        class="relative flex h-auto min-h-screen w-full flex-col bg-background-light dark:bg-background-dark group/design-root overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col">
+            <div class="px-4 sm:px-8 md:px-16 lg:px-24 xl:px-40 flex flex-1 justify-center py-5">
+                <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+                    <!-- TopNavBar -->
+                    <header
+                        class="flex items-center justify-between whitespace-nowrap border-b border-solid border-gray-200 dark:border-b-[#2b2839] px-4 sm:px-10 py-3">
+                        <div class="flex items-center gap-8">
+                            <div class="flex items-center gap-4 text-gray-800 dark:text-white">
+                                <div class="size-6 text-primary">
+                                    <svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z"
+                                            fill="currentColor"></path>
+                                    </svg>
+                                </div>
+                                <h2
+                                    class="text-gray-800 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">
+                                    Lam điệp cô ảnh</h2>
+                            </div>
+                            <div class="hidden md:flex items-center gap-9">
+                                <a class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-white text-sm font-medium leading-normal"
+                                    href="#">Trang chủ</a>
+                                <a class="text-primary dark:text-white text-sm font-medium leading-normal" href="#">Thể
+                                    loại</a>
+                                <a class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-white text-sm font-medium leading-normal"
+                                    href="#">Tác giả</a>
+                            </div>
+                        </div>
+                        <div class="flex flex-1 justify-end gap-8">
+                            <label class="flex flex-col min-w-40 !h-10 max-w-64">
+                                <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+                                    <div
+                                        class="text-gray-400 dark:text-[#a29db9] flex border border-solid border-gray-200 dark:border-none bg-white dark:bg-[#2b2839] items-center justify-center pl-4 rounded-l-lg border-r-0">
+                                        <span class="material-symbols-outlined" style="font-size: 20px;">search</span>
+                                    </div>
+                                    <input
+                                        class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-solid border-gray-200 dark:border-none bg-white dark:bg-[#2b2839] h-full placeholder:text-gray-400 dark:placeholder:text-[#a29db9] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
+                                        placeholder="Tìm truyện..." value="" />
+                                </div>
+                            </label>
+                        </div>
+                    </header>
+                    <!-- PageHeading -->
+                    <div class="flex flex-wrap justify-between gap-3 p-4 mt-8">
+                        <p
+                            class="text-gray-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em] min-w-72">
+                            Khám Phá Tiểu Thuyết</p>
+                    </div>
+                    <!-- Chips -->
+                    <div class="flex flex-wrap gap-3 p-3 overflow-x-auto">
+                        <button
+                            class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-gray-100 dark:bg-[#2b2839] hover:bg-gray-200 dark:hover:bg-primary/30 pl-4 pr-2 transition-colors">
+                            <p class="text-gray-700 dark:text-white text-sm font-medium leading-normal">Lọc theo Thể
+                                loại</p>
+                            <span class="material-symbols-outlined text-gray-700 dark:text-white"
+                                style="font-size: 20px;">arrow_drop_down</span>
+                        </button>
+                        <button
+                            class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-gray-100 dark:bg-[#2b2839] hover:bg-gray-200 dark:hover:bg-primary/30 pl-4 pr-2 transition-colors">
+                            <p class="text-gray-700 dark:text-white text-sm font-medium leading-normal">Lọc theo Tác giả
+                            </p>
+                            <span class="material-symbols-outlined text-gray-700 dark:text-white"
+                                style="font-size: 20px;">arrow_drop_down</span>
+                        </button>
+                        <button
+                            class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-gray-100 dark:bg-[#2b2839] hover:bg-gray-200 dark:hover:bg-primary/30 pl-4 pr-2 transition-colors">
+                            <p class="text-gray-700 dark:text-white text-sm font-medium leading-normal">Sắp xếp theo</p>
+                            <span class="material-symbols-outlined text-gray-700 dark:text-white"
+                                style="font-size: 20px;">arrow_drop_down</span>
+                        </button>
+                    </div>
+                    <!-- ImageGrid -->
+                    <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-4 p-4">
+                        <div class="flex flex-col gap-3 pb-3 group cursor-pointer">
+                            <div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg overflow-hidden transform group-hover:scale-105 transition-transform duration-300"
+                                data-alt="Bìa sách Bóng hình dưới trăng"
+                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBKFk3FHG2v5G4ruIWTD1vRYdz1YzD0rms6pYvGQSjtllNx-5MhxzAuIxVZLIPHivxTc94yhXW35crTtI6aoqts2NVzvja5erZRU7MJv50bhmkxEmU_Gm4VBQZTkNeMWdJOjxO-Ycwyq3Cct0hGjirkjjt3oE4lXg0pNxVxt_9p39C0dUF4XoaVyIIwMS26ffzqC1_i7uh5iC54yb_eD4xbEDj22KnWbaLwsSZKpi4-0zSBuHqYR_mYJ80IBGl-yB96fMocH6jROVBc");'>
+                            </div>
+                            <div>
+                                <p
+                                    class="text-gray-900 dark:text-white text-base font-medium leading-normal group-hover:text-primary dark:group-hover:text-primary/90">
+                                    Bóng hình dưới trăng</p>
+                                <p class="text-gray-500 dark:text-[#a29db9] text-sm font-normal leading-normal">Tác giả
+                                    Lam Anh</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-3 pb-3 group cursor-pointer">
+                            <div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg overflow-hidden transform group-hover:scale-105 transition-transform duration-300"
+                                data-alt="Bìa sách Gió thoảng mây trôi"
+                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDTNciKpVpFhbqF7P5fs6RsHdMpHfE3YzskaLrd6fWuCGYh-fPQXEfoUlIV9jBcryHyxhljp7Bv5gbkW5Abclc9OkZq9YMJ0VFFP9ZxrfRSA1yCtUN_YoBmnL-6MJOOxeuWpXKq0t5Ga-CJJX3rZvxuG05wXgqSj9a030XvY3JFCjmx7A_7lc4q94WmYC4w-5nFsqWqVS9XzWKX-aWrKFY240TPrUl14a53VXY1OQrbg2ud2M0AgChFantskP1WD10OyrO5uEGYEJX5");'>
+                            </div>
+                            <div>
+                                <p
+                                    class="text-gray-900 dark:text-white text-base font-medium leading-normal group-hover:text-primary dark:group-hover:text-primary/90">
+                                    Gió thoảng mây trôi</p>
+                                <p class="text-gray-500 dark:text-[#a29db9] text-sm font-normal leading-normal">Tác giả
+                                    Mộc Miên</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-3 pb-3 group cursor-pointer">
+                            <div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg overflow-hidden transform group-hover:scale-105 transition-transform duration-300"
+                                data-alt="Bìa sách Hẹn ước bồ công anh"
+                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBOjSZpT669hTAXbeoOnTyxfL3SOIqqxjrSxUHsJG9vzqwChpy-VQWxcjrsdM6MJm8Gyq25iSS6CAsQqjMYzlmfrD8BTnK8JqPH5cbJ5nYYD9f7XA8NY299RB6rrdSv97RaxhQ3_H4wOCnWBEWxLHUTtwXn0i3lMk0mNIWu7c_RIyN8UAqSc_gjyxy0-3HPdPxkHYtcEO8r87h7d0tKMepMlScUQSVeKovwGvIrni9jkcWz3dRruUsEQNet88rWHFgbtjPeCg2L8OW2");'>
+                            </div>
+                            <div>
+                                <p
+                                    class="text-gray-900 dark:text-white text-base font-medium leading-normal group-hover:text-primary dark:group-hover:text-primary/90">
+                                    Hẹn ước bồ công anh</p>
+                                <p class="text-gray-500 dark:text-[#a29db9] text-sm font-normal leading-normal">Tác giả
+                                    Hạ Vũ</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-3 pb-3 group cursor-pointer">
+                            <div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg overflow-hidden transform group-hover:scale-105 transition-transform duration-300"
+                                data-alt="Bìa sách Vệt nắng cuối trời"
+                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAnbi8aowTYFXXXxBq4u-VlewB6L2SYtworqxDTMtwNwTghujzPnt4mxzLcyQjlbsPuIA1LC7pNNN8hgDqqr7dyWuf4ptV6UX0z8rnqATDYJ2xxzG5SsId3HazA1sNDBuKPE1S2nKJtQM_81bjzCvXtjzoQFO2y9IeGZPE96fN5sTt_IL4auAGQE0QQ2x-4Js3n7Zgedyt5U575VcfS9AxH9JlGwd2dkuWqgYeI8fbaydTx2uvcUBBVtZpWvfxFTIsZTRwTwpuSprBi");'>
+                            </div>
+                            <div>
+                                <p
+                                    class="text-gray-900 dark:text-white text-base font-medium leading-normal group-hover:text-primary dark:group-hover:text-primary/90">
+                                    Vệt nắng cuối trời</p>
+                                <p class="text-gray-500 dark:text-[#a29db9] text-sm font-normal leading-normal">Tác giả
+                                    An Nhiên</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-3 pb-3 group cursor-pointer">
+                            <div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg overflow-hidden transform group-hover:scale-105 transition-transform duration-300"
+                                data-alt="Bìa sách Thanh xuân nợ một lời yêu"
+                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAGRhpfAZ8DbI80acHjvtpM-K3g3jMJQDwM6to6VchVWnEQd3-28dwHxFbJkB5mvVlgQkFnC1b-FQ1d8YZBK4qzJxC-Ac2Gy4l0HGZy_Z_RFTirJLYRHwuyaTQEL9or52zxd0qqHL1s5fQibKYUH0UxTZwQ0rZ6GXrAXjX22bxi26RvBU2TNNlIPZxuzcfzcHHmPpAbfXjeLQebP6ch5iVzmProi_SsoKLI7PfW4mT9-4nb1imbj2YtAffveccB4Q5SdIMaYfJMxJ8w");'>
+                            </div>
+                            <div>
+                                <p
+                                    class="text-gray-900 dark:text-white text-base font-medium leading-normal group-hover:text-primary dark:group-hover:text-primary/90">
+                                    Thanh xuân nợ một lời yêu</p>
+                                <p class="text-gray-500 dark:text-[#a29db9] text-sm font-normal leading-normal">Tác giả
+                                    Lục Yên</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-3 pb-3 group cursor-pointer">
+                            <div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg overflow-hidden transform group-hover:scale-105 transition-transform duration-300"
+                                data-alt="Bìa sách Giấc mộng phù hoa"
+                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAChqLRhCUlQndHhGSBHyLu8Ni3Rprd5Fz2XwUqJjCEH8M3bd1J9bXqXyF7S-_xAAuyTVlq9hyLnlx5g6D7hyZIj4H0Q9LEpr13SYehjvb3wejWipMvVqP7U2NfMl64bWFcNlsg1h_6UVvvvq4_cjuhGqfRgZBKkZWlyv7v9yy3e04cfY1Jc8Ql1iTwEjlp8i-mdGE0eFnJeSaLS22ivNY0PDLCW-5Cy9A6PV5F1HrInQTibPnFdkCEi0N9suNzBu0BjZ8CZMjPg2uG");'>
+                            </div>
+                            <div>
+                                <p
+                                    class="text-gray-900 dark:text-white text-base font-medium leading-normal group-hover:text-primary dark:group-hover:text-primary/90">
+                                    Giấc mộng phù hoa</p>
+                                <p class="text-gray-500 dark:text-[#a29db9] text-sm font-normal leading-normal">Tác giả
+                                    Cẩm Tú</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-3 pb-3 group cursor-pointer">
+                            <div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg overflow-hidden transform group-hover:scale-105 transition-transform duration-300"
+                                data-alt="Bìa sách Đi qua miền thương nhớ"
+                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCgS_xkdpvvnu1glFSU_6FpHVRy03mEam8Av9R2A3a68sfAvhueAXcBkDCgJ6p5yIZQLSfP_09R59wzK9huvxWmWD7sC6g1CfK-tW55LgZLhH2DWq9fdRmjIHqkkWzdMe7OQ_C7sho7AmYxqsseeYGH2qGivOn7Oi4iAWnvj5lPL90zgTrh8urLufAMtDGJk0N38R1ccyRt3-Qhx-fOrL2DdfPaJyBo2qX4rTujt7Lnb4CiRXaYR9TNl2S_2QaN7clWH8ca4fcfCp2X");'>
+                            </div>
+                            <div>
+                                <p
+                                    class="text-gray-900 dark:text-white text-base font-medium leading-normal group-hover:text-primary dark:group-hover:text-primary/90">
+                                    Đi qua miền thương nhớ</p>
+                                <p class="text-gray-500 dark:text-[#a29db9] text-sm font-normal leading-normal">Tác giả
+                                    Diệp Phong</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-3 pb-3 group cursor-pointer">
+                            <div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg overflow-hidden transform group-hover:scale-105 transition-transform duration-300"
+                                data-alt="Bìa sách Mưa rơi trên nỗi đau"
+                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAWvmZ2OADfWmtUo_YXdvH4rmiXS_Q2i7k1NFEAJ8V2NLSoy-H7ZrzrR0vcbIG6IKjltGxiO7Ism0P6WBp6OD-tBxOamCimA5sImv5CMl03wue1LwY5SmIn-AfthXWsPARnc6kuvBdP2LZyxWQXW3810umRYj9rvI_8raZKMGilIb-xDbYTyDyWLZUEoW9Q3n0aF0kyaznPwsVuTm3kKBZjSi5k4tkToVToSI0K0XoMS3XBr15HIy9zrhr1Knj4oE9mBrs4mv9Q76MI");'>
+                            </div>
+                            <div>
+                                <p
+                                    class="text-gray-900 dark:text-white text-base font-medium leading-normal group-hover:text-primary dark:group-hover:text-primary/90">
+                                    Mưa rơi trên nỗi đau</p>
+                                <p class="text-gray-500 dark:text-[#a29db9] text-sm font-normal leading-normal">Tác giả
+                                    Minh Nguyệt</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-3 pb-3 group cursor-pointer">
+                            <div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg overflow-hidden transform group-hover:scale-105 transition-transform duration-300"
+                                data-alt="Bìa sách Hoàng hôn màu tím"
+                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD9SmdMW9abSRIH_Ein63R4gQr62mLjQDe3MxQWS2-ZMW4OoLkcrfdBuVFk8VcropV_lEu9bRQI6RO1-zeNIng5E8EOsj2VpeAXZXqbo8Ji1eXSEhqkRT-NJLq2IuG0egEMG-IYhkDBJ5iuxEEoaf2GDBfg6RK8611nOYckWF5fjUT6ZaxN3PyCizgQ4kcqL9vmPptoA3pv27VcK9JxwxnvPKbVOmRxlxMsd3kUlWmZVjwkSqzzXQtSc00aOdfCX-v2r9_bVYjpvFxR");'>
+                            </div>
+                            <div>
+                                <p
+                                    class="text-gray-900 dark:text-white text-base font-medium leading-normal group-hover:text-primary dark:group-hover:text-primary/90">
+                                    Hoàng hôn màu tím</p>
+                                <p class="text-gray-500 dark:text-[#a29db9] text-sm font-normal leading-normal">Tác giả
+                                    Trúc Quỳnh</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-3 pb-3 group cursor-pointer">
+                            <div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg overflow-hidden transform group-hover:scale-105 transition-transform duration-300"
+                                data-alt="Bìa sách Bên kia sườn dốc"
+                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCkuzzmUbTI93jCqST8lF8FSS_8td4Tiu3lSijkCvDvKQj0-iDCsIHTkP8IZI7NULRbGjFPUR-aaF6qjEA0GOe2Yn5RI47LKiT-2ON-wQ-4qvTsX2wxtXnDWYmIF-EFANCEkpKH5LXlY4WG3xQSvB3Nd1lvmMin-Jrwin1pkXGRS7oLGSl1DlIaT7V1Z_xzaYwA7bL4NqIKBY7twUh192BgmuvJDM2x_FB30pT-UhJJvy9-3egJU9t8ON85eDkVjYXQMYXOA0xfprwf");'>
+                            </div>
+                            <div>
+                                <p
+                                    class="text-gray-900 dark:text-white text-base font-medium leading-normal group-hover:text-primary dark:group-hover:text-primary/90">
+                                    Bên kia sườn dốc</p>
+                                <p class="text-gray-500 dark:text-[#a29db9] text-sm font-normal leading-normal">Tác giả
+                                    Hoàng Yến</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-3 pb-3 group cursor-pointer">
+                            <div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg overflow-hidden transform group-hover:scale-105 transition-transform duration-300"
+                                data-alt="Bìa sách Cánh hoa trong bão"
+                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDphpBStDs5SR6aQtMU46IA6Im-dGoXnBX8Iza_s0jp6uPM6rDEdRRCIdC8_ftGlffs79tSx07Vgs88Jut9a7NEudkqndcgJgar1VPcyYeJzFcKQkqIFhy6KC3Ji5VXk8zZK5R2u-9GKSGBt1yv_P9l-Aj_0WaLEagfq8cOD_oyS7h_BSLstXftRdzZf_yUp5WafUzmO2YKo6fOLo7JXA7RXm9qocQxQY-dqVEJMNYzitAA7Dy7-sfO8rKzqvyAqxkMYLK-rlynfcym");'>
+                            </div>
+                            <div>
+                                <p
+                                    class="text-gray-900 dark:text-white text-base font-medium leading-normal group-hover:text-primary dark:group-hover:text-primary/90">
+                                    Cánh hoa trong bão</p>
+                                <p class="text-gray-500 dark:text-[#a29db9] text-sm font-normal leading-normal">Tác giả
+                                    Phong Lan</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-3 pb-3 group cursor-pointer">
+                            <div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg overflow-hidden transform group-hover:scale-105 transition-transform duration-300"
+                                data-alt="Bìa sách Lời thì thầm của biển"
+                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCs6NKSjb7zurosctZNKs-CWexIR_E3cfvK1PspkuHWB9uqaxZ4GdBfe5OPl1bOiF7MR2aL2gyL7svJOTncc98wC4v6CqDgXcXDcOfLY0p8g1nxOLnEg5LTWccjZkZeqyK5ppEt37riB1c3TK6DrXzlQtCZYFgw7LNpyP6D1wKw6qnDgR9WR9akpBVPn4A7KEcj4XmjYMJnTiK9SpncP3XAYfGa2zbapWNfJgrOUxcwix2IZ69bsrc5j1_Ep7g1c-59ReEKuv0TmUnN");'>
+                            </div>
+                            <div>
+                                <p
+                                    class="text-gray-900 dark:text-white text-base font-medium leading-normal group-hover:text-primary dark:group-hover:text-primary/90">
+                                    Lời thì thầm của biển</p>
+                                <p class="text-gray-500 dark:text-[#a29db9] text-sm font-normal leading-normal">Tác giả
+                                    Hải Đường</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Pagination -->
+                    <div class="flex items-center justify-center p-4 my-8">
+                        <a class="flex size-10 items-center justify-center text-gray-500 dark:text-white/70 hover:text-primary"
+                            href="#">
+                            <span class="material-symbols-outlined" style="font-size: 20px;">chevron_left</span>
+                        </a>
+                        <a class="hidden sm:flex text-sm font-normal leading-normal size-10 items-center justify-center text-gray-500 dark:text-white/70 rounded-full hover:bg-primary/20 hover:text-primary"
+                            href="#">Trước</a>
+                        <a class="text-sm font-bold leading-normal tracking-[0.015em] flex size-10 items-center justify-center text-white rounded-full bg-primary"
+                            href="#">1</a>
+                        <a class="text-sm font-normal leading-normal flex size-10 items-center justify-center text-gray-600 dark:text-white/70 rounded-full hover:bg-primary/20 hover:text-primary"
+                            href="#">2</a>
+                        <a class="text-sm font-normal leading-normal flex size-10 items-center justify-center text-gray-600 dark:text-white/70 rounded-full hover:bg-primary/20 hover:text-primary"
+                            href="#">3</a>
+                        <span
+                            class="text-sm font-normal leading-normal flex size-10 items-center justify-center text-gray-600 dark:text-white/70 rounded-full">...</span>
+                        <a class="text-sm font-normal leading-normal flex size-10 items-center justify-center text-gray-600 dark:text-white/70 rounded-full hover:bg-primary/20 hover:text-primary"
+                            href="#">10</a>
+                        <a class="hidden sm:flex text-sm font-normal leading-normal size-10 items-center justify-center text-gray-500 dark:text-white/70 rounded-full hover:bg-primary/20 hover:text-primary"
+                            href="#">Sau</a>
+                        <a class="flex size-10 items-center justify-center text-gray-500 dark:text-white/70 hover:text-primary"
+                            href="#">
+                            <span class="material-symbols-outlined" style="font-size: 20px;">chevron_right</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

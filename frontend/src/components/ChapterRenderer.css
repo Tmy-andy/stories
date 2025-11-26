@@ -1,0 +1,18 @@
+/* Details element styling for chapter notes */
+details {
+  display: block;
+}
+
+details summary {
+  display: flex;
+  cursor: pointer;
+  user-select: none;
+}
+
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+details[open] .group-open\:rotate-90 {
+  transform: rotate(90deg);
+}

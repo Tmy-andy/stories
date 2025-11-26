@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html class="dark" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hồ sơ cá nhân - Lam điệp cô ảnh</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#290ea0",
+              "background-light": "#f6f6f8",
+              "background-dark": "#141022",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            font-size: 20px;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<main class="flex flex-1 justify-center py-5 sm:py-8 lg:py-12">
+<div class="layout-content-container flex flex-col w-full max-w-4xl px-4">
+<div class="flex flex-col p-4 @container border-b border-gray-200 dark:border-white/10">
+<div class="flex w-full flex-col gap-4 @[520px]:flex-row @[520px]:justify-between @[520px]:items-center">
+<div class="flex gap-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-24 w-24 sm:h-32 sm:w-32" data-alt="User avatar placeholder" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuByodJp9pvncfjPtSaiQ5IIaHPmYG1HsmqpTV1iA9lyezyIS-rCE1wNYzstGs9s0oFgfduQUq0qDASMaIwom-r-dpt2XXQDoCzDObKKos10h3pBZQboWo2poQtDdJ3ytjcCvzQmT5dIJNUpUYbyfoFH0Hd7TfErv5krw_y9AXlh_G6leIZIscL1nJ_apAS1P08hnHl11Zu_TnSMPYpzM5zNRaLDiSZ9I3olsiBDUV86F7SJR9OdJp5tKCc27rBOGiiGcpQ2QOjuID_-");'></div>
+<div class="flex flex-col justify-center">
+<p class="text-gray-900 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em]">Tên Hiển Thị</p>
+<p class="text-gray-500 dark:text-gray-400 text-base font-normal leading-normal">@username</p>
+<p class="text-gray-500 dark:text-gray-400 text-base font-normal leading-normal">Đã tham gia: 24/07/2024</p>
+</div>
+</div>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] w-full max-w-[480px] @[480px]:w-auto hover:bg-primary/90 transition-colors">
+<span class="truncate">Chỉnh sửa hồ sơ</span>
+</button>
+</div>
+<div class="mt-6 rounded-lg bg-primary/10 dark:bg-primary/20 p-4">
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+<div class="flex items-center gap-3">
+<div class="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white">
+<span class="material-symbols-outlined text-3xl fill">workspace_premium</span>
+</div>
+<div>
+<h3 class="text-base font-bold text-gray-900 dark:text-white">Thành viên Bạc</h3>
+<p class="text-sm text-primary dark:text-gray-300">Cấp độ thành viên của bạn</p>
+</div>
+</div>
+<div class="text-left sm:text-right">
+<p class="text-2xl font-bold text-primary dark:text-white">1,250</p>
+<p class="text-sm text-gray-600 dark:text-gray-400">Điểm tích lũy</p>
+</div>
+</div>
+<div class="mt-4">
+<p class="text-sm text-gray-700 dark:text-gray-300">Cảm ơn bạn đã là một độc giả thân thiết! Hãy tiếp tục đọc truyện để tích lũy thêm điểm và đạt cấp độ Vàng nhé.</p>
+</div>
+</div>
+</div>
+<div class="pb-3 pt-4">
+<div class="flex border-b border-gray-200 dark:border-white/10 px-4 gap-8">
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-primary text-primary pb-[13px] pt-4" href="#">
+<p class="text-primary text-sm font-bold leading-normal tracking-[0.015em]">Bình luận gần đây</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-gray-500 dark:text-gray-400 pb-[13px] pt-4 hover:text-gray-800 dark:hover:text-gray-200 transition-colors" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em]">Lịch sử đọc</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-gray-500 dark:text-gray-400 pb-[13px] pt-4 hover:text-gray-800 dark:hover:text-gray-200 transition-colors" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em]">Truyện yêu thích</p>
+</a>
+</div>
+</div>
+<div class="flex flex-col divide-y divide-gray-200 dark:divide-white/10">
+<div class="py-4">
+<div class="flex w-full flex-row items-start justify-start gap-3 p-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-10 shrink-0" data-alt="User avatar placeholder" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCsZ2a55wmlemycqRFHOTvhcUyXfC6HBqjtYDPe9_Ua086358C47T_MaipYjrBI4ex7Zn6s6Www3oOKDde6QUP9bSWfZmV-YUBMjcf_7SY-qPJp7JAVRIAgsoX4S2hv42tH5a0_gQ79f6XvRrqGcotJ1sbu-cN6qOqqgg8lkrmPDZFf2sofJFyS7qfaf6P0T3je0mngFFUxknwlxufPPXV9G9xdeDaraWoJ4qPvy9NNE9sWSUxqTonbyyeBUWcn6IM-uCg5dkCnUzlS");'></div>
+<div class="flex h-full flex-1 flex-col items-start justify-start">
+<div class="flex w-full flex-row items-center justify-start gap-x-3">
+<p class="text-gray-900 dark:text-white text-sm font-bold leading-normal tracking-[0.015em]">Tên Hiển Thị</p>
+<p class="text-gray-500 dark:text-gray-400 text-sm font-normal leading-normal">5 phút trước</p>
+</div>
+<p class="text-gray-800 dark:text-gray-300 text-sm font-normal leading-normal mt-1">
+                                        Truyện hay quá, hóng chương mới! Cảm ơn tác giả nhiều nhé. Cốt truyện rất lôi cuốn và nhân vật được xây dựng có chiều sâu.
+                                    </p>
+<p class="text-gray-500 dark:text-gray-400 text-sm font-normal leading-normal pt-2 px-0 underline hover:text-primary transition-colors cursor-pointer">trong truyện 'Hành Trình Vô Tận'</p>
+<div class="flex w-full flex-row items-center justify-start gap-9 pt-2">
+<div class="flex items-center gap-2 text-gray-500 dark:text-gray-400">
+<span class="material-symbols-outlined text-base">thumb_up</span>
+<p class="text-sm font-normal leading-normal">12</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="py-4">
+<div class="flex w-full flex-row items-start justify-start gap-3 p-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-10 shrink-0" data-alt="User avatar placeholder" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAejS7BH2d-1w6EYJrz7uu5VW6KrHto4VqV51elTHsRh6PyW5UHy0pj3Cit4Re8UkWlVAYRVEyQga8QSbsvy876ZAiD_29TF3Kpoe33dkxSw0eTAjCIuMsccBAdOGzKEe2kv6LeE2fRe7Ac9vu2Ia0blphFOG3_wXo303k8aKlV6MBWcJazmJ1yelTtfYq1D8mGN3zbJ-SeuDClfvrvhWdZDOgy6vIuzOyap5BCus2qGiAm-UVcfQ55s07_kebHE1XclA4rPeeNJ9Xc");'></div>
+<div class="flex h-full flex-1 flex-col items-start justify-start">
+<div class="flex w-full flex-row items-center justify-start gap-x-3">
+<p class="text-gray-900 dark:text-white text-sm font-bold leading-normal tracking-[0.015em]">Tên Hiển Thị</p>
+<p class="text-gray-500 dark:text-gray-400 text-sm font-normal leading-normal">1 ngày trước</p>
+</div>
+<p class="text-gray-800 dark:text-gray-300 text-sm font-normal leading-normal mt-1">Tình tiết này thật bất ngờ, không thể đoán trước được điều gì sẽ xảy ra tiếp theo.</p>
+<p class="text-gray-500 dark:text-gray-400 text-sm font-normal leading-normal pt-2 px-0 underline hover:text-primary transition-colors cursor-pointer">trong truyện 'Bóng Hình Dưới Trăng'</p>
+<div class="flex w-full flex-row items-center justify-start gap-9 pt-2">
+<div class="flex items-center gap-2 text-gray-500 dark:text-gray-400">
+<span class="material-symbols-outlined text-base">thumb_up</span>
+<p class="text-sm font-normal leading-normal">5</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="py-4 hidden">
+<div class="flex flex-col items-center justify-center text-center p-10 bg-white dark:bg-background-dark rounded-lg mt-4">
+<span class="material-symbols-outlined text-5xl text-gray-400 dark:text-gray-500 mb-4">forum</span>
+<h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">Chưa có bình luận nào</h3>
+<p class="text-gray-500 dark:text-gray-400 mt-1">Hãy bắt đầu chia sẻ cảm nhận của bạn về những câu chuyện nhé!</p>
+<button class="mt-4 flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors">
+<span class="truncate">Khám phá truyện mới</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+</body></html>

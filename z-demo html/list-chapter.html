@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html class="light" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Quản lý chương truyện</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#290EA0",
+            "background-light": "#F8F9FA",
+            "background-dark": "#121212",
+          },
+          fontFamily: {
+            display: ["'Be Vietnam Pro'", "sans-serif"],
+          },
+          borderRadius: {
+            DEFAULT: "0.75rem",
+          },
+        },
+      },
+    };
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings:
+      'FILL' 0,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 20
+    }
+  </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-gray-800 dark:text-gray-200">
+<div class="min-h-screen">
+<header class="bg-white dark:bg-gray-900 shadow-sm sticky top-0 z-10">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-16">
+<div class="flex items-center space-x-8">
+<a class="flex items-center space-x-2" href="#">
+<img alt="Lam điệp cô ảnh logo" class="h-8 w-8" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAe9kYvFOqDSYwu6WQNF891F2awk1Ir-Ofr3vmjgTFkZpZUjFoszB_M0dYjAEpen98D62YlWJ8ReEZKBV1F89-PZPkCMRun_lzIynjF6JnXaYM_Rabi4gNjoHmcsWDufXm4CUukjpmkDaPBUpYDvFb6dia1wO5_Js3JmaLy9TiM8TiBHNtKgHHOJ4qRLmhzyOzqoA5kka4N3Qx3i5dP3yQ2JBmOyjGwJnIUCfLTRunQidBqz_SxYKjk-6jqLW0grucZGdiYSMpfTySy"/>
+<span class="text-xl font-bold text-gray-900 dark:text-white">Lam điệp cô ảnh</span>
+</a>
+<nav class="hidden md:flex space-x-8">
+<a class="text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors" href="#">Trang chủ</a>
+<a class="text-primary font-semibold" href="#">Danh sách truyện</a>
+<a class="text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors" href="#">Thể loại</a>
+</nav>
+</div>
+<div class="flex items-center space-x-4">
+<div class="relative w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-gray-100 dark:bg-gray-800 border-transparent rounded-full focus:ring-primary focus:border-primary" placeholder="Tìm kiếm truyện..." type="text"/>
+</div>
+<div class="flex items-center space-x-2">
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold">A</div>
+<div>
+<div class="font-semibold text-gray-900 dark:text-white">Admin</div>
+<div class="text-xs px-2 py-0.5 bg-primary/10 text-primary rounded-full font-medium">ADMIN</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</header>
+<main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="max-w-4xl mx-auto">
+<div class="flex items-center mb-6">
+<a class="flex items-center text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">arrow_back</span>
+<span class="ml-2 font-medium">Quay lại</span>
+</a>
+</div>
+<div class="mb-8">
+<h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">Yêu Em Từ Cái Nhìn Đầu Tiên</h1>
+<p class="text-gray-500 dark:text-gray-400 mt-1">Quản lý 8 chương</p>
+</div>
+<div class="flex justify-between items-center mb-8 gap-4">
+<button class="w-full sm:w-auto flex-1 sm:flex-initial flex items-center justify-center bg-primary text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105">
+<span class="material-symbols-outlined mr-2">add</span>
+<span>Thêm Chương Mới</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-3 bg-gray-100 dark:bg-gray-800 rounded-lg text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+<span class="material-symbols-outlined text-xl">swap_vert</span>
+<span>Sắp xếp chương</span>
+</button>
+</div>
+<div class="space-y-4">
+<div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between transition-shadow hover:shadow-md">
+<div class="flex items-center gap-4 flex-1 mb-4 sm:mb-0">
+<span class="material-symbols-outlined text-gray-400 dark:text-gray-500 cursor-grab">drag_indicator</span>
+<div>
+<p class="text-sm text-gray-500 dark:text-gray-400">Chương 1</p>
+<h3 class="text-lg font-semibold text-gray-900 dark:text-white">1</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400">8062 lượt xem</p>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-2">
+<button class="flex items-center text-sm px-3 py-1.5 bg-yellow-100 dark:bg-yellow-900/50 text-yellow-800 dark:text-yellow-300 rounded-md font-medium"><span class="material-symbols-outlined text-base mr-1.5">draft</span>Nháp</button>
+<button class="flex items-center text-sm px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md font-medium"><span class="material-symbols-outlined text-base mr-1.5">archive</span>Lưu trữ</button>
+<button class="flex items-center text-sm px-3 py-1.5 bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300 rounded-md font-medium"><span class="material-symbols-outlined text-base mr-1.5">edit</span>Chỉnh sửa</button>
+<button class="flex items-center text-sm px-3 py-1.5 bg-red-100 dark:bg-red-900/50 text-red-800 dark:text-red-300 rounded-md font-medium"><span class="material-symbols-outlined text-base mr-1.5">delete</span>Xóa</button>
+</div>
+</div>
+<div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between transition-shadow hover:shadow-md">
+<div class="flex items-center gap-4 flex-1 mb-4 sm:mb-0">
+<span class="material-symbols-outlined text-gray-400 dark:text-gray-500 cursor-grab">drag_indicator</span>
+<div>
+<p class="text-sm text-gray-500 dark:text-gray-400">Chương 1</p>
+<h3 class="text-lg font-semibold text-gray-900 dark:text-white">dsadas</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400">0 lượt xem</p>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-2">
+<button class="flex items-center text-sm px-3 py-1.5 bg-yellow-100 dark:bg-yellow-900/50 text-yellow-800 dark:text-yellow-300 rounded-md font-medium"><span class="material-symbols-outlined text-base mr-1.5">draft</span>Nháp</button>
+<button class="flex items-center text-sm px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md font-medium"><span class="material-symbols-outlined text-base mr-1.5">archive</span>Lưu trữ</button>
+<button class="flex items-center text-sm px-3 py-1.5 bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300 rounded-md font-medium"><span class="material-symbols-outlined text-base mr-1.5">edit</span>Chỉnh sửa</button>
+<button class="flex items-center text-sm px-3 py-1.5 bg-red-100 dark:bg-red-900/50 text-red-800 dark:text-red-300 rounded-md font-medium"><span class="material-symbols-outlined text-base mr-1.5">delete</span>Xóa</button>
+</div>
+</div>
+<div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between transition-shadow hover:shadow-md">
+<div class="flex items-center gap-4 flex-1 mb-4 sm:mb-0">
+<span class="material-symbols-outlined text-gray-400 dark:text-gray-500 cursor-grab">drag_indicator</span>
+<div>
+<p class="text-sm text-gray-500 dark:text-gray-400">Chương 2</p>
+<h3 class="text-lg font-semibold text-gray-900 dark:text-white">Chương 2: Gặp gỡ</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400">1827 lượt xem</p>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-2">
+<button class="flex items-center text-sm px-3 py-1.5 bg-yellow-100 dark:bg-yellow-900/50 text-yellow-800 dark:text-yellow-300 rounded-md font-medium"><span class="material-symbols-outlined text-base mr-1.5">draft</span>Nháp</button>
+<button class="flex items-center text-sm px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md font-medium"><span class="material-symbols-outlined text-base mr-1.5">archive</span>Lưu trữ</button>
+<button class="flex items-center text-sm px-3 py-1.5 bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300 rounded-md font-medium"><span class="material-symbols-outlined text-base mr-1.5">edit</span>Chỉnh sửa</button>
+<button class="flex items-center text-sm px-3 py-1.5 bg-red-100 dark:bg-red-900/50 text-red-800 dark:text-red-300 rounded-md font-medium"><span class="material-symbols-outlined text-base mr-1.5">delete</span>Xóa</button>
+</div>
+</div>
+<div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between transition-shadow hover:shadow-md">
+<div class="flex items-center gap-4 flex-1 mb-4 sm:mb-0">
+<span class="material-symbols-outlined text-gray-400 dark:text-gray-500 cursor-grab">drag_indicator</span>
+<div>
+<p class="text-sm text-gray-500 dark:text-gray-400">Chương 3</p>
+<h3 class="text-lg font-semibold text-gray-900 dark:text-white">Chương 3: Thử thách</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400">4288 lượt xem</p>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-2">
+<button class="flex items-center text-sm px-3 py-1.5 bg-yellow-100 dark:bg-yellow-900/50 text-yellow-800 dark:text-yellow-300 rounded-md font-medium"><span class="material-symbols-outlined text-base mr-1.5">draft</span>Nháp</button>
+<button class="flex items-center text-sm px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md font-medium"><span class="material-symbols-outlined text-base mr-1.5">archive</span>Lưu trữ</button>
+<button class="flex items-center text-sm px-3 py-1.5 bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300 rounded-md font-medium"><span class="material-symbols-outlined text-base mr-1.5">edit</span>Chỉnh sửa</button>
+<button class="flex items-center text-sm px-3 py-1.5 bg-red-100 dark:bg-red-900/50 text-red-800 dark:text-red-300 rounded-md font-medium"><span class="material-symbols-outlined text-base mr-1.5">delete</span>Xóa</button>
+</div>
+</div>
+<div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between transition-shadow hover:shadow-md">
+<div class="flex items-center gap-4 flex-1 mb-4 sm:mb-0">
+<span class="material-symbols-outlined text-gray-400 dark:text-gray-500 cursor-grab">drag_indicator</span>
+<div>
+<p class="text-sm text-gray-500 dark:text-gray-400">Chương 4</p>
+<h3 class="text-lg font-semibold text-gray-900 dark:text-white">Chương 4: Đột phá</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400">10087 lượt xem</p>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-2">
+<button class="flex items-center text-sm px-3 py-1.5 bg-yellow-100 dark:bg-yellow-900/50 text-yellow-800 dark:text-yellow-300 rounded-md font-medium"><span class="material-symbols-outlined text-base mr-1.5">draft</span>Nháp</button>
+<button class="flex items-center text-sm px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md font-medium"><span class="material-symbols-outlined text-base mr-1.5">archive</span>Lưu trữ</button>
+<button class="flex items-center text-sm px-3 py-1.5 bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300 rounded-md font-medium"><span class="material-symbols-outlined text-base mr-1.5">edit</span>Chỉnh sửa</button>
+<button class="flex items-center text-sm px-3 py-1.5 bg-red-100 dark:bg-red-900/50 text-red-800 dark:text-red-300 rounded-md font-medium"><span class="material-symbols-outlined text-base mr-1.5">delete</span>Xóa</button>
+</div>
+</div>
+<div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between transition-shadow hover:shadow-md">
+<div class="flex items-center gap-4 flex-1 mb-4 sm:mb-0">
+<span class="material-symbols-outlined text-gray-400 dark:text-gray-500 cursor-grab">drag_indicator</span>
+<div>
+<p class="text-sm text-gray-500 dark:text-gray-400">Chương 5</p>
+<h3 class="text-lg font-semibold text-gray-900 dark:text-white">Chương 5: Thành tựu</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400">7315 lượt xem</p>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-2">
+<button class="flex items-center text-sm px-3 py-1.5 bg-yellow-100 dark:bg-yellow-900/50 text-yellow-800 dark:text-yellow-300 rounded-md font-medium"><span class="material-symbols-outlined text-base mr-1.5">draft</span>Nháp</button>
+<button class="flex items-center text-sm px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md font-medium"><span class="material-symbols-outlined text-base mr-1.5">archive</span>Lưu trữ</button>
+<button class="flex items-center text-sm px-3 py-1.5 bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300 rounded-md font-medium"><span class="material-symbols-outlined text-base mr-1.5">edit</span>Chỉnh sửa</button>
+<button class="flex items-center text-sm px-3 py-1.5 bg-red-100 dark:bg-red-900/50 text-red-800 dark:text-red-300 rounded-md font-medium"><span class="material-symbols-outlined text-base mr-1.5">delete</span>Xóa</button>
+</div>
+</div>
+<div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between transition-shadow hover:shadow-md">
+<div class="flex items-center gap-4 flex-1 mb-4 sm:mb-0">
+<span class="material-symbols-outlined text-gray-400 dark:text-gray-500 cursor-grab">drag_indicator</span>
+<div>
+<p class="text-sm text-gray-500 dark:text-gray-400">Chương 6</p>
+<h3 class="text-lg font-semibold text-gray-900 dark:text-white">haha</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400">4 lượt xem</p>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-2">
+<button class="flex items-center text-sm px-3 py-1.5 bg-yellow-100 dark:bg-yellow-900/50 text-yellow-800 dark:text-yellow-300 rounded-md font-medium"><span class="material-symbols-outlined text-base mr-1.5">draft</span>Nháp</button>
+<button class="flex items-center text-sm px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md font-medium"><span class="material-symbols-outlined text-base mr-1.5">archive</span>Lưu trữ</button>
+<button class="flex items-center text-sm px-3 py-1.5 bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300 rounded-md font-medium"><span class="material-symbols-outlined text-base mr-1.5">edit</span>Chỉnh sửa</button>
+<button class="flex items-center text-sm px-3 py-1.5 bg-red-100 dark:bg-red-900/50 text-red-800 dark:text-red-300 rounded-md font-medium"><span class="material-symbols-outlined text-base mr-1.5">delete</span>Xóa</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html class="dark" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Chỉnh sửa chương</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#290ea0",
+              "background-light": "#f6f6f8",
+              "background-dark": "#141022",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex min-h-screen w-full flex-col">
+<div class="flex h-full flex-1 justify-center p-4 sm:p-6 md:p-8">
+<div class="flex w-full max-w-7xl flex-col gap-6 lg:flex-row lg:gap-8">
+<main class="flex flex-1 flex-col gap-6">
+<div class="flex flex-col gap-1">
+<h1 class="text-3xl font-black leading-tight tracking-[-0.033em] text-gray-900 dark:text-white">Chỉnh sửa chương: Lời Mở Đầu</h1>
+<p class="text-base font-normal leading-normal text-gray-500 dark:text-[#a29db9]">Thuộc truyện: Lam Điệp Cô Ảnh</p>
+</div>
+<div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+<label class="flex flex-col gap-2 md:col-span-2">
+<p class="text-base font-medium leading-normal text-gray-800 dark:text-white">Tiêu đề chương</p>
+<input class="form-input h-14 w-full flex-1 resize-none overflow-hidden rounded-lg border border-gray-300 bg-white p-4 text-base font-normal leading-normal text-gray-900 placeholder:text-gray-400 focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/20 dark:border-[#403b54] dark:bg-[#1e1c27] dark:text-white dark:placeholder:text-[#a29db9] dark:focus:border-primary" value="Lời Mở Đầu"/>
+</label>
+<label class="flex flex-col gap-2">
+<p class="text-base font-medium leading-normal text-gray-800 dark:text-white">Số thứ tự</p>
+<input class="form-input h-14 w-full flex-1 resize-none overflow-hidden rounded-lg border border-gray-300 bg-white p-4 text-base font-normal leading-normal text-gray-900 placeholder:text-gray-400 focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/20 dark:border-[#403b54] dark:bg-[#1e1c27] dark:text-white dark:placeholder:text-[#a29db9] dark:focus:border-primary" type="number" value="1"/>
+</label>
+</div>
+<div class="flex flex-col gap-2">
+<p class="text-base font-medium leading-normal text-gray-800 dark:text-white">Nội dung chương</p>
+<div class="flex h-full min-h-[400px] w-full flex-col rounded-lg border border-gray-300 bg-white dark:border-[#403b54] dark:bg-[#1e1c27]">
+<div class="flex flex-wrap items-center gap-1 border-b border-gray-300 p-2 dark:border-[#403b54]">
+<button class="flex h-9 w-9 items-center justify-center rounded text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-white/10">
+<span class="material-symbols-outlined text-xl">format_bold</span>
+</button>
+<button class="flex h-9 w-9 items-center justify-center rounded text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-white/10">
+<span class="material-symbols-outlined text-xl">format_italic</span>
+</button>
+<button class="flex h-9 w-9 items-center justify-center rounded text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-white/10">
+<span class="material-symbols-outlined text-xl">format_underlined</span>
+</button>
+<div class="mx-1 h-5 w-px bg-gray-300 dark:bg-[#403b54]"></div>
+<button class="flex h-9 w-9 items-center justify-center rounded text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-white/10">
+<span class="material-symbols-outlined text-xl">format_align_left</span>
+</button>
+<button class="flex h-9 w-9 items-center justify-center rounded text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-white/10">
+<span class="material-symbols-outlined text-xl">format_align_center</span>
+</button>
+<button class="flex h-9 w-9 items-center justify-center rounded text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-white/10">
+<span class="material-symbols-outlined text-xl">format_align_right</span>
+</button>
+<div class="mx-1 h-5 w-px bg-gray-300 dark:bg-[#403b54]"></div>
+<button class="flex h-9 w-9 items-center justify-center rounded text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-white/10">
+<span class="material-symbols-outlined text-xl">link</span>
+</button>
+<button class="flex h-9 w-9 items-center justify-center rounded text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-white/10">
+<span class="material-symbols-outlined text-xl">image</span>
+</button>
+<div class="mx-1 h-5 w-px bg-gray-300 dark:bg-[#403b54]"></div>
+<button class="flex h-9 w-9 items-center justify-center rounded bg-primary/10 text-primary dark:bg-primary/20">
+<span class="material-symbols-outlined text-xl">edit_note</span>
+</button>
+</div>
+<div class="prose prose-sm max-w-none flex-1 p-4 text-base font-normal leading-relaxed text-gray-900 dark:text-white dark:prose-invert">
+<p>Bắt đầu viết nội dung chương của bạn ở đây...</p>
+<p>Dưới ánh trăng mờ ảo, bóng hình lam điệp lướt nhẹ trên mặt hồ tĩnh lặng. Nàng, một linh hồn cô độc, mang trong mình mối thù huyết hải. <mark class="bg-primary/20 px-1 py-0.5 rounded-sm">Kẻ thù của nàng, vị hoàng đế quyền uy, lại chính là người nàng từng yêu sâu đậm.</mark> Mối tình oan nghiệt ấy đã đẩy nàng vào con đường báo thù không lối thoát.</p>
+<details class="group my-4" open="">
+<summary class="flex list-none cursor-pointer items-start gap-2">
+<span class="material-symbols-outlined mt-1 text-lg text-primary transition-transform duration-300 group-open:rotate-90">arrow_right</span>
+<div class="flex-1">
+<p class="font-medium text-gray-800 dark:text-gray-200">Ghi chú: Chi tiết về ngoại hình nhân vật</p>
+<div class="hidden group-open:block mt-2">
+<p class="text-gray-600 dark:text-gray-400">Tóc đen dài, mắt phượng, luôn mặc y phục màu xanh lam thêu hình bướm. Cần nhấn mạnh vẻ đẹp mong manh nhưng kiên cường.</p>
+</div>
+</div>
+</summary>
+</details>
+<p>Mỗi bước chân của nàng trên con đường phục hận đều được tính toán kỹ lưỡng. Nàng dùng vẻ đẹp và tài trí của mình để mê hoặc lòng người, từng bước tiếp cận kẻ thù. Nhưng càng đến gần mục tiêu, trái tim nàng lại càng rung động. Liệu tình yêu và thù hận, bên nào sẽ chiến thắng?</p>
+<div class="flex items-start gap-2 my-4 bg-primary/10 dark:bg-primary/20 p-3 rounded-lg border-l-4 border-primary">
+<span class="material-symbols-outlined mt-1 text-lg text-primary">arrow_right</span>
+<div class="w-full">
+<p class="w-full resize-none bg-transparent font-medium text-gray-800 dark:text-gray-200 focus:outline-none" contenteditable="true">Gõ nội dung ghi chú ở đây...</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<aside class="flex w-full flex-col gap-6 lg:w-80 lg:flex-shrink-0">
+<div class="flex flex-col gap-4 rounded-lg border border-gray-200 bg-white p-4 dark:border-[#403b54] dark:bg-[#1e1c27]">
+<h2 class="text-lg font-bold text-gray-900 dark:text-white">Hành động</h2>
+<div class="flex flex-col gap-3">
+<button class="flex h-12 w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-primary text-base font-bold leading-normal text-white transition-colors hover:bg-primary/90">
+<span class="truncate">Lưu Thay đổi</span>
+</button>
+<button class="flex h-12 w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg border border-primary bg-transparent text-base font-bold leading-normal text-primary transition-colors hover:bg-primary/10 dark:hover:bg-primary/20">
+<span class="truncate">Lưu nháp</span>
+</button>
+<button class="flex h-12 w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-gray-200 text-base font-bold leading-normal text-gray-800 transition-colors hover:bg-gray-300 dark:bg-[#2b2839] dark:text-white dark:hover:bg-[#3c394d]">
+<span class="truncate">Xem trước</span>
+</button>
+<button class="flex h-12 w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg text-base font-bold leading-normal text-red-600 transition-colors hover:bg-red-500/10 dark:text-red-500">
+<span class="truncate">Hủy bỏ</span>
+</button>
+</div>
+</div>
+<div class="flex flex-col gap-4 rounded-lg border border-gray-200 bg-white p-4 dark:border-[#403b54] dark:bg-[#1e1c27]">
+<h2 class="text-lg font-bold text-gray-900 dark:text-white">Thông tin &amp; Cài đặt</h2>
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-xl text-gray-500 dark:text-gray-400">visibility</span>
+<p class="text-sm font-medium text-gray-700 dark:text-gray-300">Trạng thái</p>
+</div>
+<span class="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-800 dark:bg-green-500/20 dark:text-green-300">Đã xuất bản</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-xl text-gray-500 dark:text-gray-400">calendar_month</span>
+<p class="text-sm font-medium text-gray-700 dark:text-gray-300">Ngày đăng</p>
+</div>
+<p class="text-sm text-gray-600 dark:text-gray-400">24/07/2024</p>
+</div>
+<div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+<p>Đã tự động lưu lúc 14:32</p>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</div>
+</div>
+
+</body></html>

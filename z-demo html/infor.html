@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html class="dark" lang="vi">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Hồ sơ cá nhân - Lam điệp cô ảnh</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#290ea0",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#141022",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const tabs = document.querySelectorAll('[data-tab]');
+            const tabContents = document.querySelectorAll('[data-tab-content]');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const tabName = this.getAttribute('data-tab');
+
+                    // Remove active state from all tabs
+                    tabs.forEach(t => {
+                        t.classList.remove('border-b-primary', 'text-primary');
+                        t.classList.add('border-b-transparent', 'text-gray-500', 'dark:text-gray-400');
+                    });
+
+                    // Hide all tab contents
+                    tabContents.forEach(content => {
+                        content.classList.add('hidden');
+                    });
+
+                    // Add active state to clicked tab
+                    this.classList.remove('border-b-transparent', 'text-gray-500', 'dark:text-gray-400');
+                    this.classList.add('border-b-primary', 'text-primary');
+
+                    // Show corresponding content
+                    const activeContent = document.querySelector(`[data-tab-content="${tabName}"]`);
+                    if (activeContent) {
+                        activeContent.classList.remove('hidden');
+                    }
+                });
+            });
+        });
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            font-size: 20px;
+        }
+
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1;
+        }
+
+        .badge-gradient {
+            background: linear-gradient(135deg, #CD7F32 0%, #E8A852 50%, #CD7F32 100%);
+        }
+
+        .sparkle-gradient {
+            background: linear-gradient(135deg, #A8A8A8 0%, #D3D3D3 50%, #A8A8A8 100%);
+        }
+
+        .sparkles-gradient {
+            background: linear-gradient(135deg, #FFD700 0%, #FFF8DC 50%, #FFD700 100%);
+        }
+
+        .crown-gradient {
+            background: linear-gradient(135deg, #1E90FF 0%, #87CEEB 50%, #1E90FF 100%);
+        }
+    </style>
+</head>
+
+<body class="font-display bg-background-light dark:bg-background-dark text-gray-900 dark:text-white">
+    <div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col">
+            <main class="flex flex-1 justify-center py-5 sm:py-8 lg:py-12">
+                <div class="layout-content-container flex flex-col w-full max-w-4xl px-4">
+                    <div class="text-center mb-8">
+                        <h1 class="text-3xl font-bold">Trang Thông Tin Tài Khoản</h1>
+                        <p class="text-gray-500 dark:text-gray-400 mt-2">Quản lý thông tin cá nhân và cài đặt tài khoản
+                            của bạn</p>
+                    </div>
+                    <div class="flex border-b border-gray-200 dark:border-white/10 mb-8">
+                        <div class="flex gap-4 sm:gap-8">
+                            <a class="flex flex-col items-center justify-center border-b-[3px] border-b-primary text-primary pb-3 cursor-pointer"
+                                data-tab="personal" href="#">
+                                <p class="text-sm font-bold leading-normal tracking-[0.015em]">Thông Tin Cá Nhân</p>
+                            </a>
+                            <a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-gray-500 dark:text-gray-400 pb-3 hover:text-gray-800 dark:hover:text-gray-200 transition-colors cursor-pointer"
+                                data-tab="verify" href="#">
+                                <p class="text-sm font-bold leading-normal tracking-[0.015em]">Xác Minh Độ Tuổi</p>
+                            </a>
+                            <a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-gray-500 dark:text-gray-400 pb-3 hover:text-gray-800 dark:hover:text-gray-200 transition-colors cursor-pointer"
+                                data-tab="level" href="#">
+                                <p class="text-sm font-bold leading-normal tracking-[0.015em]">Cấp Độ &amp; Huy Chương
+                                </p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800/20 p-6 sm:p-8 rounded-lg shadow-sm"
+                        data-tab-content="personal">
+                        <div class="space-y-8">
+                            <div>
+                                <h2 class="text-lg font-semibold mb-4">Ảnh Đại Diện</h2>
+                                <div class="flex items-center gap-4">
+                                    <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-20 w-20"
+                                        style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuByodJp9pvncfjPtSaiQ5IIaHPmYG1HsmqpTV1iA9lyezyIS-rCE1wNYzstGs9s0oFgfduQUq0qDASMaIwom-r-dpt2XXQDoCzDObKKos10h3pBZQboWo2poQtDdJ3ytjcCvzQmT5dIJNUpUYbyfoFH0Hd7TfErv5krw_y9AXlh_G6leIZIscL1nJ_apAS1P08hnHl11Zu_TnSMPYpzM5zNRaLDiSZ9I3olsiBDUV86F7SJR9OdJp5tKCc27rBOGiiGcpQ2QOjuID_-");'>
+                                    </div>
+                                    <div>
+                                        <button
+                                            class="flex items-center gap-2 min-w-[84px] cursor-pointer justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors">
+                                            <span class="material-symbols-outlined text-base">upload</span>
+                                            <span>Chọn Ảnh</span>
+                                        </button>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">Chấp nhận JPG, PNG (tối
+                                            đa 2MB, tự động nén)</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                                    for="display-name">Tên Hiển Thị</label>
+                                <input
+                                    class="block w-full rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring-primary text-sm dark:text-white"
+                                    id="display-name" type="text" value="Tên Hiển Thị" />
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">Tên này sẽ hiển thị trên hồ sơ
+                                    công khai của bạn.</p>
+                            </div>
+                            <div class="border-t border-gray-200 dark:border-white/10 pt-6">
+                                <h2 class="text-lg font-semibold mb-4">Thông Tin Tài Khoản</h2>
+                                <div class="space-y-4">
+                                    <div class="flex flex-col sm:flex-row sm:items-center">
+                                        <p class="w-full sm:w-32 font-medium text-sm text-gray-600 dark:text-gray-400">
+                                            Tên đăng nhập:</p>
+                                        <p class="text-sm">@username</p>
+                                    </div>
+                                    <div class="flex flex-col sm:flex-row sm:items-center">
+                                        <p class="w-full sm:w-32 font-medium text-sm text-gray-600 dark:text-gray-400">
+                                            Email:</p>
+                                        <p class="text-sm">user@example.com</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pt-2">
+                                <button
+                                    class="w-full flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-4 bg-primary text-white text-base font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors">
+                                    <span class="truncate">Lưu Thay Đổi</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hidden bg-white dark:bg-gray-800/20 p-6 sm:p-8 rounded-lg shadow-sm text-center"
+                        data-tab-content="verify">
+                        <div class="flex justify-center mb-4">
+                            <div
+                                class="h-16 w-16 rounded-full bg-green-100 dark:bg-green-900/50 flex items-center justify-center">
+                                <span
+                                    class="material-symbols-outlined text-4xl text-green-500 dark:text-green-400">verified</span>
+                            </div>
+                        </div>
+                        <h2 class="text-xl font-bold text-gray-900 dark:text-white">Đã Xác Minh</h2>
+                        <p class="text-gray-500 dark:text-gray-400 mt-1">Tài khoản của bạn đã được xác minh tuổi từ
+                            25/11/2025</p>
+                    </div>
+                    <div class="hidden bg-white dark:bg-gray-800/20 p-6 sm:p-8 rounded-lg shadow-sm"
+                        data-tab-content="level">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="bg-primary/10 dark:bg-primary/20 p-4 rounded-lg">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <span
+                                        class="material-symbols-outlined text-2xl text-primary dark:text-indigo-300 fill">workspace_premium</span>
+                                    <h3 class="font-bold">Cấp Độ Thành Viên</h3>
+                                </div>
+                                <div class="flex justify-between items-baseline">
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Cấp độ hiện tại:</p>
+                                    <p class="font-bold text-primary dark:text-white">Đồng</p>
+                                </div>
+                                <div class="flex justify-between items-baseline mt-1">
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Điểm tích lũy:</p>
+                                    <p class="font-bold text-primary dark:text-white">0</p>
+                                </div>
+                            </div>
+                            <div class="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <span
+                                        class="material-symbols-outlined text-2xl text-yellow-600 dark:text-yellow-400 fill">verified_user</span>
+                                    <h3 class="font-bold">Trạng Thái Tác Giả</h3>
+                                </div>
+                                <p class="font-semibold text-gray-800 dark:text-gray-200">Người Dùng Thường</p>
+                                <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Liên hệ quản trị viên để yêu
+                                    cầu quyền tác giả.</p>
+                            </div>
+                        </div>
+                        <div class="mt-8">
+                            <h3 class="text-lg font-semibold mb-4">Hệ Thống Cấp Độ</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div
+                                    class="p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow">
+                                    <div class="flex items-center gap-3 mb-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" style="color: #CD7F32">
+                                            <path d="M12 6v12" />
+                                            <path d="M17.196 9 6.804 15" />
+                                            <path d="m6.804 9 10.392 6" />
+                                        </svg>
+                                        <h4 class="font-bold" style="color: #CD7F32">Đồng</h4>
+                                    </div>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">0 - 499 điểm</p>
+                                </div>
+                                <div
+                                    class="p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow">
+                                    <div class="flex items-center gap-3 mb-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" style="color: #A8A8A8">
+                                            <path
+                                                d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z" />
+                                        </svg>
+                                        <h4 class="font-bold" style="color: #A8A8A8">Bạc</h4>
+                                    </div>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">500 - 1.999 điểm</p>
+                                </div>
+                                <div
+                                    class="p-4 rounded-lg border border-yellow-500 dark:border-yellow-400 bg-yellow-50 dark:bg-yellow-900/20 hover:shadow-md transition-shadow">
+                                    <div class="flex items-center gap-3 mb-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" style="color: #FFD700">
+                                            <path
+                                                d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z" />
+                                            <path d="M20 2v4" />
+                                            <path d="M22 4h-4" />
+                                            <circle cx="4" cy="20" r="2" />
+                                        </svg>
+                                        <h4 class="font-bold" style="color: #FFD700">Vàng</h4>
+                                    </div>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">2.000 - 4.999 điểm</p>
+                                </div>
+                                <div
+                                    class="p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow">
+                                    <div class="flex items-center gap-3 mb-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" style="color: #1E90FF">
+                                            <path
+                                                d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z" />
+                                            <path d="M5 21h14" />
+                                        </svg>
+                                        <h4 class="font-bold" style="color: #1E90FF">Kim Cương</h4>
+                                    </div>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">5.000+ điểm</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+
+</html>

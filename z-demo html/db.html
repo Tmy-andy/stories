@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html class="dark" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin Dashboard - Lam điệp cô ảnh</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#290ea0",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#141022",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark">
+<div class="relative flex min-h-screen w-full">
+<aside class="flex flex-col w-64 bg-white dark:bg-[#1C182F] border-r border-gray-200 dark:border-[#2A2640] p-4 sticky top-0 h-screen">
+<div class="flex flex-col gap-4 h-full">
+<div class="flex items-center gap-3 px-2 py-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User avatar image" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCyFOG5c85GHhpyh1zStMTqQOIwzITRDykN5cVAkOHUE3gA5_l4Ud_Cv5WaHAhyvLMCKMkOForUBN-dyWqO8jn8W3BzXIhCFRNeDLCNy8CeKn-D3PrIgiNjFM7GByC6MZbASgDNkiIMSw6D52EWjlStdjUfbjMonNxnpfWjGqyWY6KTBatEwz-o4Lv84DEl1ZQiaybvwGC9QgFp3oAh5BvQo5znYPgi3tl50o3LnNqRCvfixwzbBjnCX67eJD-tqNVEiP8cLyKn61hx");'></div>
+<div class="flex flex-col">
+<h1 class="text-gray-900 dark:text-white text-base font-medium leading-normal">Lam điệp cô ảnh</h1>
+<p class="text-gray-500 dark:text-gray-400 text-sm font-normal leading-normal">Admin Panel</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/20 text-primary dark:bg-primary/30 dark:text-white" href="#">
+<span class="material-symbols-outlined text-2xl">dashboard</span>
+<p class="text-sm font-medium leading-normal">Tổng quan</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-primary/10 rounded-lg" href="#">
+<span class="material-symbols-outlined text-2xl">book_4</span>
+<p class="text-sm font-medium leading-normal">Quản lý truyện</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-primary/10 rounded-lg" href="#">
+<span class="material-symbols-outlined text-2xl">groups</span>
+<p class="text-sm font-medium leading-normal">Tác giả</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-primary/10 rounded-lg" href="#">
+<span class="material-symbols-outlined text-2xl">chat_bubble</span>
+<p class="text-sm font-medium leading-normal">Bình luận</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-primary/10 rounded-lg" href="#">
+<span class="material-symbols-outlined text-2xl">person</span>
+<p class="text-sm font-medium leading-normal">Người dùng</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-primary/10 rounded-lg" href="#">
+<span class="material-symbols-outlined text-2xl">workspace_premium</span>
+<p class="text-sm font-medium leading-normal">Cấp độ thành viên</p>
+</a>
+</nav>
+<div class="mt-auto">
+<a class="flex items-center gap-3 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-primary/10 rounded-lg" href="#">
+<span class="material-symbols-outlined text-2xl">settings</span>
+<p class="text-sm font-medium leading-normal">Cài đặt</p>
+</a>
+</div>
+</div>
+</aside>
+<main class="flex-1 p-6 lg:p-8 overflow-y-auto">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-wrap justify-between items-center gap-4 mb-8">
+<div class="flex flex-col gap-1">
+<h1 class="text-gray-900 dark:text-white text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em]">Bảng điều khiển</h1>
+<p class="text-gray-600 dark:text-gray-400 text-base font-normal leading-normal">Chào mừng trở lại, Admin!</p>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+<div class="flex flex-col gap-4 rounded-xl p-6 bg-white dark:bg-[#1C182F] border border-gray-200 dark:border-[#2A2640]">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center size-10 rounded-lg bg-primary/20 text-primary dark:bg-primary/30 dark:text-white">
+<span class="material-symbols-outlined">book_4</span>
+</div>
+<h2 class="text-gray-900 dark:text-white text-lg font-bold">Quản lý truyện</h2>
+</div>
+<p class="text-gray-600 dark:text-gray-400 text-sm">Tổng số: <span class="font-semibold text-gray-800 dark:text-white">1,250</span></p>
+<div class="flex items-center gap-2 mt-auto">
+<a class="flex-1 text-center py-2 px-4 rounded-lg bg-primary text-white text-sm font-medium hover:bg-opacity-90" href="#">Truy cập</a>
+<a class="py-2 px-4 rounded-lg bg-gray-100 dark:bg-[#2A2640] text-gray-800 dark:text-white text-sm font-medium hover:bg-gray-200 dark:hover:bg-opacity-80" href="#">Thêm mới</a>
+</div>
+</div>
+<div class="flex flex-col gap-4 rounded-xl p-6 bg-white dark:bg-[#1C182F] border border-gray-200 dark:border-[#2A2640]">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center size-10 rounded-lg bg-primary/20 text-primary dark:bg-primary/30 dark:text-white">
+<span class="material-symbols-outlined">groups</span>
+</div>
+<h2 class="text-gray-900 dark:text-white text-lg font-bold">Quản lý tác giả</h2>
+</div>
+<p class="text-gray-600 dark:text-gray-400 text-sm">Tổng số: <span class="font-semibold text-gray-800 dark:text-white">85</span></p>
+<div class="flex items-center gap-2 mt-auto">
+<a class="flex-1 text-center py-2 px-4 rounded-lg bg-primary text-white text-sm font-medium hover:bg-opacity-90" href="#">Truy cập</a>
+</div>
+</div>
+<div class="flex flex-col gap-4 rounded-xl p-6 bg-white dark:bg-[#1C182F] border border-gray-200 dark:border-[#2A2640]">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center size-10 rounded-lg bg-primary/20 text-primary dark:bg-primary/30 dark:text-white">
+<span class="material-symbols-outlined">chat_bubble</span>
+</div>
+<h2 class="text-gray-900 dark:text-white text-lg font-bold">Quản lý bình luận</h2>
+</div>
+<p class="text-gray-600 dark:text-gray-400 text-sm">Chờ duyệt: <span class="font-semibold text-yellow-500">320</span></p>
+<div class="flex items-center gap-2 mt-auto">
+<a class="flex-1 text-center py-2 px-4 rounded-lg bg-primary text-white text-sm font-medium hover:bg-opacity-90" href="#">Truy cập</a>
+</div>
+</div>
+<div class="flex flex-col gap-4 rounded-xl p-6 bg-white dark:bg-[#1C182F] border border-gray-200 dark:border-[#2A2640]">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center size-10 rounded-lg bg-primary/20 text-primary dark:bg-primary/30 dark:text-white">
+<span class="material-symbols-outlined">person</span>
+</div>
+<h2 class="text-gray-900 dark:text-white text-lg font-bold">Quản lý người dùng</h2>
+</div>
+<p class="text-gray-600 dark:text-gray-400 text-sm">Tổng số: <span class="font-semibold text-gray-800 dark:text-white">15,890</span></p>
+<div class="flex items-center gap-2 mt-auto">
+<a class="flex-1 text-center py-2 px-4 rounded-lg bg-primary text-white text-sm font-medium hover:bg-opacity-90" href="#">Truy cập</a>
+</div>
+</div>
+<div class="flex flex-col gap-4 rounded-xl p-6 bg-white dark:bg-[#1C182F] border border-gray-200 dark:border-[#2A2640]">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center size-10 rounded-lg bg-primary/20 text-primary dark:bg-primary/30 dark:text-white">
+<span class="material-symbols-outlined">settings</span>
+</div>
+<h2 class="text-gray-900 dark:text-white text-lg font-bold">Cài đặt trang web</h2>
+</div>
+<p class="text-gray-600 dark:text-gray-400 text-sm">Thiết lập chung, giao diện, SEO...</p>
+<div class="flex items-center gap-2 mt-auto">
+<a class="flex-1 text-center py-2 px-4 rounded-lg bg-primary text-white text-sm font-medium hover:bg-opacity-90" href="#">Truy cập</a>
+</div>
+</div>
+<div class="flex flex-col gap-4 rounded-xl p-6 bg-white dark:bg-[#1C182F] border border-gray-200 dark:border-[#2A2640]">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center size-10 rounded-lg bg-primary/20 text-primary dark:bg-primary/30 dark:text-white">
+<span class="material-symbols-outlined">workspace_premium</span>
+</div>
+<h2 class="text-gray-900 dark:text-white text-lg font-bold">Cấp độ thành viên</h2>
+</div>
+<p class="text-gray-600 dark:text-gray-400 text-sm">Quản lý quyền và cấp độ cho người dùng.</p>
+<div class="flex items-center gap-2 mt-auto">
+<a class="flex-1 text-center py-2 px-4 rounded-lg bg-primary text-white text-sm font-medium hover:bg-opacity-90" href="#">Truy cập</a>
+</div>
+</div>
+</div>
+<h2 class="text-gray-900 dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em] mb-4">Hoạt động gần đây</h2>
+<div class="bg-white dark:bg-[#1C182F] rounded-xl border border-gray-200 dark:border-[#2A2640] overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-sm text-left text-gray-600 dark:text-gray-300">
+<thead class="text-xs text-gray-700 dark:text-gray-400 uppercase bg-gray-50 dark:bg-[#2A2640]">
+<tr>
+<th class="px-6 py-3" scope="col">Tên truyện</th>
+<th class="px-6 py-3" scope="col">Tác giả</th>
+<th class="px-6 py-3" scope="col">Ngày đăng</th>
+<th class="px-6 py-3" scope="col">Trạng thái</th>
+<th class="px-6 py-3" scope="col">
+<span class="sr-only">Hành động</span>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr class="bg-white dark:bg-[#1C182F] border-b dark:border-[#2A2640] hover:bg-gray-50 dark:hover:bg-primary/10">
+<th class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap" scope="row">Vô địch thiên hạ</th>
+<td class="px-6 py-4">Thần Mộ</td>
+<td class="px-6 py-4">2023-10-27</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 text-xs font-medium text-green-800 bg-green-100 dark:bg-green-900 dark:text-green-300 rounded-full">Đã xuất bản</span>
+</td>
+<td class="px-6 py-4 text-right">
+<a class="font-medium text-primary hover:underline" href="#">Sửa</a>
+</td>
+</tr>
+<tr class="bg-white dark:bg-[#1C182F] border-b dark:border-[#2A2640] hover:bg-gray-50 dark:hover:bg-primary/10">
+<th class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap" scope="row">Linh vũ thiên hạ</th>
+<td class="px-6 py-4">Vũ Phong</td>
+<td class="px-6 py-4">2023-10-26</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 text-xs font-medium text-green-800 bg-green-100 dark:bg-green-900 dark:text-green-300 rounded-full">Đã xuất bản</span>
+</td>
+<td class="px-6 py-4 text-right">
+<a class="font-medium text-primary hover:underline" href="#">Sửa</a>
+</td>
+</tr>
+<tr class="bg-white dark:bg-[#1C182F] border-b dark:border-[#2A2640] hover:bg-gray-50 dark:hover:bg-primary/10">
+<th class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap" scope="row">Thần ma thiên tôn</th>
+<td class="px-6 py-4">Cửu Nhận</td>
+<td class="px-6 py-4">2023-10-25</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 text-xs font-medium text-yellow-800 bg-yellow-100 dark:bg-yellow-900 dark:text-yellow-300 rounded-full">Bản nháp</span>
+</td>
+<td class="px-6 py-4 text-right">
+<a class="font-medium text-primary hover:underline" href="#">Sửa</a>
+</td>
+</tr>
+<tr class="bg-white dark:bg-[#1C182F] hover:bg-gray-50 dark:hover:bg-primary/10">
+<th class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap" scope="row">Dị thế tà quân</th>
+<td class="px-6 py-4">Phong Lăng Thiên Hạ</td>
+<td class="px-6 py-4">2023-10-24</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 text-xs font-medium text-green-800 bg-green-100 dark:bg-green-900 dark:text-green-300 rounded-full">Đã xuất bản</span>
+</td>
+<td class="px-6 py-4 text-right">
+<a class="font-medium text-primary hover:underline" href="#">Sửa</a>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>

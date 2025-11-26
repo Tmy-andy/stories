@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="vi">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Lam điệp cô ảnh - Trang chủ</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,0"
+        rel="stylesheet" />
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings:
+                'FILL' 0,
+                'wght' 400,
+                'GRAD' 0,
+                'opsz' 24;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#290ea0",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#141022",
+                    },
+                    fontFamily: {
+                        "display": ["Noto Serif", "serif"],
+                        "sans": ["Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-sans">
+    <div class="relative flex min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col">
+            <div class="flex flex-1 justify-center">
+                <div class="layout-content-container flex w-full flex-col max-w-[960px] flex-1">
+                    <!-- TopNavBar -->
+                    <header
+                        class="flex items-center justify-between whitespace-nowrap border-b border-solid border-white/10 px-4 md:px-10 py-3">
+                        <div class="flex items-center gap-4 text-white">
+                            <div class="text-primary text-xl">
+                                <svg fill="none" height="24" viewbox="0 0 48 48" width="24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z"
+                                        fill="currentColor"></path>
+                                </svg>
+                            </div>
+                            <h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] font-display">Lam
+                                điệp cô ảnh</h2>
+                        </div>
+                        <div class="hidden md:flex flex-1 justify-end gap-8">
+                            <div class="flex items-center gap-9">
+                                <a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors"
+                                    href="#">Trang chủ</a>
+                                <a class="text-white/70 text-sm font-medium leading-normal hover:text-primary transition-colors"
+                                    href="#">Danh sách truyện</a>
+                                <a class="text-white/70 text-sm font-medium leading-normal hover:text-primary transition-colors"
+                                    href="#">Thể loại</a>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button
+                                    class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-transparent border border-white/20 text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-white/10 transition-colors">
+                                    <span class="truncate">Đăng nhập</span>
+                                </button>
+                                <button
+                                    class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-opacity-80 transition-opacity">
+                                    <span class="truncate">Đăng ký</span>
+                                </button>
+                                <button
+                                    class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-transparent text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 hover:bg-white/10 transition-colors">
+                                    <span class="material-symbols-outlined text-white"
+                                        style="font-size: 20px;">search</span>
+                                </button>
+                            </div>
+                        </div>
+                        <button
+                            class="md:hidden flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-transparent text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 hover:bg-white/10 transition-colors">
+                            <span class="material-symbols-outlined text-white" style="font-size: 24px;">menu</span>
+                        </button>
+                    </header>
+                    <!-- HeroSection -->
+                    <main class="flex-1">
+                        <div class="@container">
+                            <div
+                                class="flex flex-col gap-6 px-4 py-10 @[480px]:gap-8 @[864px]:flex-row @[864px]:items-center">
+                                <div
+                                    class="flex flex-col gap-6 @[480px]:min-w-[400px] @[480px]:gap-8 @[864px]:justify-center flex-1">
+                                    <div class="flex flex-col gap-2 text-left">
+                                        <h1
+                                            class="text-white text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-5xl font-display">
+                                            Câu chuyện độc quyền chỉ có tại Lam điệp cô ảnh</h1>
+                                        <h2 class="text-white/80 text-sm font-normal leading-normal @[480px]:text-base">
+                                            Khám phá thế giới tiểu thuyết đặc sắc, nơi mỗi câu chuyện là một hành trình
+                                            đầy cảm xúc.</h2>
+                                    </div>
+                                    <button
+                                        class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 @[480px]:h-12 @[480px]:px-5 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] @[480px]:text-base hover:bg-opacity-80 transition-opacity">
+                                        <span class="truncate">Đọc ngay</span>
+                                    </button>
+                                </div>
+                                <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg @[480px]:h-auto @[480px]:min-w-[400px] @[864px]:w-full flex-1"
+                                    data-alt="Cover art for a featured novel showing a fantasy landscape"
+                                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAchRB5vSwQGGnZFUuS72rnpsebkSO3YItkhAL9VSEXzcnxkE3IoH6GVIK6wRBm1PiREwLZ6yZGNaE7FBWyjqRfDaTlN--XOJOCGn_tkCljaxP8u6dDL21TW_dcc64hWfWEn6-w3vivUuzP7B31dK647PlBDv615g-cb9myqHBXhHj-vLbOR8U1fuYMySQgU2lcO6Xo0CQRYC8lw6g8zwGBjginZh3jHslpn3Zf-CErzbjnj81gXmwjocVr1T4nfL0pJM1kF7aj02wJ");'>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Featured Novels Section -->
+                        <section class="py-10">
+                            <h2
+                                class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5 font-display">
+                                Truyện Nổi Bật</h2>
+                            <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-4 p-4">
+                                <div class="flex flex-col gap-3 pb-3 group">
+                                    <div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg overflow-hidden transform group-hover:scale-105 transition-transform duration-300"
+                                        data-alt="Book cover with a silhouette against a moonlit sky"
+                                        style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCp_zSkccI0QOkOwfP4BfYsRLQSd4u_-CP8ysgiA2vzVsoFFlNNAV88HuB_3WIXZE_Z6zcnRgTsXvplR3ItrGWKQCKmLjnu2sEAOmHJpbRj3mrsTDXHnfQ-y0-F0QkFbKQBF0cFIO4w97BxLi3SYJdZYgmVf20E6G5rBUpTU1G5oRi5nbqoVhpELTd0ISOt3mxRSNZF9zFA4rlmR9hMtCjkNU3pm4rOnsAOB3ieTD1Nhj5c_PcXZKTPYNS1RbcUMoeugHHqTIhsV9xc");'>
+                                    </div>
+                                    <div>
+                                        <p
+                                            class="text-white text-base font-medium leading-normal group-hover:text-primary transition-colors">
+                                            Vong Xuyên Bỉ Ngạn</p>
+                                        <p class="text-[#9c92c9] text-sm font-normal leading-normal">Tên Tác Giả, Cổ
+                                            trang</p>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col gap-3 pb-3 group">
+                                    <div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg overflow-hidden transform group-hover:scale-105 transition-transform duration-300"
+                                        data-alt="Book cover featuring a modern cityscape at night"
+                                        style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBC2j8mfTHEPN5YQgjcCcVtVuGvpEb2-M0p6fIITHDDKV3vtmcH5jWwEH8dc8yZeViZ8G78H2HZzqe7aEzRQtxgpluM0GpqKu9tXz1BLFV-XwAHVWG936412ZXbsMA_eW8xph2GBnIukp_SR4RD13iMFw-VN1bAE0AtTj4gS9QapV69KMBnVR4Shdv9KfwrZHIO3W7KnjEQgxjteab_v_ROUk1PUTpfC9irxbhK9gMJQOvEXzgPq024EcJ8mdKPKFQpGHTzkVrC4AjG");'>
+                                    </div>
+                                    <div>
+                                        <p
+                                            class="text-white text-base font-medium leading-normal group-hover:text-primary transition-colors">
+                                            Ánh Đèn Thành Thị</p>
+                                        <p class="text-[#9c92c9] text-sm font-normal leading-normal">Tên Tác Giả, Hiện
+                                            đại</p>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col gap-3 pb-3 group">
+                                    <div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg overflow-hidden transform group-hover:scale-105 transition-transform duration-300"
+                                        data-alt="Book cover showing a couple under a cherry blossom tree"
+                                        style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC9T_Y4jIyTuGtYqJYHgxZQC-3YKkkQMRZkpSDiXtyOcWIvJaeSF5lyITh8dJbcXHHMGwOS25fSqlxEOAhJFtKu_R_uWuaSupX_j3eXF8-H0XcEZxSyYGtViOsnlC-yoaTS29XLgvtTBUKes9uqAkWjMRW8cGbwOWuwOaHcgKlTfkaM14JqZn_vFh2owM9879iZoD0Us-NJle0NjRTN7HrfbUNE_YRoKRzPFJd3lvrgYR4WJocTPazJqajmYVKu48_PjzLJ6UVxxVUO");'>
+                                    </div>
+                                    <div>
+                                        <p
+                                            class="text-white text-base font-medium leading-normal group-hover:text-primary transition-colors">
+                                            Hẹn Ước Mùa Xuân</p>
+                                        <p class="text-[#9c92c9] text-sm font-normal leading-normal">Tên Tác Giả, Lãng
+                                            mạn</p>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col gap-3 pb-3 group">
+                                    <div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg overflow-hidden transform group-hover:scale-105 transition-transform duration-300"
+                                        data-alt="Book cover with a magical forest and glowing runes"
+                                        style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAb2LgZ2ekL1931In2ztjBNpJ5hXM7fbNtdL5O3cHzfeV3EireQpQDcRZ4oFEQLsyV-Br_VuGGlkpaoxpjzGNABzOs0Kr-VLUDCeIM-ZOxsetISPuFVLg7LeYOJBCPD9VykmdoL5xeTK-HWyJANk9o6V2rX4QBOMYfS0PULPxBsohyLXEffKzL-S8ol3uDyK2MUmRftJxgnQ6tZdQlSsmfP5xJ2YHe1Z0OWx1JH2V8V42CioGMXdq3eJD0ek4HbYRQ-wEK8kez7fUCI");'>
+                                    </div>
+                                    <div>
+                                        <p
+                                            class="text-white text-base font-medium leading-normal group-hover:text-primary transition-colors">
+                                            Ma Pháp Tinh Hà</p>
+                                        <p class="text-[#9c92c9] text-sm font-normal leading-normal">Tên Tác Giả, Huyền
+                                            huyễn</p>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col gap-3 pb-3 group">
+                                    <div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg overflow-hidden transform group-hover:scale-105 transition-transform duration-300"
+                                        data-alt="Book cover with abstract blue butterfly wings"
+                                        style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD1CK_YqdlNOPjEoG_1cYhYN2vr5pv8CVHA6-vIlWOr1EBM7Paxz0G4a4dJMRNsIS8An9c4RtMQNPZP2mmmTtYNIhqO63E03ZiXR5O-U_5FtK193pgf0ioWR4-ZE87j5R1MSEL-1020dODMbuGdSP-oD0DWbnyGmAoK6L2dTLdCpVTBui4Qv6WCB9GycvCA_H2H8GNohjJpnk3RLEVQ-CEzXoyiYvTvkrDZ-I10Ug2noQ0IUpAliEQLCevEo2Djv5p6wYEw3LaxWSAP");'>
+                                    </div>
+                                    <div>
+                                        <p
+                                            class="text-white text-base font-medium leading-normal group-hover:text-primary transition-colors">
+                                            Lam Điệp</p>
+                                        <p class="text-[#9c92c9] text-sm font-normal leading-normal">Tên Tác Giả, Trinh
+                                            thám</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <!-- Latest Updates & Categories Section -->
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 px-4 py-10">
+                            <!-- Latest Updates -->
+                            <div class="lg:col-span-2">
+                                <h2
+                                    class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] pb-3 pt-5 font-display">
+                                    Mới Cập Nhật</h2>
+                                <div class="flex flex-col gap-4 mt-4">
+                                    <div
+                                        class="flex justify-between items-center p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-colors">
+                                        <div>
+                                            <h3 class="text-white font-medium">Vong Xuyên Bỉ Ngạn</h3>
+                                            <p class="text-[#9c92c9] text-sm">Chương 152</p>
+                                        </div>
+                                        <p class="text-white/50 text-sm">5 phút trước</p>
+                                    </div>
+                                    <div
+                                        class="flex justify-between items-center p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-colors">
+                                        <div>
+                                            <h3 class="text-white font-medium">Ánh Đèn Thành Thị</h3>
+                                            <p class="text-[#9c92c9] text-sm">Chương 89</p>
+                                        </div>
+                                        <p class="text-white/50 text-sm">1 giờ trước</p>
+                                    </div>
+                                    <div
+                                        class="flex justify-between items-center p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-colors">
+                                        <div>
+                                            <h3 class="text-white font-medium">Ma Pháp Tinh Hà</h3>
+                                            <p class="text-[#9c92c9] text-sm">Chương 301</p>
+                                        </div>
+                                        <p class="text-white/50 text-sm">3 giờ trước</p>
+                                    </div>
+                                    <div
+                                        class="flex justify-between items-center p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-colors">
+                                        <div>
+                                            <h3 class="text-white font-medium">Lam Điệp</h3>
+                                            <p class="text-[#9c92c9] text-sm">Chương 45</p>
+                                        </div>
+                                        <p class="text-white/50 text-sm">Hôm qua</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Categories -->
+                            <div>
+                                <h2
+                                    class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] pb-3 pt-5 font-display">
+                                    Khám Phá Thể Loại</h2>
+                                <div class="flex flex-wrap gap-2 mt-4">
+                                    <button
+                                        class="px-4 py-2 rounded-full bg-primary/20 text-primary text-sm font-semibold hover:bg-primary/40 transition-colors">Cổ
+                                        trang</button>
+                                    <button
+                                        class="px-4 py-2 rounded-full bg-primary/20 text-primary text-sm font-semibold hover:bg-primary/40 transition-colors">Hiện
+                                        đại</button>
+                                    <button
+                                        class="px-4 py-2 rounded-full bg-primary/20 text-primary text-sm font-semibold hover:bg-primary/40 transition-colors">Lãng
+                                        mạn</button>
+                                    <button
+                                        class="px-4 py-2 rounded-full bg-primary/20 text-primary text-sm font-semibold hover:bg-primary/40 transition-colors">Huyền
+                                        huyễn</button>
+                                    <button
+                                        class="px-4 py-2 rounded-full bg-primary/20 text-primary text-sm font-semibold hover:bg-primary/40 transition-colors">Trinh
+                                        thám</button>
+                                    <button
+                                        class="px-4 py-2 rounded-full bg-primary/20 text-primary text-sm font-semibold hover:bg-primary/40 transition-colors">Khoa
+                                        huyễn</button>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                    <!-- Footer -->
+                    <footer class="border-t border-solid border-white/10 mt-10">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 px-4 py-10">
+                            <div class="flex flex-col gap-4">
+                                <div class="flex items-center gap-4 text-white">
+                                    <div class="text-primary text-xl">
+                                        <svg fill="none" height="24" viewbox="0 0 48 48" width="24"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z"
+                                                fill="currentColor"></path>
+                                        </svg>
+                                    </div>
+                                    <h2 class="text-white text-lg font-bold font-display">Lam điệp cô ảnh</h2>
+                                </div>
+                                <p class="text-white/60 text-sm">Nơi chắp cánh cho những câu chuyện và tác giả Việt Nam.
+                                    Khám phá thế giới tiểu thuyết đầy màu sắc.</p>
+                            </div>
+                            <div class="flex flex-col gap-3">
+                                <h3 class="text-white font-bold">Liên kết</h3>
+                                <a class="text-white/60 hover:text-primary transition-colors text-sm" href="#">Về chúng
+                                    tôi</a>
+                                <a class="text-white/60 hover:text-primary transition-colors text-sm" href="#">Điều
+                                    khoản dịch vụ</a>
+                                <a class="text-white/60 hover:text-primary transition-colors text-sm" href="#">Chính
+                                    sách bảo mật</a>
+                                <a class="text-white/60 hover:text-primary transition-colors text-sm" href="#">Liên
+                                    hệ</a>
+                            </div>
+                            <div class="flex flex-col gap-3">
+                                <h3 class="text-white font-bold">Theo dõi</h3>
+                                <div class="flex gap-4">
+                                    <a class="text-white/60 hover:text-primary transition-colors" href="#">
+                                        <!-- Placeholder for Social Icon -->
+                                        <svg fill="none" height="24" viewbox="0 0 24 24" width="24"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3V2Z"
+                                                stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="2"></path>
+                                        </svg>
+                                    </a>
+                                    <a class="text-white/60 hover:text-primary transition-colors" href="#">
+                                        <!-- Placeholder for Social Icon -->
+                                        <svg fill="none" height="24" viewbox="0 0 24 24" width="24"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3Z"
+                                                stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="2"></path>
+                                        </svg>
+                                    </a>
+                                    <a class="text-white/60 hover:text-primary transition-colors" href="#">
+                                        <!-- Placeholder for Social Icon -->
+                                        <svg fill="none" height="24" viewbox="0 0 24 24" width="24"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <rect height="20" rx="5" ry="5" stroke="currentColor" stroke-width="2"
+                                                width="20" x="2" y="2"></rect>
+                                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37Z"
+                                                stroke="currentColor" stroke-width="2"></path>
+                                            <path d="M17.5 6.5h.01" stroke="currentColor" stroke-linecap="round"
+                                                stroke-linejoin="round" stroke-width="2"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center py-4 border-t border-solid border-white/10">
+                            <p class="text-white/50 text-xs">© 2025 Lam điệp cô ảnh. All Rights Reserved.</p>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
