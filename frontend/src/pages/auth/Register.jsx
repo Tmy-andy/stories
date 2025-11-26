@@ -8,21 +8,29 @@ const Register = () => {
     username: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    agreeToTerms: false
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [name]: type === 'checkbox' ? checked : value
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+
+    // Kiểm tra đồng ý điều khoản
+    if (!formData.agreeToTerms) {
+      setError('Bạn phải đồng ý với Điều khoản &amp; Điều kiện');
+      return;
+    }
 
     // Kiểm tra mật khẩu khớp
     if (formData.password !== formData.confirmPassword) {
@@ -39,7 +47,7 @@ const Register = () => {
     setLoading(true);
 
     try {
-      const { confirmPassword, ...registerData } = formData;
+      const { confirmPassword, agreeToTerms, ...registerData } = formData;
       await authService.register(registerData);
       navigate('/');
       window.location.reload();
@@ -131,6 +139,23 @@ const Register = () => {
                 className="w-full px-4 py-3 border border-gray-300 dark:border-white/10 rounded-lg bg-white dark:bg-secondary-dark text-text-light dark:text-white focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-colors"
                 placeholder="••••••••"
               />
+            </div>
+
+            <div className="flex items-center">
+              <input
+                type="checkbox"
+                name="agreeToTerms"
+                id="agreeToTerms"
+                checked={formData.agreeToTerms}
+                onChange={handleChange}
+                className="w-4 h-4 rounded border-gray-300 dark:border-white/10 text-primary focus:ring-2 focus:ring-primary"
+              />
+              <label htmlFor="agreeToTerms" className="ml-2 text-sm text-text-light dark:text-white">
+                Tôi đồng ý với{' '}
+                <Link to="/terms-and-conditions" className="text-primary hover:underline font-medium">
+                  Điều khoản &amp; Điều kiện
+                </Link>
+              </label>
             </div>
 
             <button

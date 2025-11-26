@@ -5,6 +5,7 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import Stories from './pages/Stories';
 import Categories from './pages/Categories';
+import TermsAndConditions from './pages/TermsAndConditions';
 import StoryDetail from './pages/StoryDetail';
 import ChapterReader from './pages/ChapterReader';
 import Login from './pages/auth/Login';
@@ -73,6 +74,7 @@ function App() {
                   <Route path="/" element={<Home />} />
                   <Route path="/stories" element={<Stories />} />
                   <Route path="/categories" element={<Categories />} />
+                  <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
                   <Route path="/story/:id" element={<StoryDetail />} />
                   <Route path="/chapter/:storyId/:chapterNumber" element={<ChapterReader />} />
                   <Route path="/login" element={<Login />} />

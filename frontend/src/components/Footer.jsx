@@ -29,6 +29,7 @@ const Footer = () => {
               <ul className="space-y-2">
                 <li><Link to="/about" className="text-sm text-text-muted-light dark:text-text-muted-dark hover:text-primary dark:hover:text-primary transition-colors">Về chúng tôi</Link></li>
                 <li><Link to="/contact" className="text-sm text-text-muted-light dark:text-text-muted-dark hover:text-primary dark:hover:text-primary transition-colors">Liên hệ</Link></li>
+                <li><Link to="/terms-and-conditions" className="text-sm text-text-muted-light dark:text-text-muted-dark hover:text-primary dark:hover:text-primary transition-colors">Điều khoản &amp; Điều kiện</Link></li>
                 <li><Link to="/privacy" className="text-sm text-text-muted-light dark:text-text-muted-dark hover:text-primary dark:hover:text-primary transition-colors">Chính sách bảo mật</Link></li>
               </ul>
             </div>
