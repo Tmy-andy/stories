@@ -9,13 +9,13 @@ export const storyService = {
 
   // Lấy truyện nổi bật
   getFeaturedStories: async () => {
-    const response = await api.get('/stories/featured');
+    const response = await api.get('/stories/trending');
     return response.data;
   },
 
   // Lấy truyện mới nhất
   getLatestStories: async (limit = 10) => {
-    const response = await api.get('/stories/latest', { params: { limit } });
+    const response = await api.get('/stories/new', { params: { limit } });
     return response.data;
   },
 

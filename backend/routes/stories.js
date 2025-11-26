@@ -4,8 +4,8 @@ const storyController = require('../controllers/storyController');
 const { authMiddleware, adminMiddleware } = require('../middleware/auth');
 
 // Public routes
-router.get('/featured', storyController.getFeaturedStories);
-router.get('/latest', storyController.getLatestStories);
+router.get('/trending', storyController.getFeaturedStories);
+router.get('/new', storyController.getLatestStories);
 router.get('/', storyController.getAllStories);
 router.get('/:id', storyController.getStoryById);
 
