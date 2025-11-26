@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { authService } from '../services/authService';
 import { MedalIcon, calculateLevel, AdminVerifiedIcon } from '../utils/tierSystem';
 import UserTooltip from '../components/UserTooltip';
+import ReadingHistory from '../components/ReadingHistory';
 import axios from 'axios';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001/api';
@@ -295,47 +296,9 @@ function Profile() {
         )}
 
         {activeTab === 'history' && (
-          <>
-            {profile.readingHistory && profile.readingHistory.length > 0 ? (
-              profile.readingHistory.slice(0, 10).map((item, index) => (
-                <div key={index} className="py-4 px-4">
-                  <Link
-                    to={`/story/${item.storyId._id}`}
-                    className="flex items-center gap-4 hover:bg-gray-50 dark:hover:bg-white/5 p-2 rounded-lg transition-colors"
-                  >
-                    <img
-                      src={item.storyId.coverImage || 'https://via.placeholder.com/100'}
-                      alt={item.storyId.title}
-                      className="w-16 h-20 object-cover rounded"
-                    />
-                    <div className="flex-1">
-                      <h4 className="text-gray-900 dark:text-white font-bold">
-                        {item.storyId.title}
-                      </h4>
-                      <p className="text-gray-500 dark:text-gray-400 text-sm">
-                        Đọc đến chương {item.lastChapter}
-                      </p>
-                      <p className="text-gray-500 dark:text-gray-400 text-sm">
-                        {getTimeAgo(item.lastReadAt)}
-                      </p>
-                    </div>
-                  </Link>
-                </div>
-              ))
-            ) : (
-              <div className="flex flex-col items-center justify-center text-center p-10 bg-white dark:bg-background-dark rounded-lg mt-4">
-                <span className="material-symbols-outlined text-5xl text-gray-400 dark:text-gray-500 mb-4">
-                  history
-                </span>
-                <h3 className="text-lg font-bold text-gray-800 dark:text-gray-200">
-                  Chưa có lịch sử đọc
-                </h3>
-                <p className="text-gray-500 dark:text-gray-400 mt-1">
-                  Hãy bắt đầu đọc truyện để xây dựng thư viện của riêng bạn!
-                </p>
-              </div>
-            )}
-          </>
+          <div className="py-4 px-4">
+            <ReadingHistory />
+          </div>
         )}
 
         {activeTab === 'favorites' && (

@@ -213,7 +213,6 @@ const PrivacyPolicy = () => {
           {/* Footer Text */}
           <div className="mt-20 text-center text-text-secondary-light dark:text-text-secondary-dark">
             <p>Cảm ơn bạn đã tin tưởng và sử dụng dịch vụ của Lam điệp cô ảnh.</p>
-            <p className="text-sm mt-2">© 2025 Lam điệp cô ảnh. Bảo lưu mọi quyền.</p>
           </div>
 
           {/* Back Button */}

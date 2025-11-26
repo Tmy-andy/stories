@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import ChapterRenderer from '../components/ChapterRenderer';
 import CommentSection from '../components/CommentSection';
 import api from '../services/api';
+import readingHistoryService from '../services/readingHistoryService';
 
 const ChapterReader = () => {
   const { storyId, chapterNumber } = useParams();
@@ -12,11 +13,56 @@ const ChapterReader = () => {
   const [allChapters, setAllChapters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const contentRef = useRef(null);
+  const saveIntervalRef = useRef(null);
 
   useEffect(() => {
     loadChapterData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [storyId, chapterNumber]);
+
+  // Auto-save reading position every 5 seconds
+  useEffect(() => {
+    if (!chapter || !storyId) return;
+
+    const handleSavePosition = () => {
+      const scrollPosition = contentRef.current?.scrollTop || 0;
+      readingHistoryService.saveReadingPosition(storyId, parseInt(chapterNumber), scrollPosition)
+        .catch(err => console.error('Error auto-saving position:', err));
+    };
+
+    // Start interval
+    saveIntervalRef.current = setInterval(handleSavePosition, 5000);
+
+    return () => {
+      if (saveIntervalRef.current) {
+        clearInterval(saveIntervalRef.current);
+      }
+    };
+  }, [chapter, storyId, chapterNumber]);
+
+  // Restore reading position on first load
+  useEffect(() => {
+    const restorePosition = async () => {
+      try {
+        const position = await readingHistoryService.getReadingPosition(storyId);
+        if (position && contentRef.current) {
+          // Set a small delay to ensure content is rendered
+          setTimeout(() => {
+            if (contentRef.current) {
+              contentRef.current.scrollTop = position.scrollPosition || 0;
+            }
+          }, 100);
+        }
+      } catch (err) {
+        console.error('Error restoring position:', err);
+      }
+    };
+
+    if (chapter && contentRef.current) {
+      restorePosition();
+    }
+  }, [chapter, storyId]);
 
   const loadChapterData = async () => {
     try {
@@ -81,7 +127,7 @@ const ChapterReader = () => {
   const isNextDisabled = currentChapterNumber >= totalChapters;
 
   return (
-    <div className="min-h-screen bg-background-light dark:bg-background-dark">
+    <div className="min-h-screen bg-background-light dark:bg-background-dark" ref={contentRef}>
       {/* Main content */}
       <main className="layout-container flex h-full grow flex-col">
         <div className="flex flex-1 justify-center py-5 sm:py-10">

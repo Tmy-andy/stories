@@ -1,0 +1,112 @@
+const ReadingHistory = require('../models/ReadingHistory');
+
+// Save or update reading position
+exports.saveReadingPosition = async (req, res) => {
+  try {
+    const { storyId, chapterNumber, scrollPosition } = req.body;
+    const userId = req.user.id;
+
+    if (!storyId || !chapterNumber) {
+      return res.status(400).json({ message: 'storyId and chapterNumber are required' });
+    }
+
+    // Find and update or create
+    let readingHistory = await ReadingHistory.findOneAndUpdate(
+      { userId, storyId },
+      {
+        userId,
+        storyId,
+        chapterNumber,
+        scrollPosition: scrollPosition || 0,
+        readAt: new Date(),
+      },
+      { upsert: true, new: true }
+    );
+
+    // Clean up old records - keep only 5 most recent stories
+    const userReadingHistory = await ReadingHistory.find({ userId })
+      .sort({ updatedAt: -1 })
+      .limit(5);
+
+    const storyIdsToKeep = userReadingHistory.map(rh => rh.storyId.toString());
+
+    // Delete records outside the 5 most recent stories
+    await ReadingHistory.deleteMany({
+      userId,
+      storyId: { $nin: userReadingHistory.map(rh => rh.storyId) },
+    });
+
+    res.json({ message: 'Reading position saved', readingHistory });
+  } catch (error) {
+    console.error('Error saving reading position:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// Get reading history for current user (5 most recent)
+exports.getReadingHistory = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const history = await ReadingHistory.find({ userId })
+      .populate('storyId', 'title coverImage author')
+      .sort({ updatedAt: -1 })
+      .limit(5);
+
+    res.json(history);
+  } catch (error) {
+    console.error('Error fetching reading history:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// Get reading position for a specific story
+exports.getReadingPosition = async (req, res) => {
+  try {
+    const { storyId } = req.params;
+    const userId = req.user.id;
+
+    const reading = await ReadingHistory.findOne({ userId, storyId });
+
+    if (!reading) {
+      return res.json({
+        chapterNumber: 1,
+        scrollPosition: 0,
+      });
+    }
+
+    res.json(reading);
+  } catch (error) {
+    console.error('Error fetching reading position:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// Delete reading history for a story
+exports.deleteReadingHistory = async (req, res) => {
+  try {
+    const { storyId } = req.params;
+    const userId = req.user.id;
+
+    await ReadingHistory.findOneAndDelete({ userId, storyId });
+
+    res.json({ message: 'Reading history deleted' });
+  } catch (error) {
+    console.error('Error deleting reading history:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// Clear all reading history
+exports.clearAllReadingHistory = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    await ReadingHistory.deleteMany({ userId });
+
+    res.json({ message: 'All reading history cleared' });
+  } catch (error) {
+    console.error('Error clearing reading history:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
