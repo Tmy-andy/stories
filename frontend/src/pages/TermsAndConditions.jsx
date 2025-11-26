@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { AlertCircle } from 'lucide-react';
 
 const TermsAndConditions = () => {
   return (
@@ -48,6 +49,20 @@ const TermsAndConditions = () => {
                       trùng hợp nếu có chỉ là ngẫu nhiên và không phản ánh bất kỳ cá nhân, tổ chức
                       hay sự kiện nào trong thực tế.
                     </p>
+                    <ul className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                <li className="flex items-start gap-2">
+                  <AlertCircle className="text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" size={20} />
+                  <span>Luôn kiểm tra tags trước khi đọc truyện</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <AlertCircle className="text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" size={20} />
+                  <span>Nếu bạn nhạy cảm với nội dung nào, hãy bỏ qua truyện đó</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <AlertCircle className="text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" size={20} />
+                  <span>Chúng tôi không chịu trách nhiệm nếu bạn phớt lờ các cảnh báo</span>
+                </li>
+              </ul>
                   </div>
                 </div>
               </div>
@@ -140,88 +155,8 @@ const TermsAndConditions = () => {
               </ul>
             </div>
 
-            {/* Section: Important Warnings */}
-            <div className="bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900/50 rounded-xl p-6 md:p-8">
-              <div className="flex items-start gap-3 mb-4">
-                <span className="material-symbols-outlined text-2xl text-red-600 dark:text-red-400 flex-shrink-0">warning</span>
-                <h2 className="text-red-600 dark:text-red-400 text-2xl font-bold leading-tight tracking-tight">
-                  Khuyến cáo quan trọng:
-                </h2>
-              </div>
-              <ul className="space-y-3 ml-8 text-red-700 dark:text-red-300">
-                <li className="flex items-start gap-2">
-                  <span className="text-red-600 dark:text-red-400 font-bold mt-0.5">•</span>
-                  <span>Luôn kiểm tra tags trước khi đọc truyện</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-red-600 dark:text-red-400 font-bold mt-0.5">•</span>
-                  <span>Nếu bạn nhạy cảm với nội dung nào, hãy bỏ qua truyện đó</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-red-600 dark:text-red-400 font-bold mt-0.5">•</span>
-                  <span>Chúng tôi không chịu trách nhiệm nếu bạn phớt lờ các cảnh báo</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Section: Community Rules */}
-            <div className="bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900/50 rounded-xl p-6 md:p-8">
-              <div className="flex items-start gap-3 mb-4">
-                <span className="material-symbols-outlined text-2xl text-blue-600 dark:text-blue-400 flex-shrink-0">shield</span>
-                <h2 className="text-blue-600 dark:text-blue-400 text-2xl font-bold leading-tight tracking-tight">
-                  Quy Tắc Cộng Đồng:
-                </h2>
-              </div>
-              <ul className="space-y-3 ml-8 text-blue-700 dark:text-blue-300">
-                <li className="flex items-start gap-2">
-                  <span className="text-green-600 dark:text-green-400 font-bold text-lg">✓</span>
-                  <span>Tôn trọng quan điểm của tác giả và những người dùng khác</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-green-600 dark:text-green-400 font-bold text-lg">✓</span>
-                  <span>Không gây quấy rối hoặc tấn công cá nhân ai</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-green-600 dark:text-green-400 font-bold text-lg">✓</span>
-                  <span>Tránh spam, quảng cáo trái phép trong bình luận</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-red-600 dark:text-red-400 font-bold text-lg">✗</span>
-                  <span>Không sử dụng ngôn từ thù địch hoặc phân biệt đối xử</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Section: OC Policy */}
-            <div className="bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-900/50 rounded-xl p-6 md:p-8">
-              <div className="flex items-start gap-3 mb-4">
-                <span className="material-symbols-outlined text-2xl text-green-600 dark:text-green-400 flex-shrink-0">people</span>
-                <h2 className="text-green-600 dark:text-green-400 text-2xl font-bold leading-tight tracking-tight">
-                  Chính Sách OC:
-                </h2>
-              </div>
-              <ul className="space-y-3 ml-8 text-green-700 dark:text-green-300">
-                <li className="flex items-start gap-2">
-                  <span className="font-bold mt-0.5">•</span>
-                  <span>OC là tài sản trí tuệ của tác giả</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="font-bold mt-0.5">•</span>
-                  <span>Không được sử dụng OC để tạo nội dung khác mà không xin phép</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="font-bold mt-0.5">•</span>
-                  <span>Có thể tìm hiểu chi tiết OC trong phần "About Me"</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="font-bold mt-0.5">•</span>
-                  <span>Nếu muốn sử dụng OC, hãy liên hệ tác giả trước</span>
-                </li>
-              </ul>
-            </div>
-
             {/* Section: Author & Site Info */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="bg-white dark:bg-[#1c182d] border border-gray-200 dark:border-gray-700 rounded-xl p-6">
                 <h3 className="text-primary text-xl font-bold leading-tight tracking-tight mb-3">
                   Về Lịch Cập Nhật
@@ -237,6 +172,14 @@ const TermsAndConditions = () => {
                 <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
                   Mọi phản hồi, góp ý hoặc báo lỗi xin vui lòng gửi về trang Liên Hệ. Tác giả luôn trân
                   trọng những đóng góp xây dựng từ phía độc giả.
+                </p>
+              </div>
+              <div className="bg-white dark:bg-[#1c182d] border border-gray-200 dark:border-gray-700 rounded-xl p-6">
+                <h3 className="text-primary text-xl font-bold leading-tight tracking-tight mb-3">
+                  Về Nhân Vật OC (Original Character)
+                </h3>
+                <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                  OC là tài sản trí tuệ của tác giả. Không được sử dụng OC để tạo nội dung khác mà không xin phép. Nếu muốn sử dụng OC, hãy liên hệ tác giả trước.
                 </p>
               </div>
             </div>
@@ -302,9 +245,6 @@ const TermsAndConditions = () => {
             <p className="text-text-secondary-light dark:text-text-secondary-dark text-base">
               Việc tiếp tục sử dụng trang web đồng nghĩa với việc bạn đã đọc, hiểu và chấp nhận toàn bộ các
               điều khoản được nêu trên.
-            </p>
-            <p className="text-text-secondary-light dark:text-text-secondary-dark text-sm mt-4">
-              © 2025 Lam điệp cô ảnh. Bảo lưu mọi quyền.
             </p>
           </div>
 
