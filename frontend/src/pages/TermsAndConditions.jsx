@@ -59,9 +59,35 @@ const TermsAndConditions = () => {
                 Về Nội Dung Truyện
               </h2>
               <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed mb-6">
-                Truyện có thể chứa các yếu tố nhạy cảm. Tác giả luôn cố gắng cân bằng giữa nghệ thuật và
-                giới hạn, tuy nhiên khuyến khích độc giả cân nhắc kỹ trước khi đọc.
+                Tác giả khá tuỳ hứng thế nên có thể sẽ có lối trong chuyện bất ngờ mà chưa gắn vào thể loại hay văn án. Tuy nhiên tác giả sẽ <b>cảnh báo trước</b> và có hẳn 1 chương tóm tắt kết thúc cho bạn.
               </p>
+              
+              <div className="space-y-4 mb-6">
+                <div className="p-4 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900/50 rounded-lg">
+                  <div className="flex items-start gap-2 mb-2">
+                    <span className="material-symbols-outlined text-2xl text-red-600 dark:text-red-400 flex-shrink-0">error</span>
+                    <h3 className="text-red-600 dark:text-red-400 font-bold text-lg">
+                      Cảnh Báo Nội Dung
+                    </h3>
+                  </div>
+                  <p className="text-red-700 dark:text-red-300 text-base">
+                    Nếu truyện có nội dung nhạy cảm hoặc yếu tố không phù hợp với tam quan (nói thẳng ra là hố / lôi có thể nổ bạn bùm bùm) sẽ có cảnh báo ở đầu chương đó.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900/50 rounded-lg">
+                  <div className="flex items-start gap-2 mb-2">
+                    <span className="material-symbols-outlined text-2xl text-blue-600 dark:text-blue-400 flex-shrink-0">info</span>
+                    <h3 className="text-blue-600 dark:text-blue-400 font-bold text-lg">
+                      Tóm Tắt
+                    </h3>
+                  </div>
+                  <p className="text-blue-700 dark:text-blue-300 text-base">
+                    Để bạn có thể trải nghiệm truyện đầy đủ mà không lọt hố, chương nào có cảnh báo đều sẽ có thêm 1 chương tóm tắt nội dung hoặc thêm một đầy đủ và tóm gọn nội dung bị cảnh báo lại.
+                  </p>
+                </div>
+              </div>
+
               <div className="p-5 bg-yellow-400/10 dark:bg-yellow-500/20 rounded-lg">
                 <div className="flex flex-col items-stretch justify-start gap-4 sm:flex-row sm:items-start">
                   <div className="flex-shrink-0 text-yellow-500 dark:text-yellow-400">
@@ -69,7 +95,7 @@ const TermsAndConditions = () => {
                   </div>
                   <div className="flex w-full min-w-0 grow flex-col items-stretch justify-center gap-1">
                     <p className="text-text-light dark:text-text-dark text-lg font-bold leading-tight tracking-tight">
-                      Cảnh báo nội dung (Trigger Warning)
+                      Trigger Warning (Cảnh báo kích hoạt)
                     </p>
                     <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
                       Truyện có thể chứa các chi tiết về bạo lực, xung đột tâm lý, hoặc các chủ đề
@@ -90,25 +116,108 @@ const TermsAndConditions = () => {
                 Để xây dựng một không gian trao đổi lành mạnh, vui lòng tuân thủ các quy tắc sau trong khu
                 vực bình luận và tương tác:
               </p>
-              <ul className="list-disc list-inside space-y-3 text-text-light dark:text-text-dark">
-                <li>Tôn trọng tác giả và các độc giả khác.</li>
-                <li>Không sử dụng ngôn ngữ thù địch, xúc phạm, hay phân biệt đối xử.</li>
-                <li>Tránh tiết lộ trước nội dung truyện (spoiler) mà không có cảnh báo.</li>
-                <li>Không đăng tải các liên kết spam, quảng cáo hoặc nội dung không liên quan.</li>
-                <li>Góp ý một cách văn minh, xây dựng và mang tính cá nhân.</li>
+              <ul className="space-y-3 ml-8 text-text-light dark:text-text-dark">
+                <li className="flex items-start gap-2">
+                  <span className="text-green-600 dark:text-green-400 font-bold text-lg flex-shrink-0">✓</span>
+                  <span>Tôn trọng quan điểm của tác giả và những người dùng khác</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-red-600 dark:text-red-400 font-bold text-lg flex-shrink-0">✗</span>
+                  <span>Không sử dụng ngôn ngữ thù địch, xúc phạm, hay phân biệt đối xử.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-600 dark:text-green-400 font-bold text-lg flex-shrink-0">✓</span>
+                  <span>Tránh tiết lộ trước nội dung truyện (spoiler) mà không có cảnh báo.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-red-600 dark:text-red-400 font-bold text-lg flex-shrink-0">✗</span>
+                  <span>Không đăng tải các liên kết spam, quảng cáo hoặc nội dung không liên quan.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-600 dark:text-green-400 font-bold text-lg flex-shrink-0">✓</span>
+                  <span>Góp ý một cách văn minh, xây dựng và mang tính cá nhân.</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Section: Important Warnings */}
+            <div className="bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900/50 rounded-xl p-6 md:p-8">
+              <div className="flex items-start gap-3 mb-4">
+                <span className="material-symbols-outlined text-2xl text-red-600 dark:text-red-400 flex-shrink-0">warning</span>
+                <h2 className="text-red-600 dark:text-red-400 text-2xl font-bold leading-tight tracking-tight">
+                  Khuyến cáo quan trọng:
+                </h2>
+              </div>
+              <ul className="space-y-3 ml-8 text-red-700 dark:text-red-300">
+                <li className="flex items-start gap-2">
+                  <span className="text-red-600 dark:text-red-400 font-bold mt-0.5">•</span>
+                  <span>Luôn kiểm tra tags trước khi đọc truyện</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-red-600 dark:text-red-400 font-bold mt-0.5">•</span>
+                  <span>Nếu bạn nhạy cảm với nội dung nào, hãy bỏ qua truyện đó</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-red-600 dark:text-red-400 font-bold mt-0.5">•</span>
+                  <span>Chúng tôi không chịu trách nhiệm nếu bạn phớt lờ các cảnh báo</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Section: Community Rules */}
+            <div className="bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900/50 rounded-xl p-6 md:p-8">
+              <div className="flex items-start gap-3 mb-4">
+                <span className="material-symbols-outlined text-2xl text-blue-600 dark:text-blue-400 flex-shrink-0">shield</span>
+                <h2 className="text-blue-600 dark:text-blue-400 text-2xl font-bold leading-tight tracking-tight">
+                  Quy Tắc Cộng Đồng:
+                </h2>
+              </div>
+              <ul className="space-y-3 ml-8 text-blue-700 dark:text-blue-300">
+                <li className="flex items-start gap-2">
+                  <span className="text-green-600 dark:text-green-400 font-bold text-lg">✓</span>
+                  <span>Tôn trọng quan điểm của tác giả và những người dùng khác</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-600 dark:text-green-400 font-bold text-lg">✓</span>
+                  <span>Không gây quấy rối hoặc tấn công cá nhân ai</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-600 dark:text-green-400 font-bold text-lg">✓</span>
+                  <span>Tránh spam, quảng cáo trái phép trong bình luận</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-red-600 dark:text-red-400 font-bold text-lg">✗</span>
+                  <span>Không sử dụng ngôn từ thù địch hoặc phân biệt đối xử</span>
+                </li>
               </ul>
             </div>
 
             {/* Section: OC Policy */}
-            <div className="bg-white dark:bg-[#1c182d] border border-gray-200 dark:border-gray-700 rounded-xl p-6 md:p-8">
-              <h2 className="text-primary text-2xl font-bold leading-tight tracking-tight mb-4">
-                Về Nhân Vật OC (Original Character)
-              </h2>
-              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
-                Toàn bộ nhân vật trong truyện đều là "con đẻ tinh thần" của tác giả. Nghiêm cấm mọi hành vi sao
-                chép, sử dụng hình ảnh hoặc danh tính nhân vật cho mục đích thương mại hoặc phi thương
-                mại mà chưa có sự cho phép rõ ràng bằng văn bản.
-              </p>
+            <div className="bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-900/50 rounded-xl p-6 md:p-8">
+              <div className="flex items-start gap-3 mb-4">
+                <span className="material-symbols-outlined text-2xl text-green-600 dark:text-green-400 flex-shrink-0">people</span>
+                <h2 className="text-green-600 dark:text-green-400 text-2xl font-bold leading-tight tracking-tight">
+                  Chính Sách OC:
+                </h2>
+              </div>
+              <ul className="space-y-3 ml-8 text-green-700 dark:text-green-300">
+                <li className="flex items-start gap-2">
+                  <span className="font-bold mt-0.5">•</span>
+                  <span>OC là tài sản trí tuệ của tác giả</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="font-bold mt-0.5">•</span>
+                  <span>Không được sử dụng OC để tạo nội dung khác mà không xin phép</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="font-bold mt-0.5">•</span>
+                  <span>Có thể tìm hiểu chi tiết OC trong phần "About Me"</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="font-bold mt-0.5">•</span>
+                  <span>Nếu muốn sử dụng OC, hãy liên hệ tác giả trước</span>
+                </li>
+              </ul>
             </div>
 
             {/* Section: Author & Site Info */}
@@ -134,14 +243,44 @@ const TermsAndConditions = () => {
 
             {/* Section: Legal & Contact */}
             <div className="bg-white dark:bg-[#1c182d] border border-gray-200 dark:border-gray-700 rounded-xl p-6 md:p-8">
-              <h2 className="text-primary text-2xl font-bold leading-tight tracking-tight mb-4">
-                Điều Khoản Sử Dụng Trang Web
-              </h2>
-              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed mb-4">
-                Bằng việc truy cập và đọc truyện trên "Lam điệp cô ảnh", bạn đồng ý không sao chép, tái
-                bản, phân phối lại nội dung dưới mọi hình thức khi chưa được sự đồng ý của tác giả. Đây
-                là sản phẩm sáng tạo và được bảo hộ bởi luật bản quyền.
-              </p>
+              <div className="flex items-start gap-3 mb-4">
+                <span className="material-symbols-outlined text-2xl text-primary flex-shrink-0">description</span>
+                <h2 className="text-primary text-2xl font-bold leading-tight tracking-tight">
+                  Điều Khoản Sử Dụng Trang Web
+                </h2>
+              </div>
+              
+              <div className="bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900/50 rounded-lg p-6 mb-6">
+                <div className="flex items-start gap-3 mb-4">
+                  <span className="material-symbols-outlined text-2xl text-red-600 dark:text-red-400 flex-shrink-0">description</span>
+                  <h3 className="text-red-600 dark:text-red-400 font-bold text-lg">
+                    Quy Định Chung:
+                  </h3>
+                </div>
+                <ol className="space-y-3 ml-8 text-red-700 dark:text-red-300">
+                  <li className="flex gap-2">
+                    <span className="font-bold flex-shrink-0">1.</span>
+                    <span><b>Bản quyền:</b> Tất cả nội dung trên trang đều thuộc quyền sở hữu của tác giả. Nghiêm cấm sao chép, tái bản hoặc sử dụng trái phép.</span>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="font-bold flex-shrink-0">2.</span>
+                    <span><b>Sử dụng cá nhân:</b> Bạn chỉ được phép đọc và lưu lại nội dung cho mục đích cá nhân, không để tiếp tục phát tán.</span>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="font-bold flex-shrink-0">3.</span>
+                    <span><b>Cấm hoạt động:</b> Không được tải lên nội dung có bản quyền, spam, quảng cáo trái phép trong bình luận.</span>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="font-bold flex-shrink-0">4.</span>
+                    <span><b>Trách nhiệm:</b> Tác giả không chịu trách nhiệm về nội dung từ người dùng khác. Bạn tự chịu trách nhiệm về hành vi của mình.</span>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="font-bold flex-shrink-0">5.</span>
+                    <span><b>Thay đổi điều khoản:</b> Tác giả có quyền thay đổi điều khoản này bất cứ lúc nào mà không cần thông báo trước.</span>
+                  </li>
+                </ol>
+              </div>
+
               <h3 className="text-text-light dark:text-text-dark text-xl font-bold leading-tight tracking-tight mt-6 mb-3">
                 Liên Hệ &amp; Hỗ Trợ
               </h3>
