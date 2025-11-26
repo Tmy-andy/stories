@@ -64,15 +64,17 @@ exports.getReadingHistory = async (req, res) => {
 exports.getAllReadingHistory = async (req, res) => {
   try {
     const userId = req.user.id;
+    console.log('getAllReadingHistory - userId:', userId);
 
     const history = await ReadingHistory.find({ userId })
       .populate('storyId', 'title coverImage author')
       .sort({ updatedAt: -1 });
 
+    console.log('getAllReadingHistory - found records:', history.length);
     res.json(history);
   } catch (error) {
     console.error('Error fetching all reading history:', error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
 

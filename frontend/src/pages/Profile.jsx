@@ -4,6 +4,7 @@ import { authService } from '../services/authService';
 import { MedalIcon, calculateLevel, AdminVerifiedIcon } from '../utils/tierSystem';
 import UserTooltip from '../components/UserTooltip';
 import ReadingHistory from '../components/ReadingHistory';
+import ProfileReadingHistory from '../components/ProfileReadingHistory';
 import axios from 'axios';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001/api';
@@ -296,9 +297,7 @@ function Profile() {
         )}
 
         {activeTab === 'history' && (
-          <div className="py-4 px-4">
-            <ReadingHistory />
-          </div>
+          <ProfileReadingHistory />
         )}
 
         {activeTab === 'favorites' && (
