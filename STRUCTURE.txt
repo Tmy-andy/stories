@@ -7,8 +7,8 @@ Path: C:\Users\ASUS\OneDrive\Desktop\Lam Điệp Cô Ảnh
 Date: N/A
 
 Statistics / Thống kê:
-- Folders / Thư mục: 15
-- Files / File: 55
+- Folders / Thư mục: 16
+- Files / File: 90
 
 Ignored Patterns / Các pattern bị bỏ qua:
 - node_modules/
@@ -33,11 +33,14 @@ Ignored Patterns / Các pattern bị bỏ qua:
 STRUCTURE / CẤU TRÚC:
 
 Lam Điệp Cô Ảnh/
+├── STRUCTURE.txt
 ├── backend/
 │   ├── controllers/
 │   │   ├── authController.js
 │   │   ├── chapterController.js
 │   │   ├── commentController.js
+│   │   ├── favoriteController.js
+│   │   ├── notificationController.js
 │   │   └── storyController.js
 │   ├── createAdmin.js
 │   ├── middleware/
@@ -45,6 +48,8 @@ Lam Điệp Cô Ảnh/
 │   ├── models/
 │   │   ├── Chapter.js
 │   │   ├── Comment.js
+│   │   ├── Favorite.js
+│   │   ├── Notification.js
 │   │   ├── Story.js
 │   │   └── User.js
 │   ├── package-lock.json
@@ -53,15 +58,22 @@ Lam Điệp Cô Ảnh/
 │   │   ├── auth.js
 │   │   ├── chapters.js
 │   │   ├── comments.js
+│   │   ├── favorites.js
+│   │   ├── notifications.js
 │   │   └── stories.js
+│   ├── seed-new.js
 │   ├── seed.js
-│   └── server.js
+│   ├── server.js
+│   ├── test-api.js
+│   └── test-slug.js
 ├── frontend/
 │   ├── README.md
+│   ├── netlify.toml
 │   ├── package-lock.json
 │   ├── package.json
 │   ├── postcss.config.js
 │   ├── public/
+│   │   ├── butterfly.png
 │   │   ├── favicon.ico
 │   │   ├── logo.png
 │   │   ├── logo192.png
@@ -77,20 +89,38 @@ Lam Điệp Cô Ảnh/
 │   │   │       ├── hero-banner.png
 │   │   │       └── logo.png
 │   │   ├── components/
+│   │   │   ├── ChapterRenderer.css
+│   │   │   ├── ChapterRenderer.jsx
+│   │   │   ├── CommentInput.jsx
+│   │   │   ├── CommentSection.jsx
+│   │   │   ├── FavoriteButton.jsx
 │   │   │   ├── Footer.jsx
-│   │   │   └── Header.jsx
+│   │   │   ├── Header.jsx
+│   │   │   ├── NotificationBell.jsx
+│   │   │   ├── ReplyList.jsx
+│   │   │   ├── UserDisplayName.jsx
+│   │   │   └── UserTooltip.jsx
 │   │   ├── index.css
 │   │   ├── index.js
 │   │   ├── logo.svg
 │   │   ├── pages/
+│   │   │   ├── AllNotifications.jsx
+│   │   │   ├── Categories.jsx
+│   │   │   ├── ChapterReader.jsx
+│   │   │   ├── EditProfile.jsx
+│   │   │   ├── Favorites.jsx
 │   │   │   ├── Home.jsx
 │   │   │   ├── Profile.jsx
 │   │   │   ├── Stories.jsx
 │   │   │   ├── StoryDetail.jsx
+│   │   │   ├── StoryDetail2.jsx
+│   │   │   ├── UserProfile.jsx
 │   │   │   ├── admin/
 │   │   │   │   ├── AdminDashboard.jsx
 │   │   │   │   ├── CreateStory.jsx
-│   │   │   │   └── EditStory.jsx
+│   │   │   │   ├── EditChapter.jsx
+│   │   │   │   ├── EditStory.jsx
+│   │   │   │   └── ManageChapters.jsx
 │   │   │   └── auth/
 │   │   │       ├── ChangePassword.jsx
 │   │   │       ├── Login.jsx
@@ -99,8 +129,14 @@ Lam Điệp Cô Ảnh/
 │   │   ├── services/
 │   │   │   ├── api.js
 │   │   │   ├── authService.js
+│   │   │   ├── commentService.js
+│   │   │   ├── favoriteService.js
+│   │   │   ├── notificationService.js
 │   │   │   └── storyService.js
-│   │   └── setupTests.js
+│   │   ├── setupTests.js
+│   │   └── utils/
+│   │       ├── butterfly.svg
+│   │       └── tierSystem.js
 │   └── tailwind.config.js
 └── generate_structure.py
 
