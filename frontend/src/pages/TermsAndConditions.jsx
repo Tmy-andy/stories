@@ -156,7 +156,7 @@ const TermsAndConditions = () => {
             </div>
 
             {/* Section: Author & Site Info */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="bg-white dark:bg-[#1c182d] border border-gray-200 dark:border-gray-700 rounded-xl p-6">
                 <h3 className="text-primary text-xl font-bold leading-tight tracking-tight mb-3">
                   Về Lịch Cập Nhật
@@ -174,14 +174,18 @@ const TermsAndConditions = () => {
                   trọng những đóng góp xây dựng từ phía độc giả.
                 </p>
               </div>
-              <div className="bg-white dark:bg-[#1c182d] border border-gray-200 dark:border-gray-700 rounded-xl p-6">
-                <h3 className="text-primary text-xl font-bold leading-tight tracking-tight mb-3">
-                  Về Nhân Vật OC (Original Character)
-                </h3>
-                <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
-                  OC là tài sản trí tuệ của tác giả. Không được sử dụng OC để tạo nội dung khác mà không xin phép. Nếu muốn sử dụng OC, hãy liên hệ tác giả trước.
-                </p>
-              </div>
+            </div>
+
+            {/* Section: OC Policy */}
+            <div className="bg-white dark:bg-[#1c182d] border border-gray-200 dark:border-gray-700 rounded-xl p-6 md:p-8">
+              <h2 className="text-primary text-2xl font-bold leading-tight tracking-tight mb-4">
+                Về Nhân Vật OC (Original Character)
+              </h2>
+              <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
+                Toàn bộ nhân vật trong truyện đều là "con đẻ tinh thần" của tác giả. Nghiêm cấm mọi hành vi sao
+                chép, sử dụng hình ảnh hoặc danh tính nhân vật cho mục đích thương mại hoặc phi thương
+                mại mà chưa có sự cho phép rõ ràng bằng văn bản.
+              </p>
             </div>
 
             {/* Section: Legal & Contact */}
