@@ -15,12 +15,16 @@ exports.register = async (req, res) => {
       });
     }
 
+    // Get IP address from request
+    const ipAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || req.ip;
+
     // Tạo user mới (role mặc định là 'user')
     const user = new User({
       username,
       email,
       password,
-      role: 'user'
+      role: 'user',
+      ipAddress: ipAddress
     });
 
     await user.save();
