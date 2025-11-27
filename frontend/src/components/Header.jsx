@@ -34,7 +34,7 @@ const Header = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between whitespace-nowrap py-3 gap-8">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 text-primary">
+          <Link to="/" className="flex items-center gap-1 text-primary">
             <div className="w-10 h-10">
               <img src={logo} alt="Logo" className="w-full h-full object-contain" />
             </div>
@@ -167,73 +167,93 @@ const Header = () => {
             <Link to="/" className="block px-4 py-2 text-text-light dark:text-white hover:text-primary dark:hover:text-primary transition-colors">Trang chủ</Link>
             <Link to="/stories" className="block px-4 py-2 text-text-light dark:text-white hover:text-primary dark:hover:text-primary transition-colors">Danh sách truyện</Link>
             <Link to="/categories" className="block px-4 py-2 text-text-light dark:text-white hover:text-primary dark:hover:text-primary transition-colors">Thể loại</Link>
-            <div className="px-4 py-2 pt-4 border-t border-gray-200 dark:border-white/10 space-y-2">
+            <div className="px-4 py-4 pt-4 border-t border-gray-200 dark:border-white/10">
               {user ? (
                 <>
-                  <div className="flex items-center gap-2 px-4 py-2 rounded-lg">
-                    <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-bold overflow-hidden">
-                      {user.avatar ? (
-                        <img src={user.avatar} alt={user.displayName || user.username} className="w-full h-full object-cover" />
-                      ) : (
-                        (user.displayName || user.username).charAt(0).toUpperCase()
-                      )}
-                    </div>
-                    <div>
-                      <p className="text-text-light dark:text-white text-sm font-medium">{user.displayName || user.username}</p>
-                      {user.role === 'admin' && (
-                        <span className="text-xs text-primary font-bold">ADMIN</span>
-                      )}
+                  {/* User Card */}
+                  <div className="bg-secondary-light dark:bg-white/5 rounded-lg p-4 mb-4 border border-gray-200 dark:border-white/10">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white font-bold overflow-hidden flex-shrink-0">
+                        {user.avatar ? (
+                          <img src={user.avatar} alt={user.displayName || user.username} className="w-full h-full object-cover" />
+                        ) : (
+                          (user.displayName || user.username).charAt(0).toUpperCase()
+                        )}
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-text-light dark:text-white text-sm font-semibold">{user.displayName || user.username}</p>
+                        {user.role === 'admin' && (
+                          <span className="inline-block px-2 py-1 bg-primary/20 text-primary text-xs font-bold rounded mt-1">ADMIN</span>
+                        )}
+                      </div>
                     </div>
                   </div>
-                  {user.role === 'admin' && (
-                    <>
-                      <Link
-                        to="/admin"
-                        className="block px-4 py-2 text-sm text-text-light dark:text-white hover:bg-gray-100 dark:hover:bg-white/10 rounded"
-                        onClick={() => setIsMenuOpen(false)}
-                      >
-                        Quản lý truyện
-                      </Link>
-                      <hr className="my-2 border-gray-200 dark:border-white/10" />
-                    </>
-                  )}
-                  <Link
-                    to="/profile"
-                    className="block px-4 py-2 text-sm text-text-light dark:text-white hover:bg-gray-100 dark:hover:bg-white/10 rounded"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Xem hồ sơ
-                  </Link>
-                  <Link
-                    to="/user-profile"
-                    className="block px-4 py-2 text-sm text-text-light dark:text-white hover:bg-gray-100 dark:hover:bg-white/10 rounded"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Chỉnh sửa hồ sơ
-                  </Link>
-                  <Link
-                    to="/change-password"
-                    className="block px-4 py-2 text-sm text-text-light dark:text-white hover:bg-gray-100 dark:hover:bg-white/10 rounded"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Đổi mật khẩu
-                  </Link>
-                  <hr className="my-2 border-gray-200 dark:border-white/10" />
-                  <button
-                    onClick={() => {
-                      handleLogout();
-                      setIsMenuOpen(false);
-                    }}
-                    className="w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-white/10 rounded"
-                  >
-                    Đăng xuất
-                  </button>
+
+                  {/* Menu Items */}
+                  <div className="space-y-1">
+                    {user.role === 'admin' && (
+                      <>
+                        <Link
+                          to="/admin"
+                          className="flex items-center gap-3 px-4 py-3 text-sm text-text-light dark:text-white hover:bg-gray-100 dark:hover:bg-white/10 rounded-lg transition-colors"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          <span className="material-symbols-outlined text-lg">dashboard</span>
+                          Quản lý truyện
+                        </Link>
+                        <div className="h-px bg-gray-200 dark:bg-white/10 my-2"></div>
+                      </>
+                    )}
+                    <Link
+                      to="/profile"
+                      className="flex items-center gap-3 px-4 py-3 text-sm text-text-light dark:text-white hover:bg-gray-100 dark:hover:bg-white/10 rounded-lg transition-colors"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      <span className="material-symbols-outlined text-lg">person</span>
+                      Xem hồ sơ
+                    </Link>
+                    <Link
+                      to="/user-profile"
+                      className="flex items-center gap-3 px-4 py-3 text-sm text-text-light dark:text-white hover:bg-gray-100 dark:hover:bg-white/10 rounded-lg transition-colors"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      <span className="material-symbols-outlined text-lg">edit</span>
+                      Chỉnh sửa hồ sơ
+                    </Link>
+                    <Link
+                      to="/favorites"
+                      className="flex items-center gap-3 px-4 py-3 text-sm text-text-light dark:text-white hover:bg-gray-100 dark:hover:bg-white/10 rounded-lg transition-colors"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      <span className="material-symbols-outlined text-lg">favorite</span>
+                      Danh sách yêu thích
+                    </Link>
+                    <Link
+                      to="/change-password"
+                      className="flex items-center gap-3 px-4 py-3 text-sm text-text-light dark:text-white hover:bg-gray-100 dark:hover:bg-white/10 rounded-lg transition-colors"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      <span className="material-symbols-outlined text-lg">lock</span>
+                      Đổi mật khẩu
+                    </Link>
+                    <div className="h-px bg-gray-200 dark:bg-white/10 my-2"></div>
+                    <button
+                      onClick={() => {
+                        handleLogout();
+                        setIsMenuOpen(false);
+                      }}
+                      className="w-full flex items-center gap-3 px-4 py-3 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-lg transition-colors"
+                    >
+                      <span className="material-symbols-outlined text-lg">logout</span>
+                      Đăng xuất
+                    </button>
+                  </div>
                 </>
               ) : (
-                <>
-                  <Link to="/login" className="block text-center px-4 py-2 bg-primary text-white rounded-lg text-sm font-bold hover:bg-primary/90 transition-colors">Đăng nhập</Link>
-                  <Link to="/register" className="block text-center px-4 py-2 bg-primary/20 dark:bg-white/10 text-primary dark:text-white rounded-lg text-sm font-bold hover:bg-primary/30 dark:hover:bg-white/20 transition-colors">Đăng ký</Link>
-                </>
+                <div className="space-y-2">
+                  <Link to="/login" className="block text-center px-4 py-3 bg-primary text-white rounded-lg text-sm font-bold hover:bg-primary/90 transition-colors">Đăng nhập</Link>
+                  <Link to="/register" className="block text-center px-4 py-3 bg-primary/20 dark:bg-white/10 text-primary dark:text-white rounded-lg text-sm font-bold hover:bg-primary/30 dark:hover:bg-white/20 transition-colors">Đăng ký</Link>
+                </div>
               )}
             </div>
           </nav>
