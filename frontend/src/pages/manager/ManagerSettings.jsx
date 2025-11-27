@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authService } from '../../services/authService';
-import ManagerTopBar from '../../components/manager/ManagerTopBar';
+import ManagerLayout from '../../components/manager/ManagerLayout';
 
 const ManagerSettings = () => {
   const navigate = useNavigate();
@@ -49,13 +49,10 @@ const ManagerSettings = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-background-light dark:bg-background-dark">
-      <ManagerTopBar currentPage="Settings" />
-      
-      <main className="flex-1 p-6 lg:p-10">
-        <div className="w-full max-w-4xl mx-auto">
-          {/* Header */}
-          <header className="flex flex-wrap justify-between gap-4 items-center mb-8">
+    <ManagerLayout>
+      <div className="w-full max-w-4xl mx-auto">
+        {/* Header */}
+        <header className="flex flex-wrap justify-between gap-4 items-center mb-8">
             <div className="flex flex-col gap-2">
               <h1 className="text-neutral-text-light dark:text-white text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em]">
                 Cài Đặt Site
@@ -251,9 +248,8 @@ const ManagerSettings = () => {
               Lưu Thay Đổi
             </button>
           </footer>
-        </div>
-      </main>
-    </div>
+      </div>
+    </ManagerLayout>
   );
 };
 

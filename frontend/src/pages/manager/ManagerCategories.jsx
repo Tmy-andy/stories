@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authService } from '../../services/authService';
-import ManagerTopBar from '../../components/manager/ManagerTopBar';
+import ManagerLayout from '../../components/manager/ManagerLayout';
 
 const ManagerCategories = () => {
   const navigate = useNavigate();
@@ -112,11 +112,8 @@ const ManagerCategories = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-background-light dark:bg-background-dark">
-      <ManagerTopBar currentPage="Categories" />
-
-      <main className="flex-1 p-6 lg:p-8">
-        <div className="w-full max-w-7xl mx-auto flex flex-col gap-6">
+    <ManagerLayout>
+      <div className="w-full max-w-7xl mx-auto flex flex-col gap-6">
           {/* Header */}
           <div className="flex flex-wrap justify-between items-center gap-4">
             <div className="flex flex-col">
@@ -198,8 +195,7 @@ const ManagerCategories = () => {
           <div className="text-sm text-gray-500 dark:text-gray-400 text-center">
             Hiển thị {categories.length} thể loại
           </div>
-        </div>
-      </main>
+      </div>
 
       {/* Delete Confirmation Modal */}
       {showDeleteModal && (
@@ -286,7 +282,7 @@ const ManagerCategories = () => {
           </div>
         </div>
       )}
-    </div>
+    </ManagerLayout>
   );
 };
 

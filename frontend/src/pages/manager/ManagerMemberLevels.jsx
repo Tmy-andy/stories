@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authService } from '../../services/authService';
-import ManagerTopBar from '../../components/manager/ManagerTopBar';
+import ManagerLayout from '../../components/manager/ManagerLayout';
 
 const ManagerMemberLevels = () => {
   const navigate = useNavigate();
@@ -102,11 +102,8 @@ const ManagerMemberLevels = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-background-light dark:bg-background-dark">
-      <ManagerTopBar currentPage="Member Levels" />
-      
-      <main className="flex-1 p-6 lg:p-10">
-        <div className="w-full max-w-7xl mx-auto">
+    <ManagerLayout>
+      <div className="w-full max-w-7xl mx-auto">
           {/* Header */}
           <div className="flex flex-wrap justify-between items-center gap-4 mb-8">
             <div className="flex flex-col">
@@ -187,8 +184,7 @@ const ManagerMemberLevels = () => {
               </table>
             </div>
           </div>
-        </div>
-      </main>
+      </div>
 
       {/* Delete Confirmation Modal */}
       {showDeleteModal && (
@@ -299,7 +295,7 @@ const ManagerMemberLevels = () => {
           </div>
         </div>
       )}
-    </div>
+    </ManagerLayout>
   );
 };
 
