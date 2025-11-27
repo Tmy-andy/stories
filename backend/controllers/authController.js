@@ -29,9 +29,10 @@ exports.register = async (req, res) => {
 
     await user.save();
 
-    // Tạo token
+    // Tạo token - đảm bảo có id
+    const userId = user._id ? user._id.toString() : user.id;
     const token = jwt.sign(
-      { id: user._id, role: user.role },
+      { id: userId, role: user.role },
       process.env.JWT_SECRET || 'your-secret-key',
       { expiresIn: '7d' }
     );
@@ -39,7 +40,7 @@ exports.register = async (req, res) => {
     res.status(201).json({
       token,
       user: {
-        id: user._id,
+        id: userId,
         username: user.username,
         email: user.email,
         role: user.role,
@@ -68,9 +69,12 @@ exports.login = async (req, res) => {
       return res.status(401).json({ message: 'Email hoặc mật khẩu không đúng' });
     }
 
-    // Tạo token
+    // Tạo token - đảm bảo có id
+    const userId = user._id ? user._id.toString() : user.id;
+    console.log('Login - User ID:', userId, 'User object:', user._id);
+    
     const token = jwt.sign(
-      { id: user._id, role: user.role },
+      { id: userId, role: user.role },
       process.env.JWT_SECRET || 'your-secret-key',
       { expiresIn: '7d' }
     );
@@ -78,7 +82,7 @@ exports.login = async (req, res) => {
     res.json({
       token,
       user: {
-        id: user._id,
+        id: userId,
         username: user.username,
         email: user.email,
         role: user.role,
