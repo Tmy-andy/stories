@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authService } from '../services/authService';
-import { MedalIcon, calculateLevel, getLevelIcon } from '../utils/tierSystem';
+import { MedalIcon, calculateLevel, getLevelIcon, AdminVerifiedIcon } from '../utils/tierSystem';
 import axios from 'axios';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001/api';
