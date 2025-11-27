@@ -12,6 +12,8 @@ const ManagerUsers = () => {
   const [filterStatus, setFilterStatus] = useState('all');
   const [pageInfo, setPageInfo] = useState({ page: 1, totalPages: 1 });
   const [deleting, setDeleting] = useState(null);
+  const [blockingUserId, setBlockingUserId] = useState(null);
+  const [showBlockModal, setShowBlockModal] = useState(false);
 
   useEffect(() => {
     loadUsers();
@@ -64,6 +66,39 @@ const ManagerUsers = () => {
       alert(err.response?.data?.message || 'Lỗi khi xóa người dùng');
     } finally {
       setDeleting(null);
+    }
+  };
+
+  const handleBlockUser = (id) => {
+    setBlockingUserId(id);
+    setShowBlockModal(true);
+  };
+
+  const confirmBlockUser = async () => {
+    if (!blockingUserId) return;
+
+    try {
+      const user = users.find(u => u._id === blockingUserId);
+      if (!user) return;
+
+      // Lưu blacklist vào localStorage
+      const blacklist = JSON.parse(localStorage.getItem('userBlacklist') || '{"ips": [], "emails": []}');
+      
+      if (!blacklist.ips.includes(user.ipAddress)) {
+        blacklist.ips.push(user.ipAddress);
+      }
+      if (!blacklist.emails.includes(user.email)) {
+        blacklist.emails.push(user.email);
+      }
+
+      localStorage.setItem('userBlacklist', JSON.stringify(blacklist));
+      
+      // Xóa user khỏi danh sách
+      setUsers(users.filter(u => u._id !== blockingUserId));
+      setShowBlockModal(false);
+      alert(`Đã chặn người dùng ${user.email} (IP: ${user.ipAddress})`);
+    } catch (err) {
+      alert('Lỗi khi chặn người dùng');
     }
   };
 
@@ -210,6 +245,13 @@ const ManagerUsers = () => {
                           )}
                         </button>
                         <button
+                          onClick={() => handleBlockUser(user._id)}
+                          title="Chặn hoàn toàn (IP & Email)"
+                          className="p-1 hover:bg-gray-100 dark:hover:bg-[#2A2640] rounded transition-colors text-orange-600"
+                        >
+                          <AlertCircle className="w-4 h-4" />
+                        </button>
+                        <button
                           onClick={() => handleDelete(user._id)}
                           disabled={deleting === user._id}
                           className="p-1 hover:bg-gray-100 dark:hover:bg-[#2A2640] rounded transition-colors disabled:opacity-50"
@@ -260,6 +302,57 @@ const ManagerUsers = () => {
           </div>
         )}
       </div>
+
+      {/* Block User Modal */}
+      {showBlockModal && (
+        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="relative flex w-full max-w-md flex-col rounded-xl bg-white dark:bg-[#1C182F] shadow-2xl dark:shadow-black/50">
+            <div className="border-b border-gray-200 dark:border-white/10 px-6 py-4">
+              <h2 className="text-lg font-bold text-gray-900 dark:text-white">
+                Chặn Người Dùng
+              </h2>
+            </div>
+
+            <div className="p-6">
+              {blockingUserId && users.find(u => u._id === blockingUserId) && (
+                <div className="space-y-4">
+                  <div className="p-3 rounded-lg bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-900">
+                    <p className="text-sm text-orange-800 dark:text-orange-300">
+                      ⚠️ Hành động này sẽ chặn hoàn toàn:
+                    </p>
+                  </div>
+                  <div className="space-y-2 text-sm">
+                    <p className="text-gray-700 dark:text-gray-300">
+                      <strong>Email:</strong> {users.find(u => u._id === blockingUserId)?.email}
+                    </p>
+                    <p className="text-gray-700 dark:text-gray-300">
+                      <strong>IP Address:</strong> {users.find(u => u._id === blockingUserId)?.ipAddress || 'N/A'}
+                    </p>
+                  </div>
+                  <p className="text-gray-700 dark:text-gray-300 text-sm mt-4">
+                    Người dùng này sẽ không thể đăng nhập lại bằng email hoặc IP này.
+                  </p>
+                </div>
+              )}
+            </div>
+
+            <div className="border-t border-gray-200 dark:border-white/10 px-6 py-4 flex justify-end gap-3">
+              <button
+                onClick={() => setShowBlockModal(false)}
+                className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-white/10 rounded-lg hover:bg-gray-200 dark:hover:bg-white/20 transition-colors"
+              >
+                Hủy
+              </button>
+              <button
+                onClick={confirmBlockUser}
+                className="px-4 py-2 text-sm font-medium text-white bg-orange-600 rounded-lg hover:bg-orange-700 transition-colors"
+              >
+                Chặn Ngay
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </ManagerLayout>
   );
 };

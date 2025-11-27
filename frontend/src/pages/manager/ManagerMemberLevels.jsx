@@ -20,6 +20,8 @@ const ManagerMemberLevels = () => {
     benefit: '',
   });
   const [successMessage, setSuccessMessage] = useState('');
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
 
   useEffect(() => {
     const manager = authService.getManager();
@@ -81,12 +83,21 @@ const ManagerMemberLevels = () => {
   };
 
   const handleDelete = (id) => {
-    if (confirm('Bạn chắc chắn muốn xóa cấp độ này?')) {
-      const updatedLevels = levels.filter(l => l._id !== id);
+    setDeleteId(id);
+    setShowDeleteModal(true);
+  };
+
+  const confirmDelete = async () => {
+    try {
+      const updatedLevels = levels.filter(l => l._id !== deleteId);
       setLevels(updatedLevels);
       localStorage.setItem('memberLevels', JSON.stringify(updatedLevels));
       setSuccessMessage('Xóa cấp độ thành công!');
       setTimeout(() => setSuccessMessage(''), 3000);
+      setShowDeleteModal(false);
+    } catch (error) {
+      console.error('Error deleting level:', error);
+      alert('Lỗi khi xóa cấp độ');
     }
   };
 
@@ -178,6 +189,40 @@ const ManagerMemberLevels = () => {
           </div>
         </div>
       </main>
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && (
+        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="relative flex w-full max-w-md flex-col rounded-xl bg-white dark:bg-[#1D1B2E] shadow-2xl dark:shadow-black/50">
+            <div className="border-b border-gray-200 dark:border-white/10 px-6 py-4">
+              <h2 className="text-lg font-bold text-gray-900 dark:text-white">
+                Xóa Cấp Độ
+              </h2>
+            </div>
+
+            <div className="p-6">
+              <p className="text-gray-700 dark:text-gray-300">
+                Bạn chắc chắn muốn xóa cấp độ này? Hành động này không thể hoàn tác.
+              </p>
+            </div>
+
+            <div className="border-t border-gray-200 dark:border-white/10 px-6 py-4 flex justify-end gap-3">
+              <button
+                onClick={() => setShowDeleteModal(false)}
+                className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-white/10 rounded-lg hover:bg-gray-200 dark:hover:bg-white/20 transition-colors"
+              >
+                Hủy
+              </button>
+              <button
+                onClick={confirmDelete}
+                className="px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-lg hover:bg-red-600 transition-colors"
+              >
+                Xóa
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Add/Edit Modal */}
       {showAddModal && (
