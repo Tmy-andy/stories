@@ -5,8 +5,8 @@ const PrivacyPolicy = () => {
   return (
     <main className="flex flex-col gap-8 md:gap-12 min-h-screen">
       {/* Page Container */}
-      <div className="px-4 md:px-10 lg:px-20 xl:px-40 flex flex-1 justify-center py-12 md:py-20">
-        <div className="layout-content-container flex flex-col max-w-4xl flex-1">
+      <div className="md:px-10 flex flex-1 justify-center py-12 md:py-20">
+        <div className="layout-content-container flex flex-col flex-1">
           {/* Page Header */}
           <div className="flex flex-col items-center text-center gap-4 mb-12">
             <p className="text-primary text-base font-semibold">Chính sách của chúng tôi</p>

@@ -54,11 +54,6 @@ const ManagerLayout = ({ children }) => {
       path: '/manager/users',
     },
     {
-      label: 'Bình luận',
-      icon: MessageSquare,
-      path: '/manager/comments',
-    },
-    {
       label: 'Liên hệ',
       icon: Mail,
       path: '/manager/contacts',
@@ -67,11 +62,6 @@ const ManagerLayout = ({ children }) => {
       label: 'Thể loại',
       icon: MessageSquare,
       path: '/manager/categories',
-    },
-    {
-      label: 'Cấp độ',
-      icon: Users,
-      path: '/manager/levels',
     },
     {
       label: 'Cài đặt',

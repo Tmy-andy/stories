@@ -55,12 +55,12 @@ const Contact = () => {
   return (
     <div className="min-h-screen bg-background-light dark:bg-background-dark py-12">
       <div className="container mx-auto px-4">
-        <div className="max-w-4xl mx-auto">
+        <div className="mx-auto">
           {/* Header */}
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-text-light dark:text-white mb-4">Liên hệ với chúng tôi</h1>
             <p className="text-text-muted-light dark:text-text-muted-dark text-lg">
-              Có câu hỏi hoặc góp ý? Chúng tôi luôn sẵn sàng lắng nghe!
+              Có câu hỏi hoặc góp ý? Lam Điệp Cô Ảnh luôn sẵn sàng lắng nghe!
             </p>
           </div>
 
@@ -74,7 +74,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-bold text-text-light dark:text-white mb-2">Email</h3>
-                    <p className="text-text-muted-light dark:text-text-muted-dark">lamdiepcohanh@gmail.com</p>
+                    <p className="text-text-muted-light dark:text-text-muted-dark">khitabolonhauvikhongdatduocten@gmail.com</p>
                   </div>
                 </div>
               </div>
@@ -86,15 +86,15 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-bold text-text-light dark:text-white mb-2">Thời gian xử lý</h3>
-                    <p className="text-text-muted-light dark:text-text-muted-dark">Từ lập tức đến 3-5 ngày làm việc</p>
+                    <p className="text-text-muted-light dark:text-text-muted-dark">Khoảng từ đến 3-5 ngày</p>
                     <p className="text-text-muted-light dark:text-text-muted-dark text-sm mt-1">Tùy theo mức độ phức tạp của vấn đề</p>
                   </div>
                 </div>
               </div>
 
               {/* Social Links */}
-              <div className="bg-white dark:bg-secondary-dark p-6 rounded-lg border border-gray-200 dark:border-white/10">
-                <h3 className="font-bold text-text-light dark:text-white mb-4">Theo dõi chúng tôi</h3>
+              {/* <div className="bg-white dark:bg-secondary-dark p-6 rounded-lg border border-gray-200 dark:border-white/10">
+                <h3 className="font-bold text-text-light dark:text-white mb-4">Theo dõi</h3>
                 <div className="flex gap-3">
                   <a href="#" className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-200 dark:bg-white/10 text-text-muted-light dark:text-text-muted-dark hover:bg-primary hover:text-white dark:hover:bg-primary transition-all">
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path clipRule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" fillRule="evenodd"></path></svg>
@@ -106,7 +106,7 @@ const Contact = () => {
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path clipRule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.024.06 1.378.06 3.808s-.012 2.784-.06 3.808c-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.024.048-1.378.06-3.808.06s-2.784-.012-3.808-.06c-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.048-1.024-.06-1.378-.06-3.808s.012-2.784.06-3.808c.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 016.345 2.525c.636-.247 1.363-.416 2.427-.465C9.793 2.013 10.147 2 12.315 2zm-1.002 6.363a4.73 4.73 0 11-9.46 0 4.73 4.73 0 019.46 0zm-1.637 0a3.093 3.093 0 11-6.186 0 3.093 3.093 0 016.186 0zM17.436 6.36a1.211 1.211 0 11-2.422 0 1.211 1.211 0 012.422 0z" fillRule="evenodd"></path></svg>
                   </a>
                 </div>
-              </div>
+              </div> */}
             </div>
 
             {/* Contact Form */}

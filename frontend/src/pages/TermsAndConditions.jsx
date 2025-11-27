@@ -6,8 +6,8 @@ const TermsAndConditions = () => {
   return (
     <main className="flex flex-col gap-8 md:gap-12 min-h-screen">
       {/* Page Container */}
-      <div className="px-4 md:px-10 lg:px-20 xl:px-40 flex flex-1 justify-center py-10 md:py-16">
-        <div className="layout-content-container flex flex-col max-w-[960px] flex-1 gap-8">
+      <div className="flex flex-1 justify-center py-10 md:py-16">
+        <div className="layout-content-container flex flex-col flex-1 gap-8">
           {/* Page Header */}
           <div className="flex flex-col gap-3 px-4 text-center items-center">
             <h1 className="text-text-light dark:text-white text-4xl md:text-5xl font-black leading-tight tracking-tighter">

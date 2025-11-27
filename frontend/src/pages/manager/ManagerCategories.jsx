@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authService } from '../../services/authService';
 import ManagerLayout from '../../components/manager/ManagerLayout';
+import categoryService from '../../services/categoryService';
 
 const ManagerCategories = () => {
   const navigate = useNavigate();
@@ -34,11 +35,8 @@ const ManagerCategories = () => {
 
   const loadCategories = async () => {
     try {
-      // Load từ localStorage hoặc API
-      const savedCategories = localStorage.getItem('categories');
-      if (savedCategories) {
-        setCategories(JSON.parse(savedCategories));
-      }
+      const data = await categoryService.getCategoriesWithCounts();
+      setCategories(data.categories || []);
     } catch (error) {
       console.error('Error loading categories:', error);
     }
@@ -64,25 +62,17 @@ const ManagerCategories = () => {
 
     try {
       setLoading(true);
-      let updatedCategories;
 
       if (editingId) {
-        updatedCategories = categories.map(c =>
-          c._id === editingId
-            ? { ...c, name: categoryName }
-            : c
-        );
+        await categoryService.updateCategory(editingId, { name: categoryName });
+        setSuccessMessage('Cập nhật thể loại thành công!');
       } else {
-        updatedCategories = [
-          ...categories,
-          { _id: Date.now().toString(), name: categoryName, storyCount: 0 }
-        ];
+        await categoryService.createCategory({ name: categoryName });
+        setSuccessMessage('Thêm thể loại thành công!');
       }
 
-      setCategories(updatedCategories);
-      localStorage.setItem('categories', JSON.stringify(updatedCategories));
       setShowAddModal(false);
-      setSuccessMessage(editingId ? 'Cập nhật thể loại thành công!' : 'Thêm thể loại thành công!');
+      await loadCategories();
       setTimeout(() => setSuccessMessage(''), 3000);
     } catch (error) {
       console.error('Error saving category:', error);
@@ -99,10 +89,9 @@ const ManagerCategories = () => {
 
   const confirmDelete = async () => {
     try {
-      const updatedCategories = categories.filter(c => c._id !== deleteId);
-      setCategories(updatedCategories);
-      localStorage.setItem('categories', JSON.stringify(updatedCategories));
+      await categoryService.deleteCategory(deleteId);
       setSuccessMessage('Xóa thể loại thành công!');
+      await loadCategories();
       setTimeout(() => setSuccessMessage(''), 3000);
       setShowDeleteModal(false);
     } catch (error) {
