@@ -45,10 +45,17 @@ export const authService = {
 
   // Đổi mật khẩu
   changePassword: async (passwords) => {
-    const token = authService.getToken();
+    // IMPORTANT: Use user token, not manager token for auth endpoints
+    const userToken = localStorage.getItem('token');
+    console.log('🔍 changePassword - User Token:', userToken ? userToken.substring(0, 20) + '...' : 'NO TOKEN');
+    
+    if (!userToken) {
+      throw new Error('Chưa đăng nhập. Vui lòng đăng nhập lại.');
+    }
+    
     const response = await api.put('/auth/change-password', passwords, {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${userToken}`
       }
     });
     return response.data;
@@ -56,10 +63,15 @@ export const authService = {
 
   // Cập nhật profile
   updateProfile: async (profileData) => {
-    const token = authService.getToken();
+    // IMPORTANT: Use user token, not manager token for auth endpoints
+    const userToken = localStorage.getItem('token');
+    if (!userToken) {
+      throw new Error('Chưa đăng nhập. Vui lòng đăng nhập lại.');
+    }
+    
     const response = await api.put('/auth/profile', profileData, {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${userToken}`
       }
     });
     if (response.data) {
