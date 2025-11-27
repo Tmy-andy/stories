@@ -24,16 +24,36 @@ const ManagerUsers = () => {
   const [updatingRole, setUpdatingRole] = useState(false);
 
   useEffect(() => {
-    // Get current user role from token
-    const token = localStorage.getItem('managerToken');
-    if (token) {
+    // Get current user role from token (manager or user token if admin)
+    let role = 'manager';
+    
+    // First try manager token
+    const managerToken = localStorage.getItem('managerToken');
+    if (managerToken) {
       try {
-        const decoded = JSON.parse(atob(token.split('.')[1]));
-        setCurrentUserRole(decoded.role || 'manager');
+        const decoded = JSON.parse(atob(managerToken.split('.')[1]));
+        role = decoded.role || 'manager';
       } catch (e) {
-        setCurrentUserRole('manager');
+        // Fallback to user token if manager token is invalid
       }
     }
+    
+    // If manager token not found, check user token (for admin users)
+    if (role === 'manager') {
+      const userToken = localStorage.getItem('token');
+      if (userToken) {
+        try {
+          const decoded = JSON.parse(atob(userToken.split('.')[1]));
+          if (decoded.role === 'admin') {
+            role = 'admin';
+          }
+        } catch (e) {
+          role = 'manager';
+        }
+      }
+    }
+    
+    setCurrentUserRole(role);
     loadUsers();
   }, [pageInfo.page, filterRole, filterStatus, searchTerm, sortBy, sortOrder]);
 

@@ -20,16 +20,25 @@ const verifyManagerToken = (req, res, next) => {
             process.env.JWT_SECRET || 'your-secret-key-change-in-production'
         );
 
-        // Kiểm tra xem token có phải của manager hoặc admin không
-        if (decoded.type !== 'manager' || (decoded.role !== 'manager' && decoded.role !== 'admin')) {
+        // Accept both:
+        // 1. Manager/Admin tokens: { type: 'manager', role: 'manager|admin' }
+        // 2. Admin user tokens: { id: userId, role: 'admin' } from regular login
+        const isManagerToken = decoded.type === 'manager' && (decoded.role === 'manager' || decoded.role === 'admin');
+        const isAdminUserToken = decoded.role === 'admin' && decoded.id;
+
+        if (!isManagerToken && !isAdminUserToken) {
             return res.status(403).json({
                 success: false,
                 message: 'Bạn không có quyền truy cập'
             });
         }
 
-        // Gắn thông tin manager/admin vào request
-        req.user = decoded;
+        // Gắn thông tin vào request
+        req.user = {
+            id: decoded.id || decoded.id,
+            role: decoded.role,
+            type: decoded.type || 'user'
+        };
         next();
 
     } catch (error) {
