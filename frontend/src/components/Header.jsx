@@ -16,8 +16,8 @@ const Header = () => {
     const currentUser = authService.getCurrentUser();
     setUser(currentUser);
     
-    // Check if user is the admin/manager
-    if (currentUser && currentUser.email === 'tmy300803@gmail.com') {
+    // Check if user is admin or manager
+    if (currentUser && (currentUser.role === 'admin' || currentUser.role === 'manager')) {
       setIsManager(true);
     }
   }, []);
@@ -86,6 +86,9 @@ const Header = () => {
                   </span>
                   {user.role === 'admin' && (
                     <span className="px-2 py-0.5 bg-primary/20 text-primary text-xs font-bold rounded">ADMIN</span>
+                  )}
+                  {user.role === 'manager' && (
+                    <span className="px-2 py-0.5 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 text-xs font-bold rounded">MANAGER</span>
                   )}
                 </button>
 

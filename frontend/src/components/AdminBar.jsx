@@ -12,8 +12,8 @@ const AdminBar = () => {
     const currentUser = authService.getCurrentUser();
     setUser(currentUser);
     
-    // Check if user is the admin/manager (tmy300803@gmail.com)
-    if (currentUser && currentUser.email === 'tmy300803@gmail.com') {
+    // Check if user is admin or manager
+    if (currentUser && (currentUser.role === 'admin' || currentUser.role === 'manager')) {
       setIsManager(true);
     }
   }, []);
@@ -29,7 +29,7 @@ const AdminBar = () => {
       <div className="container mx-auto px-4 flex items-center justify-between w-full">
         <div className="flex items-center gap-4">
           <span className="text-white text-xs font-medium">
-            {isOnManagerPage ? 'Manager' : 'Frontend'}
+            {isOnManagerPage ? (user?.role === 'admin' ? 'Admin' : 'Manager') : 'Frontend'}
           </span>
         </div>
 

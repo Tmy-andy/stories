@@ -3,6 +3,7 @@ import { managerAPI } from '../../services/managerAPI';
 import { Users, Search, Edit2, Trash2, Lock, Unlock, AlertCircle, Loader } from 'lucide-react';
 import ManagerLayout from '../../components/manager/ManagerLayout';
 import { MedalIcon, calculateLevel, AdminVerifiedIcon } from '../../utils/tierSystem';
+import { authService } from '../../services/authService';
 
 const ManagerUsers = () => {
   const [users, setUsers] = useState([]);
@@ -24,20 +25,9 @@ const ManagerUsers = () => {
   const [updatingRole, setUpdatingRole] = useState(false);
 
   useEffect(() => {
-    // Get current user role from manager token (or admin token)
-    let role = 'manager';
-    
-    const managerToken = localStorage.getItem('managerToken');
-    if (managerToken) {
-      try {
-        const decoded = JSON.parse(atob(managerToken.split('.')[1]));
-        role = decoded.role || 'manager';
-      } catch (e) {
-        console.log('Invalid manager token');
-        role = 'manager';
-      }
-    }
-    
+    // Get current user role from user object
+    const user = authService.getCurrentUser();
+    let role = user?.role || 'manager';
     setCurrentUserRole(role);
     loadUsers();
   }, [pageInfo.page, filterRole, filterStatus, searchTerm, sortBy, sortOrder]);
