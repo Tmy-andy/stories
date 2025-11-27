@@ -27,10 +27,39 @@ const api = axios.create({
 // Add JWT token to requests
 api.interceptors.request.use(
   (config) => {
-    // Check for manager token first, then user token
+    // Check manager token, but only if it's still valid
+    let token = null;
+    
     const managerToken = localStorage.getItem('managerToken');
-    const userToken = localStorage.getItem('token');
-    const token = managerToken || userToken;
+    if (managerToken) {
+      try {
+        // Decode token to check expiration
+        const parts = managerToken.split('.');
+        const payload = JSON.parse(atob(parts[1]));
+        const now = Math.floor(Date.now() / 1000);
+        
+        // Use manager token only if not expired
+        if (payload.exp > now) {
+          token = managerToken;
+          console.log('✅ Using manager token (valid)');
+        } else {
+          console.log('⏰ Manager token expired, removing...');
+          localStorage.removeItem('managerToken');
+        }
+      } catch (e) {
+        console.log('❌ Invalid manager token format, removing...');
+        localStorage.removeItem('managerToken');
+      }
+    }
+    
+    // Fall back to user token if no valid manager token
+    if (!token) {
+      const userToken = localStorage.getItem('token');
+      if (userToken) {
+        token = userToken;
+        console.log('✅ Using user token');
+      }
+    }
     
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
