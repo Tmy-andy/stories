@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           {/* Brand Section */}
-          <div className="lg:col-span-1">
+          <div>
             <Link to="/" className="flex items-center gap-3 text-primary mb-4">
               <div className="w-10 h-10">
                 <img src={logo} alt="Logo" className="w-full h-full object-contain" />
