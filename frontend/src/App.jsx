@@ -31,10 +31,8 @@ import ManagerDashboard from './pages/manager/ManagerDashboard';
 import ManagerStories from './pages/manager/ManagerStories';
 import ManagerUsers from './pages/manager/ManagerUsers';
 import ManagerAuthors from './pages/manager/ManagerAuthors';
-import ManagerComments from './pages/manager/ManagerComments';
 import ManagerContacts from './pages/manager/ManagerContacts';
 import ManagerSettings from './pages/manager/ManagerSettings';
-import ManagerMemberLevels from './pages/manager/ManagerMemberLevels';
 import ManagerCategories from './pages/manager/ManagerCategories';
 import './index.css';
 
@@ -49,10 +47,8 @@ function App() {
         <Route path="/manager/stories" element={<ManagerStories />} />
         <Route path="/manager/users" element={<ManagerUsers />} />
         <Route path="/manager/authors" element={<ManagerAuthors />} />
-        <Route path="/manager/comments" element={<ManagerComments />} />
         <Route path="/manager/contacts" element={<ManagerContacts />} />
         <Route path="/manager/settings" element={<ManagerSettings />} />
-        <Route path="/manager/levels" element={<ManagerMemberLevels />} />
         <Route path="/manager/categories" element={<ManagerCategories />} />
 
         {/* Admin routes - full layout without Header/Footer/padding */}

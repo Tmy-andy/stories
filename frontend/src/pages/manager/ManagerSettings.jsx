@@ -2,19 +2,30 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authService } from '../../services/authService';
 import ManagerLayout from '../../components/manager/ManagerLayout';
+import settingsService from '../../services/settingsService';
 
 const ManagerSettings = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [pageLoading, setPageLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('general');
+  const [bannerFile, setBannerFile] = useState(null);
   const [settings, setSettings] = useState({
-    siteTitle: 'Lam điệp cô ảnh',
-    tagline: 'Nơi những câu chuyện bắt đầu',
-    bannerTitle: 'Welcome to Our Story World',
-    bannerButtonText: 'Start Reading',
-    contactEmail: 'admin@lamdiepcoanh.com',
+    siteTitle: '',
+    tagline: '',
+    siteDescription: '',
+    contactEmail: '',
+    bannerTitle: '',
+    bannerSubtitle: '',
+    bannerButtonText: '',
+    bannerImage: null,
     maintenanceMode: false,
+    requireEmailVerification: true,
     maxStoriesPerUser: 10,
+    maxChaptersPerStory: 1000,
+    enableComments: true,
+    enableFavorites: true,
+    enableReadingHistory: true,
   });
   const [successMessage, setSuccessMessage] = useState('');
 
@@ -23,7 +34,20 @@ const ManagerSettings = () => {
     if (!manager) {
       navigate('/manager/login');
     }
+    loadSettings();
   }, [navigate]);
+
+  const loadSettings = async () => {
+    try {
+      setPageLoading(true);
+      const response = await settingsService.getSettings();
+      setSettings(response.data || {});
+    } catch (error) {
+      console.error('Error loading settings:', error);
+    } finally {
+      setPageLoading(false);
+    }
+  };
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -33,24 +57,51 @@ const ManagerSettings = () => {
     }));
   };
 
+  const handleBannerImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setBannerFile(file);
+    }
+  };
+
   const handleSave = async () => {
     try {
       setLoading(true);
-      // Lưu settings vào localStorage hoặc API
-      localStorage.setItem('siteSettings', JSON.stringify(settings));
+
+      // Upload banner image if selected
+      if (bannerFile) {
+        const uploadResponse = await settingsService.uploadBannerImage(bannerFile);
+        settings.bannerImage = uploadResponse.bannerImage;
+        setBannerFile(null);
+      }
+
+      // Save settings to API
+      const response = await settingsService.updateSettings(settings);
+      setSettings(response.data);
       setSuccessMessage('Lưu cài đặt thành công!');
       setTimeout(() => setSuccessMessage(''), 3000);
     } catch (error) {
       console.error('Error saving settings:', error);
-      alert('Lỗi khi lưu cài đặt');
+      alert('Lỗi khi lưu cài đặt: ' + (error.response?.data?.message || error.message));
     } finally {
       setLoading(false);
     }
   };
 
+  if (pageLoading) {
+    return (
+      <ManagerLayout>
+        <div className="space-y-4">
+          <div className="h-10 bg-gray-200 dark:bg-[#2A2640] rounded w-1/4 animate-pulse" />
+          <div className="h-96 bg-gray-200 dark:bg-[#2A2640] rounded animate-pulse" />
+        </div>
+      </ManagerLayout>
+    );
+  }
+
   return (
     <ManagerLayout>
-      <div className="w-full max-w-4xl mx-auto">
+      <div className="w-full mx-auto">
         {/* Header */}
         <header className="flex flex-wrap justify-between gap-4 items-center mb-8">
             <div className="flex flex-col gap-2">
@@ -186,6 +237,33 @@ const ManagerSettings = () => {
                         onChange={handleInputChange}
                         className="w-full px-4 py-2 rounded-lg border border-neutral-border-light dark:border-neutral-border-dark bg-background-light dark:bg-background-dark text-neutral-text-light dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50"
                       />
+                    </label>
+                  </div>
+                  
+                  <div className="border-t border-neutral-border-light dark:border-neutral-border-dark pt-6">
+                    <h3 className="text-lg font-semibold text-neutral-text-light dark:text-white mb-4">
+                      Ảnh Banner
+                    </h3>
+                    {settings.bannerImage && (
+                      <div className="mb-4">
+                        <img src={settings.bannerImage} alt="Banner preview" className="w-full h-48 object-cover rounded-lg" />
+                      </div>
+                    )}
+                    <label className="flex flex-col">
+                      <p className="text-neutral-text-light dark:text-white text-base font-medium leading-normal pb-2">
+                        Tải Lên Ảnh Banner Mới
+                      </p>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleBannerImageChange}
+                        className="w-full px-4 py-2 rounded-lg border border-neutral-border-light dark:border-neutral-border-dark bg-background-light dark:bg-background-dark text-neutral-text-light dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50"
+                      />
+                      {bannerFile && (
+                        <p className="text-sm text-primary mt-2">
+                          ✓ File được chọn: {bannerFile.name}
+                        </p>
+                      )}
                     </label>
                   </div>
                 </div>

@@ -25,10 +25,8 @@ const ManagerTopBar = ({ currentPage }) => {
     { label: 'Tổng quan', icon: 'dashboard', path: '/manager/dashboard' },
     { label: 'Quản lý truyện', icon: 'auto_stories', path: '/manager/stories' },
     { label: 'Người dùng', icon: 'group', path: '/manager/users' },
-    { label: 'Bình luận', icon: 'chat_bubble', path: '/manager/comments' },
     { label: 'Liên hệ', icon: 'mail', path: '/manager/contacts' },
     { label: 'Thể loại', icon: 'sell', path: '/manager/categories' },
-    { label: 'Cấp độ', icon: 'workspace_premium', path: '/manager/levels' },
     { label: 'Cài đặt', icon: 'settings', path: '/manager/settings' },
   ];
 

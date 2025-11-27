@@ -61,6 +61,7 @@ const contactRoutes = require('./routes/contact');
 const categoryRoutes = require('./routes/categories');
 const managerAuthRoutes = require('./routes/manager');
 const managerAPIRoutes = require('./routes/managerAPI');
+const settingsRoutes = require('./routes/settings');
 
 // Routes
 app.use('/api/stories', storyRoutes);
@@ -74,6 +75,7 @@ app.use('/api/contact', contactRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/manager', managerAuthRoutes);
 app.use('/api/manager', managerAPIRoutes);
+app.use('/api/settings', settingsRoutes);
 
 // Route mặc định
 app.get('/', (req, res) => {
