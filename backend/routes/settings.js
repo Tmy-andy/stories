@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const settingsController = require('../controllers/settingsController');
-const managerAuth = require('../middleware/managerAuth');
+const { verifyManagerToken } = require('../middleware/managerAuth');
 const multer = require('multer');
 const path = require('path');
 
@@ -22,7 +22,7 @@ const upload = multer({ storage });
 router.get('/', settingsController.getSettings);
 
 // Admin/Manager only routes
-router.patch('/', managerAuth, settingsController.updateSettings);
-router.post('/upload-banner', managerAuth, upload.single('bannerImage'), settingsController.uploadBannerImage);
+router.patch('/', verifyManagerToken, settingsController.updateSettings);
+router.post('/upload-banner', verifyManagerToken, upload.single('bannerImage'), settingsController.uploadBannerImage);
 
 module.exports = router;
