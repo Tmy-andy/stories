@@ -64,6 +64,15 @@ api.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+    
+    // Also add X-User-Token header if we have a user token and manager token
+    // This allows backend to get user ID from user token when manager token is being used
+    const userToken = localStorage.getItem('token');
+    if (userToken && token === managerToken) {
+      config.headers['X-User-Token'] = userToken;
+      console.log('ℹ️ Added X-User-Token for user context');
+    }
+    
     return config;
   },
   (error) => {

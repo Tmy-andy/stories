@@ -16,6 +16,19 @@ const authMiddleware = (req, res, next) => {
     console.log('✅ Token decoded:', decoded);
     
     req.user = decoded;
+    
+    // If manager token doesn't have user ID, try to get it from X-User-Token header
+    if (!req.user.id && req.header('X-User-Token')) {
+      try {
+        const userToken = req.header('X-User-Token');
+        const userDecoded = jwt.verify(userToken, process.env.JWT_SECRET || 'your-secret-key');
+        req.user.id = userDecoded.id;
+        console.log('ℹ️ Got user ID from X-User-Token:', userDecoded.id);
+      } catch (e) {
+        console.log('⚠️ X-User-Token is invalid or expired');
+      }
+    }
+    
     next();
   } catch (error) {
     console.log('❌ Token verification error:', error.message);
