@@ -34,22 +34,21 @@ const ManagerUsers = () => {
         const decoded = JSON.parse(atob(managerToken.split('.')[1]));
         role = decoded.role || 'manager';
       } catch (e) {
-        // Fallback to user token if manager token is invalid
+        console.log('Invalid manager token');
       }
     }
     
-    // If manager token not found, check user token (for admin users)
-    if (role === 'manager') {
-      const userToken = localStorage.getItem('token');
-      if (userToken) {
-        try {
-          const decoded = JSON.parse(atob(userToken.split('.')[1]));
-          if (decoded.role === 'admin') {
-            role = 'admin';
-          }
-        } catch (e) {
-          role = 'manager';
+    // Also check user token (for admin users accessing manager)
+    const userToken = localStorage.getItem('token');
+    if (userToken && role === 'manager') {
+      try {
+        const decoded = JSON.parse(atob(userToken.split('.')[1]));
+        if (decoded.role === 'admin') {
+          role = 'admin';
+          console.log('Admin user accessing manager with user token');
         }
+      } catch (e) {
+        console.log('Invalid user token');
       }
     }
     
