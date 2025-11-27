@@ -287,9 +287,11 @@ const ManagerUsers = () => {
                       <div className="flex items-center gap-2">
                         {user.role === 'admin' ? (
                           <MedalIcon level="Admin" size={18} />
+                        ) : user.role === 'manager' ? (
+                          <MedalIcon level="Manager" size={18} />
                         ) : (user.membershipPoints || 0) > 0 ? (
                           <>
-                            <MedalIcon level={calculateLevel(user.membershipPoints || 0)} size={18} />
+                            <MedalIcon level={calculateLevel(user.membershipPoints || 0)} size={18} role={user.role} />
                             <span className="text-xs font-medium capitalize">
                               {['Đồng', 'Bạc', 'Vàng', 'Kim Cương'][calculateLevel(user.membershipPoints || 0)]}
                             </span>

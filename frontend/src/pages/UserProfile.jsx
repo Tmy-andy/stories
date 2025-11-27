@@ -330,7 +330,7 @@ function UserProfile() {
                         Tên đăng nhập:
                       </p>
                       <div className="flex items-center gap-2 text-sm text-gray-900 dark:text-gray-300">
-                        <MedalIcon level={calculateLevel(user.membershipPoints || 0)} size={16} />
+                        <MedalIcon level={calculateLevel(user.membershipPoints || 0)} size={16} role={user.role} />
                         <p>@{user.username}</p>
                       </div>
                     </div>

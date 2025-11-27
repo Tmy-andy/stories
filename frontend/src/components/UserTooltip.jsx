@@ -34,7 +34,7 @@ const UserTooltip = ({ profile, children, placement = 'top' }) => {
             {profile.role === 'admin' ? (
               <AdminVerifiedIcon size={14} />
             ) : (
-              <MedalIcon level={calculateLevel(profile.membershipPoints || 0)} size={14} />
+              <MedalIcon level={calculateLevel(profile.membershipPoints || 0)} size={14} role={profile.role} />
             )}
             <span className="font-semibold">{profile.displayName || profile.username}</span>
           </div>

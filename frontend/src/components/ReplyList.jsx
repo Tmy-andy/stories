@@ -58,7 +58,7 @@ const ReplyList = ({ commentId, replies, onReplyAdded, onReplyDeleted }) => {
                   {reply.userId?.role === 'admin' ? (
                     <AdminVerifiedIcon size={14} />
                   ) : (
-                    <MedalIcon level={calculateLevel(reply.userId?.membershipPoints || 0)} size={14} />
+                    <MedalIcon level={calculateLevel(reply.userId?.membershipPoints || 0)} size={14} role={reply.userId?.role} />
                   )}
                 </div>
                 {reply.userId && typeof reply.userId === 'object' && reply.userId._id ? (

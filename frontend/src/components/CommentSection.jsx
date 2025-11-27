@@ -130,7 +130,7 @@ const CommentSection = ({ storyId, chapterId }) => {
                       {comment.userId?.role === 'admin' ? (
                         <AdminVerifiedIcon size={16} />
                       ) : (
-                        <MedalIcon level={calculateLevel(comment.userId?.membershipPoints || 0)} size={16} />
+                        <MedalIcon level={calculateLevel(comment.userId?.membershipPoints || 0)} size={16} role={comment.userId?.role} />
                       )}
                     </div>
                     <UserTooltip profile={comment.userId} placement="right">
