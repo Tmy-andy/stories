@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { managerAPI } from '../../services/managerAPI';
 import { Users, Search, Edit2, Trash2, Lock, Unlock, AlertCircle, Loader } from 'lucide-react';
 import ManagerLayout from '../../components/manager/ManagerLayout';
-import { MedalIcon, calculateLevel } from '../../utils/tierSystem';
+import { MedalIcon, calculateLevel, AdminVerifiedIcon } from '../../utils/tierSystem';
 
 const ManagerUsers = () => {
   const [users, setUsers] = useState([]);
@@ -286,12 +286,12 @@ const ManagerUsers = () => {
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-2">
                         {user.role === 'admin' ? (
-                          <MedalIcon level="Admin" size={18} />
+                          <AdminVerifiedIcon size={18} />
                         ) : user.role === 'manager' ? (
                           <MedalIcon level="Manager" size={18} />
                         ) : (user.membershipPoints || 0) > 0 ? (
                           <>
-                            <MedalIcon level={calculateLevel(user.membershipPoints || 0)} size={18} role={user.role} />
+                            <MedalIcon level={calculateLevel(user.membershipPoints || 0)} size={18} />
                             <span className="text-xs font-medium capitalize">
                               {['Đồng', 'Bạc', 'Vàng', 'Kim Cương'][calculateLevel(user.membershipPoints || 0)]}
                             </span>

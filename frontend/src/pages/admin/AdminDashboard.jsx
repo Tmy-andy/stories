@@ -80,7 +80,7 @@ function AdminDashboard() {
         <div className="flex flex-col gap-8">
           {/* User Profile */}
           <div className="flex flex-col">
-            <div className="flex items-center gap-3 px-3 py-2">
+            <div className="flex items-center gap-3 px-3 py-2 mt-6">
               <div className="bg-primary text-white rounded-full w-10 h-10 flex items-center justify-center text-lg font-bold">
                 {user.username?.charAt(0).toUpperCase() || 'A'}
               </div>

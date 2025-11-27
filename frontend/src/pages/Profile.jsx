@@ -88,7 +88,7 @@ function Profile() {
   return (
     <div className="max-w-4xl mx-auto">
       {/* User Info Section */}
-      <div className="flex flex-col p-4 border-b border-gray-200 dark:border-white/10">
+      <div className="flex flex-col p-4 border-b border-gray-200 dark:border-white/10 mt-6">
         <div className="flex w-full flex-col gap-4 sm:flex-row sm:justify-between sm:items-center">
           <div className="flex gap-4">
             <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-primary text-white flex items-center justify-center text-4xl font-bold overflow-hidden">
