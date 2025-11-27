@@ -275,12 +275,12 @@ const Stories = () => {
                 <p className="text-text-light dark:text-white text-base font-medium leading-normal group-hover:text-primary dark:group-hover:text-primary/90 transition-colors">{story.title}</p>
                 <p className="text-text-muted-light dark:text-text-muted-dark text-sm font-normal leading-normal">{story.author}</p>
                 <div className="flex items-center gap-2 mt-1">
-                  <span className="text-xs text-gray-500 dark:text-gray-400">
+                  {/* <span className="text-xs text-gray-500 dark:text-gray-400">
                     {Array.isArray(story.category) 
                       ? story.category.map(c => c.name || c).join(', ')
                       : story.category}
                   </span>
-                  <span className="text-xs text-gray-500 dark:text-gray-400">•</span>
+                  <span className="text-xs text-gray-500 dark:text-gray-400">•</span> */}
                   <span className="text-xs text-gray-500 dark:text-gray-400">{getStatusLabel(story.status)}</span>
                 </div>
               </div>
