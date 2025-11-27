@@ -105,7 +105,15 @@ exports.changePassword = async (req, res) => {
   try {
     const { currentPassword, newPassword } = req.body;
     
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({ message: 'Không tìm thấy thông tin người dùng. Vui lòng đăng nhập lại' });
+    }
+
     const user = await User.findById(req.user.id);
+    
+    if (!user) {
+      return res.status(404).json({ message: 'Người dùng không tồn tại' });
+    }
     
     // Kiểm tra mật khẩu hiện tại
     const isMatch = await user.comparePassword(currentPassword);
