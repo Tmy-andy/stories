@@ -196,7 +196,10 @@ const ManagerUsers = () => {
       {/* Header */}
       <div className="flex flex-wrap justify-between items-center gap-4 mb-6">
         <div className="flex flex-col gap-1">
-          <h1 className="text-gray-900 dark:text-white text-3xl font-bold">Quản lý người dùng</h1>
+          <div className="flex items-center gap-2">
+            {currentUserRole === 'manager' && <MedalIcon level="Manager" size={28} />}
+            <h1 className="text-gray-900 dark:text-white text-3xl font-bold">Quản lý người dùng</h1>
+          </div>
           <p className="text-gray-600 dark:text-gray-400 text-base">Xem, tìm kiếm, và quản lý tất cả người dùng</p>
         </div>
       </div>
