@@ -16,7 +16,7 @@ const Categories = () => {
     try {
       setLoading(true);
       const data = await categoryService.getCategoriesWithCounts();
-      setCategories(data);
+      setCategories(data.categories || []);
     } catch (error) {
       console.error('Error loading categories:', error);
     } finally {
