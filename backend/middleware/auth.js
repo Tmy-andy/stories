@@ -3,18 +3,12 @@ const jwt = require('jsonwebtoken');
 const authMiddleware = (req, res, next) => {
   try {
     const token = req.header('Authorization')?.replace('Bearer ', '');
-    
-    console.log('🔍 Auth Middleware - Authorization header:', req.header('Authorization'));
-    console.log('🔍 Token:', token ? token.substring(0, 20) + '...' : 'NO TOKEN');
 
     if (!token) {
-      console.log('❌ No token found');
       return res.status(401).json({ message: 'Không tìm thấy token xác thực' });
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key');
-    console.log('✅ Token decoded:', decoded);
-    
     req.user = decoded;
     
     // If manager token doesn't have user ID, try to get it from X-User-Token header
@@ -23,15 +17,13 @@ const authMiddleware = (req, res, next) => {
         const userToken = req.header('X-User-Token');
         const userDecoded = jwt.verify(userToken, process.env.JWT_SECRET || 'your-secret-key');
         req.user.id = userDecoded.id;
-        console.log('ℹ️ Got user ID from X-User-Token:', userDecoded.id);
       } catch (e) {
-        console.log('⚠️ X-User-Token is invalid or expired');
+        // X-User-Token is invalid or expired, continue with current token
       }
     }
     
     next();
   } catch (error) {
-    console.log('❌ Token verification error:', error.message);
     res.status(401).json({ message: 'Token không hợp lệ' });
   }
 };

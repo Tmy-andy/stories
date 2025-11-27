@@ -51,8 +51,7 @@ exports.createComment = async (req, res) => {
 
     res.status(201).json(populatedComment);
   } catch (error) {
-    console.error('Error creating comment:', error);
-    res.status(500).json({ message: error.message, details: error.stack });
+    res.status(500).json({ message: error.message });
   }
 };
 
