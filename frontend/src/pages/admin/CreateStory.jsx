@@ -3,35 +3,46 @@ import { Link, useNavigate } from 'react-router-dom';
 import { authService } from '../../services/authService';
 import { createStory } from '../../services/storyService';
 import { MedalIcon, calculateLevel } from '../../utils/tierSystem';
+import categoryService from '../../services/categoryService';
 
 function CreateStory() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [categories, setCategories] = useState([]);
   const [formData, setFormData] = useState({
     title: '',
     author: '',
     description: '',
     coverImage: '',
-    category: ['Tiên hiệp'],
+    category: [],
     status: 'publishing',
     featured: false
   });
   const navigate = useNavigate();
 
-  const categories = [
-    'Tiên hiệp',
-    'Kiếm hiệp',
-    'Huyền huyễn',
-    'Ngôn tình',
-    'Đô thị',
-    'Khoa huyễn',
-    'Lịch sử',
-    'Đồng nhân',
-    'Linh dị'
-  ];
-
   const statuses = ['Đang ra', 'Hoàn thành', 'Tạm dừng'];
+
+  useEffect(() => {
+    loadCategories();
+  }, []);
+
+  const loadCategories = async () => {
+    try {
+      const data = await categoryService.getCategories();
+      const categoryList = data.categories || [];
+      setCategories(categoryList);
+      // Set default to first category
+      if (categoryList.length > 0) {
+        setFormData(prevData => ({
+          ...prevData,
+          category: [categoryList[0]]
+        }));
+      }
+    } catch (error) {
+      console.error('Error loading categories:', error);
+    }
+  };
 
   useEffect(() => {
     const currentUser = authService.getCurrentUser();

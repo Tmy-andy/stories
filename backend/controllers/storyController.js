@@ -160,3 +160,35 @@ exports.getLatestStories = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+// Lấy danh sách categories với số lượng stories cho mỗi category
+exports.getCategories = async (req, res) => {
+  try {
+    const categories = [
+      'Tiên hiệp',
+      'Kiếm hiệp',
+      'Huyền huyễn',
+      'Ngôn tình',
+      'Đô thị',
+      'Khoa huyễn',
+      'Lịch sử',
+      'Đồng nhân',
+      'Linh dị'
+    ];
+
+    const categoryCounts = {};
+    for (const category of categories) {
+      const count = await Story.countDocuments({
+        category: { $in: [category] }
+      });
+      categoryCounts[category] = count;
+    }
+
+    res.json({
+      categories,
+      counts: categoryCounts
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

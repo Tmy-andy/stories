@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { getAllStories } from '../services/storyService';
 import { favoriteService } from '../services/favoriteService';
 import { authService } from '../services/authService';
+import categoryService from '../services/categoryService';
 
 const Stories = () => {
   const [stories, setStories] = useState([]);
@@ -14,19 +15,8 @@ const Stories = () => {
   const [searchParams] = useSearchParams();
   const [showCategoryFilter, setShowCategoryFilter] = useState(false);
   const [categorySearch, setCategorySearch] = useState('');
+  const [categories, setCategories] = useState([]);
   const user = authService.getCurrentUser();
-
-  const categories = [
-    'Tiên hiệp',
-    'Kiếm hiệp',
-    'Huyền huyễn',
-    'Ngôn tình',
-    'Đô thị',
-    'Khoa huyễn',
-    'Lịch sử',
-    'Đồng nhân',
-    'Linh dị'
-  ];
 
   const getStatusLabel = (status) => {
     const statusMap = {
@@ -37,6 +27,20 @@ const Stories = () => {
       dropped: 'Ngừng xuất bản'
     };
     return statusMap[status] || status;
+  };
+
+  // Load categories from API
+  useEffect(() => {
+    loadCategories();
+  }, []);
+
+  const loadCategories = async () => {
+    try {
+      const data = await categoryService.getCategories();
+      setCategories(data.categories || []);
+    } catch (error) {
+      console.error('Error loading categories:', error);
+    }
   };
 
   // Load từ URL params khi component mount

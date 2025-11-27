@@ -1,56 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import categoryService from '../services/categoryService';
 
 const Categories = () => {
   const navigate = useNavigate();
+  const [categories, setCategories] = useState([]);
   const [categoryCounts, setCategoryCounts] = useState({});
   const [loading, setLoading] = useState(true);
 
-  const categories = [
-    'Tiên hiệp',
-    'Kiếm hiệp',
-    'Huyền huyễn',
-    'Ngôn tình',
-    'Đô thị',
-    'Khoa huyễn',
-    'Lịch sử',
-    'Đồng nhân',
-    'Linh dị'
-  ];
-
   useEffect(() => {
-    loadCategoryCounts();
+    loadCategories();
   }, []);
 
-  const loadCategoryCounts = async () => {
+  const loadCategories = async () => {
     try {
       setLoading(true);
-      // Fetch từ API để lấy số lượng truyện theo thể loại
-      const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001/api';
-      const response = await fetch(`${API_URL}/stories`);
-      const stories = await response.json();
-
-      // Đếm số truyện theo thể loại
-      const counts = {};
-      categories.forEach(cat => counts[cat] = 0);
-      
-      stories.forEach(story => {
-        if (Array.isArray(story.category)) {
-          story.category.forEach(cat => {
-            if (counts.hasOwnProperty(cat)) {
-              counts[cat]++;
-            }
-          });
-        } else if (story.category) {
-          if (counts.hasOwnProperty(story.category)) {
-            counts[story.category]++;
-          }
-        }
-      });
-
-      setCategoryCounts(counts);
+      const data = await categoryService.getCategories();
+      setCategories(data.categories || []);
+      setCategoryCounts(data.counts || {});
     } catch (error) {
-      console.error('Error loading category counts:', error);
+      console.error('Error loading categories:', error);
     } finally {
       setLoading(false);
     }

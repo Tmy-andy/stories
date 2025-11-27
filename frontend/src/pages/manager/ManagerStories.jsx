@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { managerAPI } from '../../services/managerAPI';
 import { BookOpen, Search, Edit2, Trash2, Eye, EyeOff, AlertCircle, Loader, X, Plus, Folder } from 'lucide-react';
 import ManagerLayout from '../../components/manager/ManagerLayout';
+import categoryService from '../../services/categoryService';
 
 const ManagerStories = () => {
   const [stories, setStories] = useState([]);
@@ -11,6 +12,7 @@ const ManagerStories = () => {
   const [filterStatus, setFilterStatus] = useState('all');
   const [pageInfo, setPageInfo] = useState({ page: 1, totalPages: 1 });
   const [deleting, setDeleting] = useState(null);
+  const [categories, setCategories] = useState([]);
 
   // Modal states
   const [selectedStory, setSelectedStory] = useState(null);
@@ -27,8 +29,18 @@ const ManagerStories = () => {
   const [deletingChapter, setDeletingChapter] = useState(null);
 
   useEffect(() => {
+    loadCategories();
     loadStories();
   }, [pageInfo.page, filterStatus, searchTerm]);
+
+  const loadCategories = async () => {
+    try {
+      const data = await categoryService.getCategories();
+      setCategories(data.categories || []);
+    } catch (error) {
+      console.error('Error loading categories:', error);
+    }
+  };
 
   const loadStories = async () => {
     try {
@@ -673,6 +685,28 @@ const ManagerStories = () => {
                     className="w-full px-4 py-2 border border-gray-300 dark:border-[#3c3858] rounded-lg bg-white dark:bg-[#2A2640] text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 min-h-32"
                     placeholder="Nhập mô tả truyện..."
                   />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Thể loại</label>
+                  <div className="space-y-2 max-h-48 overflow-y-auto p-2 border border-gray-300 dark:border-[#3c3858] rounded-lg bg-white dark:bg-[#2A2640]">
+                    {categories.map((cat) => (
+                      <label key={cat} className="flex items-center gap-2 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={editingStory.category.includes(cat)}
+                          onChange={(e) => {
+                            const newCategory = e.target.checked
+                              ? [...editingStory.category, cat]
+                              : editingStory.category.filter(c => c !== cat);
+                            setEditingStory({...editingStory, category: newCategory});
+                          }}
+                          className="w-4 h-4 rounded border-gray-300 dark:border-[#3c3858] text-blue-600 focus:ring-2 focus:ring-blue-500"
+                        />
+                        <span className="text-sm text-gray-700 dark:text-gray-300">{cat}</span>
+                      </label>
+                    ))}
+                  </div>
                 </div>
 
                 <div>
