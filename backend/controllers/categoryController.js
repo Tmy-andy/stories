@@ -20,8 +20,9 @@ exports.getCategoriesWithCounts = async (req, res) => {
 
     const categoriesWithCounts = await Promise.all(
       categories.map(async (cat) => {
+        // Try to count stories where category contains this category ID
         const count = await Story.countDocuments({
-          category: { $in: [cat._id] }
+          category: cat._id
         });
         return {
           _id: cat._id,
