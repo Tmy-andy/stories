@@ -66,5 +66,10 @@ export const authService = {
       localStorage.setItem('user', JSON.stringify(response.data));
     }
     return response.data;
+  },
+
+  // Kiểm tra manager đã đăng nhập
+  getManager: () => {
+    return localStorage.getItem('managerToken');
   }
 };
