@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { authService } from '../../services/authService';
 import { getStoryById, updateStory } from '../../services/storyService';
 import { MedalIcon, calculateLevel } from '../../utils/tierSystem';
+import categoryService from '../../services/categoryService';
 
 function EditStory() {
   const { id } = useParams();
@@ -10,28 +11,17 @@ function EditStory() {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const [categories, setCategories] = useState([]);
   const [formData, setFormData] = useState({
     title: '',
     author: '',
     description: '',
     coverImage: '',
-    category: ['Tiên hiệp'],
+    category: [],
     status: 'publishing',
     featured: false
   });
   const navigate = useNavigate();
-
-  const categories = [
-    'Tiên hiệp',
-    'Kiếm hiệp',
-    'Huyền huyễn',
-    'Ngôn tình',
-    'Đô thị',
-    'Khoa huyễn',
-    'Lịch sử',
-    'Đồng nhân',
-    'Linh dị'
-  ];
 
   const statuses = [
     { label: 'Đang ra', value: 'publishing' },
@@ -44,7 +34,8 @@ function EditStory() {
   useEffect(() => {
     const currentUser = authService.getCurrentUser();
     if (!currentUser || currentUser.role !== 'admin') {
-      navigate('/');
+      setError('Bạn không có quyền truy cập trang này. Chỉ admin mới có thể chỉnh sửa truyện.');
+      setLoading(false);
       return;
     }
     setUser(currentUser);
@@ -53,8 +44,19 @@ function EditStory() {
       ...prevData,
       author: currentUser.username
     }));
+    loadCategories();
     loadStory();
   }, [id, navigate]);
+
+  const loadCategories = async () => {
+    try {
+      const data = await categoryService.getCategories();
+      setCategories(data.categories || []);
+    } catch (err) {
+      console.error('Error loading categories:', err);
+      setCategories([]);
+    }
+  };
 
   const loadStory = async () => {
     try {
@@ -293,21 +295,30 @@ function EditStory() {
                         Thể loại (có thể chọn nhiều)
                       </label>
                       <div className="flex flex-col gap-2 p-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
-                        {categories.map((cat) => (
-                          <label key={cat} className="flex items-center gap-2 cursor-pointer">
-                            <input
-                              type="checkbox"
-                              name="category"
-                              value={cat}
-                              checked={formData.category.includes(cat)}
-                              onChange={handleChange}
-                              className="w-4 h-4 rounded border-gray-300 dark:border-gray-700 text-primary focus:ring-primary"
-                            />
-                            <span className="text-text-light dark:text-text-dark text-sm">
-                              {cat}
-                            </span>
-                          </label>
-                        ))}
+                        {categories && categories.length > 0 ? (
+                          categories.map((cat) => (
+                            <label key={cat._id} className="flex items-center gap-2 cursor-pointer">
+                              <input
+                                type="checkbox"
+                                name="category"
+                                value={cat._id}
+                                checked={formData.category.includes(cat._id)}
+                                onChange={(e) => {
+                                  const newCategory = e.target.checked
+                                    ? [...formData.category, cat._id]
+                                    : formData.category.filter(c => c !== cat._id);
+                                  setFormData({...formData, category: newCategory});
+                                }}
+                                className="w-4 h-4 rounded border-gray-300 dark:border-gray-700 text-primary focus:ring-primary"
+                              />
+                              <span className="text-text-light dark:text-text-dark text-sm">
+                                {cat.name}
+                              </span>
+                            </label>
+                          ))
+                        ) : (
+                          <p className="text-gray-500 dark:text-gray-400 text-sm">Đang tải thể loại...</p>
+                        )}
                       </div>
                     </div>
 
