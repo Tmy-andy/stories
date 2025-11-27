@@ -69,8 +69,10 @@ const Header = () => {
                 >
                   {user.role === 'admin' ? (
                     <AdminVerifiedIcon size={18} />
+                  ) : user.role === 'manager' ? (
+                    <MedalIcon level="Manager" size={18} />
                   ) : (
-                    <MedalIcon level={calculateLevel(user.membershipPoints || 0)} size={18} role={user.role} />
+                    <MedalIcon level={calculateLevel(user.membershipPoints || 0)} size={18} />
                   )}
                   <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-bold overflow-hidden">
                     {user.avatar ? (

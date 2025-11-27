@@ -57,8 +57,10 @@ const ReplyList = ({ commentId, replies, onReplyAdded, onReplyDeleted }) => {
                 <div className="flex items-center gap-1">
                   {reply.userId?.role === 'admin' ? (
                     <AdminVerifiedIcon size={14} />
+                  ) : reply.userId?.role === 'manager' ? (
+                    <MedalIcon level="Manager" size={14} />
                   ) : (
-                    <MedalIcon level={calculateLevel(reply.userId?.membershipPoints || 0)} size={14} role={reply.userId?.role} />
+                    <MedalIcon level={calculateLevel(reply.userId?.membershipPoints || 0)} size={14} />
                   )}
                 </div>
                 {reply.userId && typeof reply.userId === 'object' && reply.userId._id ? (

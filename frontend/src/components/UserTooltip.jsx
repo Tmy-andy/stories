@@ -33,8 +33,10 @@ const UserTooltip = ({ profile, children, placement = 'top' }) => {
           <div className="flex items-center gap-2 mb-2">
             {profile.role === 'admin' ? (
               <AdminVerifiedIcon size={14} />
+            ) : profile.role === 'manager' ? (
+              <MedalIcon level="Manager" size={14} />
             ) : (
-              <MedalIcon level={calculateLevel(profile.membershipPoints || 0)} size={14} role={profile.role} />
+              <MedalIcon level={calculateLevel(profile.membershipPoints || 0)} size={14} />
             )}
             <span className="font-semibold">{profile.displayName || profile.username}</span>
           </div>

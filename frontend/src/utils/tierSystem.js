@@ -35,29 +35,7 @@ export const AdminVerifiedIcon = ({ size = 16 }) => {
 };
 
 // Medal icon component
-export const MedalIcon = ({ level, size = 16, role = null }) => {
-  // Nếu có role, kiểm tra manager trước admin
-  if (role === 'manager') {
-    const iconData = getLevelIcon('Manager');
-    if (iconData) {
-      return (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width={size}
-          height={size}
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          style={{ color: iconData.color }}
-          dangerouslySetInnerHTML={{ __html: iconData.svg }}
-        />
-      );
-    }
-  }
-  
+export const MedalIcon = ({ level, size = 16 }) => {
   const iconData = getLevelIcon(level);
   if (!iconData) return null;
 

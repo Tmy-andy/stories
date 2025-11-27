@@ -129,8 +129,10 @@ const CommentSection = ({ storyId, chapterId }) => {
                     <div className="flex items-center gap-1">
                       {comment.userId?.role === 'admin' ? (
                         <AdminVerifiedIcon size={16} />
+                      ) : comment.userId?.role === 'manager' ? (
+                        <MedalIcon level="Manager" size={16} />
                       ) : (
-                        <MedalIcon level={calculateLevel(comment.userId?.membershipPoints || 0)} size={16} role={comment.userId?.role} />
+                        <MedalIcon level={calculateLevel(comment.userId?.membershipPoints || 0)} size={16} />
                       )}
                     </div>
                     <UserTooltip profile={comment.userId} placement="right">

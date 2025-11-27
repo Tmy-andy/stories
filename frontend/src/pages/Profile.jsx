@@ -108,6 +108,13 @@ function Profile() {
                         {profile.displayName || profile.username}
                       </p>
                     </>
+                  ) : profile.role === 'manager' ? (
+                    <>
+                      <MedalIcon level="Manager" size={18} />
+                      <p className="text-gray-900 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em]">
+                        {profile.displayName || profile.username}
+                      </p>
+                    </>
                   ) : (
                     <>
                       <MedalIcon level={calculateLevel(profile.membershipPoints || 0)} size={18} />
@@ -238,6 +245,8 @@ function Profile() {
                         <div className="flex items-center gap-1">
                           {profile.role === 'admin' ? (
                             <AdminVerifiedIcon size={16} />
+                          ) : profile.role === 'manager' ? (
+                            <MedalIcon level="Manager" size={16} />
                           ) : (
                             <MedalIcon level={calculateLevel(profile.membershipPoints || 0)} size={16} />
                           )}
