@@ -268,19 +268,23 @@ function CreateStory() {
                     <label className="block text-text-light dark:text-text-dark text-sm font-medium mb-2">
                       Thể loại (có thể chọn nhiều)
                     </label>
-                    <div className="flex flex-col gap-2 p-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+                    <div className="flex flex-col gap-2 p-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 max-h-48 overflow-y-auto">
                       {categories.map((cat) => (
-                        <label key={cat} className="flex items-center gap-2 cursor-pointer">
+                        <label key={cat._id} className="flex items-center gap-2 cursor-pointer">
                           <input
                             type="checkbox"
-                            name="category"
-                            value={cat}
-                            checked={formData.category.includes(cat)}
-                            onChange={handleChange}
+                            value={cat._id}
+                            checked={formData.category.includes(cat._id)}
+                            onChange={(e) => {
+                              const newCategory = e.target.checked
+                                ? [...formData.category, cat._id]
+                                : formData.category.filter(c => c !== cat._id);
+                              setFormData({...formData, category: newCategory});
+                            }}
                             className="w-4 h-4 rounded border-gray-300 dark:border-gray-700 text-primary focus:ring-primary"
                           />
                           <span className="text-text-light dark:text-text-dark text-sm">
-                            {cat}
+                            {cat.name}
                           </span>
                         </label>
                       ))}

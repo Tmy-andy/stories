@@ -28,6 +28,8 @@ exports.getAllStories = async (req, res) => {
     }
 
     const stories = await Story.find(query)
+      .populate('category', 'name slug')
+      .populate('authorId', 'displayName username email')
       .sort({ updatedAt: -1 })
       .limit(limit * 1)
       .skip((page - 1) * limit)
@@ -59,7 +61,9 @@ exports.getStoryById = async (req, res) => {
       };
     }
     
-    const story = await Story.findOne(query).populate('authorId', 'displayName username email');
+    const story = await Story.findOne(query)
+      .populate('category', 'name slug')
+      .populate('authorId', 'displayName username email');
     
     if (!story) {
       console.log('Story not found');
@@ -140,6 +144,7 @@ exports.deleteStory = async (req, res) => {
 exports.getFeaturedStories = async (req, res) => {
   try {
     const stories = await Story.find({ featured: true })
+      .populate('category', 'name slug')
       .sort({ views: -1 })
       .limit(10);
     res.json(stories);
@@ -153,41 +158,10 @@ exports.getLatestStories = async (req, res) => {
   try {
     const limit = parseInt(req.query.limit) || 10;
     const stories = await Story.find()
+      .populate('category', 'name slug')
       .sort({ updatedAt: -1 })
       .limit(limit);
     res.json(stories);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-// Lấy danh sách categories với số lượng stories cho mỗi category
-exports.getCategories = async (req, res) => {
-  try {
-    const categories = [
-      'Tiên hiệp',
-      'Kiếm hiệp',
-      'Huyền huyễn',
-      'Ngôn tình',
-      'Đô thị',
-      'Khoa huyễn',
-      'Lịch sử',
-      'Đồng nhân',
-      'Linh dị'
-    ];
-
-    const categoryCounts = {};
-    for (const category of categories) {
-      const count = await Story.countDocuments({
-        category: { $in: [category] }
-      });
-      categoryCounts[category] = count;
-    }
-
-    res.json({
-      categories,
-      counts: categoryCounts
-    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

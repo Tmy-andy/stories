@@ -26,10 +26,9 @@ const storySchema = new mongoose.Schema({
     default: ''
   },
   category: {
-    type: [String],
-    required: true,
-    enum: ['Tiên hiệp', 'Kiếm hiệp', 'Huyền huyễn', 'Ngôn tình', 'Đô thị', 'Khoa huyễn', 'Lịch sử', 'Đồng nhân', 'Linh dị'],
-    default: ['Tiên hiệp']
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: 'Category',
+    required: true
   },
   status: {
     type: String,

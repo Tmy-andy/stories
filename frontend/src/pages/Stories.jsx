@@ -37,7 +37,7 @@ const Stories = () => {
   const loadCategories = async () => {
     try {
       const data = await categoryService.getCategories();
-      setCategories(data.categories || []);
+      setCategories(data);
     } catch (error) {
       console.error('Error loading categories:', error);
     }
@@ -182,21 +182,21 @@ const Stories = () => {
               {/* Category Checkboxes with Scrollbar */}
               <div className="max-h-64 overflow-y-auto">
                 {categories
-                  .filter(cat => cat.toLowerCase().includes(categorySearch.toLowerCase()))
+                  .filter(cat => cat.name.toLowerCase().includes(categorySearch.toLowerCase()))
                   .map((cat) => (
-                    <label key={cat} className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer transition-colors border-b border-gray-200 dark:border-gray-700 last:border-b-0">
+                    <label key={cat._id} className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer transition-colors border-b border-gray-200 dark:border-gray-700 last:border-b-0">
                       <input
                         type="checkbox"
-                        checked={selectedCategories.has(cat)}
-                        onChange={() => handleToggleCategory(cat)}
+                        checked={selectedCategories.has(cat._id)}
+                        onChange={() => handleToggleCategory(cat._id)}
                         className="w-4 h-4 rounded border-gray-300 dark:border-gray-700 text-primary focus:ring-primary"
                       />
                       <span className={`text-sm ${
-                        selectedCategories.has(cat)
+                        selectedCategories.has(cat._id)
                           ? 'text-primary font-medium'
                           : 'text-gray-700 dark:text-white'
                       }`}>
-                        {cat}
+                        {cat.name}
                       </span>
                     </label>
                   ))}

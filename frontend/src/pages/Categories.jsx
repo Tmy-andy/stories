@@ -15,9 +15,8 @@ const Categories = () => {
   const loadCategories = async () => {
     try {
       setLoading(true);
-      const data = await categoryService.getCategories();
-      setCategories(data.categories || []);
-      setCategoryCounts(data.counts || {});
+      const data = await categoryService.getCategoriesWithCounts();
+      setCategories(data);
     } catch (error) {
       console.error('Error loading categories:', error);
     } finally {
@@ -26,8 +25,8 @@ const Categories = () => {
   };
 
   const handleCategoryClick = (category) => {
-    // Chuyển đến trang Stories với category filter
-    navigate(`/stories?category=${encodeURIComponent(category)}`);
+    // Chuyển đến trang Stories với category filter (dùng category ID)
+    navigate(`/stories?category=${encodeURIComponent(category._id)}`);
   };
 
   return (
@@ -55,15 +54,15 @@ const Categories = () => {
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-6">
                 {categories.map((category) => (
                   <button
-                    key={category}
+                    key={category._id}
                     onClick={() => handleCategoryClick(category)}
                     className="group relative flex flex-row items-center justify-between overflow-hidden rounded-lg border border-gray-200 dark:border-white/10 bg-white dark:bg-[#1c182d] p-4 shadow-sm transition-all duration-300 hover:shadow-lg hover:border-primary dark:hover:border-primary hover:bg-primary/5 dark:hover:bg-primary/10 text-left"
                   >
                     <h2 className="text-base font-semibold text-gray-900 dark:text-white group-hover:text-primary transition-colors">
-                      {category}
+                      {category.name}
                     </h2>
                     <span className="text-sm text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-white/10 rounded-full px-2.5 py-0.5">
-                      {categoryCounts[category] || 0}
+                      {category.storyCount || 0}
                     </span>
                   </button>
                 ))}

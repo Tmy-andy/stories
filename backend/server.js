@@ -58,6 +58,7 @@ const favoriteRoutes = require('./routes/favorites');
 const notificationRoutes = require('./routes/notifications');
 const readingHistoryRoutes = require('./routes/readingHistory');
 const contactRoutes = require('./routes/contact');
+const categoryRoutes = require('./routes/categories');
 const managerAuthRoutes = require('./routes/manager');
 const managerAPIRoutes = require('./routes/managerAPI');
 
@@ -70,6 +71,7 @@ app.use('/api/favorites', favoriteRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/reading-history', readingHistoryRoutes);
 app.use('/api/contact', contactRoutes);
+app.use('/api/categories', categoryRoutes);
 app.use('/api/manager', managerAuthRoutes);
 app.use('/api/manager', managerAPIRoutes);
 
