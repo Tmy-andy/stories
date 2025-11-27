@@ -34,4 +34,15 @@ const adminMiddleware = (req, res, next) => {
   next();
 };
 
-module.exports = { authMiddleware, adminMiddleware };
+const managerMiddleware = (req, res, next) => {
+  if (!req.user) {
+    return res.status(401).json({ message: 'Chưa xác thực người dùng' });
+  }
+  
+  if (req.user.role !== 'manager' && req.user.role !== 'admin') {
+    return res.status(403).json({ message: 'Bạn không có quyền truy cập' });
+  }
+  next();
+};
+
+module.exports = { authMiddleware, adminMiddleware, managerMiddleware };

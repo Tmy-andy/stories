@@ -20,16 +20,16 @@ const verifyManagerToken = (req, res, next) => {
             process.env.JWT_SECRET || 'your-secret-key-change-in-production'
         );
 
-        // Kiểm tra xem token có phải của manager không
-        if (decoded.type !== 'manager' || decoded.role !== 'manager') {
+        // Kiểm tra xem token có phải của manager hoặc admin không
+        if (decoded.type !== 'manager' || (decoded.role !== 'manager' && decoded.role !== 'admin')) {
             return res.status(403).json({
                 success: false,
                 message: 'Bạn không có quyền truy cập'
             });
         }
 
-        // Gắn thông tin manager vào request
-        req.manager = decoded;
+        // Gắn thông tin manager/admin vào request
+        req.user = decoded;
         next();
 
     } catch (error) {

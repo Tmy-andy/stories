@@ -372,6 +372,59 @@ router.patch('/users/:id/toggle-status', verifyManagerToken, async (req, res) =>
   }
 });
 
+// Update user role (only admin can do this)
+router.patch('/users/:id/role', verifyManagerToken, async (req, res) => {
+  try {
+    // Only admin can change role
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({
+        success: false,
+        message: 'Chỉ quản trị viên mới có thể thay đổi vai trò',
+      });
+    }
+
+    const { newRole } = req.body;
+    const user = await User.findById(req.params.id);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'Không tìm thấy người dùng',
+      });
+    }
+
+    // Cannot change role of admin account
+    if (user.email === 'tmy300803@gmail.com') {
+      return res.status(403).json({
+        success: false,
+        message: 'Không thể thay đổi vai trò của tài khoản quản trị chính',
+      });
+    }
+
+    // Validate role
+    if (!['user', 'manager', 'admin'].includes(newRole)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Vai trò không hợp lệ',
+      });
+    }
+
+    user.role = newRole;
+    await user.save();
+
+    res.json({
+      success: true,
+      message: `Cập nhật vai trò thành công: ${newRole}`,
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Lỗi khi cập nhật vai trò',
+    });
+  }
+});
+
 /**
  * Comments Management
  */

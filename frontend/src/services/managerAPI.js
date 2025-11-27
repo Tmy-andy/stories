@@ -66,6 +66,7 @@ export const managerAPI = {
   updateUser: (id, data) => api.put(`/api/manager/users/${id}`, data),
   deleteUser: (id) => api.delete(`/api/manager/users/${id}`),
   toggleUserStatus: (id) => api.patch(`/api/manager/users/${id}/toggle-status`),
+  updateUserRole: (id, newRole) => api.patch(`/api/manager/users/${id}/role`, { newRole }),
 
   // Comments
   getComments: (params) => api.get('/api/manager/comments', { params }),
