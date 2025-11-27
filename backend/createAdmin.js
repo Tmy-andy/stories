@@ -10,20 +10,20 @@ mongoose.connect(process.env.MONGO_URI)
 async function createAdminAccount() {
   try {
     // Kiểm tra xem admin đã tồn tại chưa
-    const existingAdmin = await User.findOne({ email: 'admin@gmail.com' });
+    const existingAdmin = await User.findOne({ email: 'tmy300803@gmail.com' });
     
     if (existingAdmin) {
       console.log('Tài khoản admin đã tồn tại');
-      // Cập nhật mật khẩu nếu cần
+      // Cập nhật role thành admin
       existingAdmin.password = '123456';
       existingAdmin.role = 'admin';
       await existingAdmin.save();
-      console.log('Đã cập nhật mật khẩu admin');
+      console.log('Đã cập nhật role admin');
     } else {
       // Tạo tài khoản admin mới
       const admin = new User({
         username: 'Admin',
-        email: 'admin@gmail.com',
+        email: 'tmy300803@gmail.com',
         password: '123456',
         role: 'admin'
       });
