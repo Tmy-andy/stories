@@ -691,19 +691,19 @@ const ManagerStories = () => {
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Thể loại</label>
                   <div className="space-y-2 max-h-48 overflow-y-auto p-2 border border-gray-300 dark:border-[#3c3858] rounded-lg bg-white dark:bg-[#2A2640]">
                     {categories.map((cat) => (
-                      <label key={cat} className="flex items-center gap-2 cursor-pointer">
+                      <label key={cat._id} className="flex items-center gap-2 cursor-pointer">
                         <input
                           type="checkbox"
-                          checked={editingStory.category.includes(cat)}
+                          checked={editingStory.category.includes(cat._id)}
                           onChange={(e) => {
                             const newCategory = e.target.checked
-                              ? [...editingStory.category, cat]
-                              : editingStory.category.filter(c => c !== cat);
+                              ? [...editingStory.category, cat._id]
+                              : editingStory.category.filter(c => c !== cat._id);
                             setEditingStory({...editingStory, category: newCategory});
                           }}
                           className="w-4 h-4 rounded border-gray-300 dark:border-[#3c3858] text-blue-600 focus:ring-2 focus:ring-blue-500"
                         />
-                        <span className="text-sm text-gray-700 dark:text-gray-300">{cat}</span>
+                        <span className="text-sm text-gray-700 dark:text-gray-300">{cat.name}</span>
                       </label>
                     ))}
                   </div>
