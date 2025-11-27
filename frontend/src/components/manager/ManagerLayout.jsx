@@ -85,10 +85,10 @@ const ManagerLayout = ({ children }) => {
       {/* Sidebar */}
       <aside className={`${
         sidebarOpen ? 'w-64' : 'w-0'
-      } fixed md:sticky top-0 left-0 flex flex-col h-screen bg-white dark:bg-[#1C182F] border-r border-gray-200 dark:border-[#2A2640] p-4 transition-all duration-300 z-40 md:z-0`}>
+      } fixed md:sticky top-9 md:top-0 left-0 flex flex-col h-[calc(100vh-36px)] md:h-screen bg-white dark:bg-[#1C182F] border-r border-gray-200 dark:border-[#2A2640] p-4 transition-all duration-300 z-40 md:z-0 overflow-hidden`}>
         <div className="flex flex-col gap-4 h-full overflow-y-auto">
           {/* Logo */}
-          <div className="flex items-center gap-3 px-2 py-4">
+          <div className="flex items-center gap-3 px-2 py-4 mt-8">
             <div className="flex items-center justify-center size-10 rounded-lg bg-primary text-white flex-shrink-0">
               <Settings className="w-6 h-6" />
             </div>
@@ -153,7 +153,7 @@ const ManagerLayout = ({ children }) => {
       )}
 
       {/* Main Content */}
-      <main className="flex-1 p-4 md:p-8 overflow-y-auto pt-20 md:pt-8">
+      <main className="flex-1 p-4 md:p-8 overflow-y-auto mt-24 md:pt-0">
         <div className="max-w-7xl mx-auto">
           {children}
         </div>
