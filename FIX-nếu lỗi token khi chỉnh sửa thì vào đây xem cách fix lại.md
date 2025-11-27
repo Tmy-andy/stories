@@ -2,10 +2,16 @@
 
 ```js
 console.log('User token:', localStorage.getItem('token'));
-console.log('Manager token:', localStorage.getItem('manager_token'));
+console.log('Manager token:', localStorage.getItem('managerToken'));
+console.log('Admin token:', localStorage.getItem('managerToken'));
+console.log('Full localStorage:', localStorage);
 ```
 
 Nếu `user token` là `null` hoặc trống, nghĩa là **chưa đăng nhập bằng user account**, hoặc token đã bị xóa.
+
+Nếu bạn là **admin** (`tmy300803@gmail.com`), khi đăng nhập:
+- `User token` sẽ được lưu
+- `Manager token` (admin token) sẽ được tự động tạo và lưu
 
 ---
 
