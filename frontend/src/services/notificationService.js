@@ -11,7 +11,8 @@ export const notificationService = {
         params.read = read;
       }
       const response = await api.get('/notifications', { params });
-      return response.data;
+      // Backend returns array directly, not wrapped
+      return Array.isArray(response.data) ? response.data : response.data.notifications || [];
     } catch (error) {
       console.error('Error fetching notifications:', error);
       throw error;

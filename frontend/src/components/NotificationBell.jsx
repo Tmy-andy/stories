@@ -3,11 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import { notificationService } from '../services/notificationService';
 import { authService } from '../services/authService';
+import { contactService } from '../services/contactService';
+import ContactModal from './ContactModal';
 
 const NotificationBell = () => {
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [showContactModal, setShowContactModal] = useState(false);
+  const [selectedNotification, setSelectedNotification] = useState(null);
+  const [contactData, setContactData] = useState(null);
   const dropdownRef = useRef(null);
   const socketRef = useRef(null);
   const hasLoadedRef = useRef(false);
@@ -18,12 +23,23 @@ const NotificationBell = () => {
   const loadNotifications = useCallback(async () => {
     try {
       const data = await notificationService.getNotifications();
-      setNotifications(data || []);
+      setNotifications(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('Error loading notifications:', error);
       setNotifications([]);
     }
   }, []);
+
+  // Load notifications when dropdown opens
+  const handleDropdownClick = useCallback(() => {
+    setShowDropdown(prev => {
+      const newState = !prev;
+      if (newState) {
+        loadNotifications();
+      }
+      return newState;
+    });
+  }, [loadNotifications]);
 
   // Load unread count
   const loadUnreadCount = useCallback(async () => {
@@ -37,12 +53,23 @@ const NotificationBell = () => {
   }, []);
 
   // Initialize Socket.io connection
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!user) return;
 
+    // Skip if manager is logged in (manager has different auth system)
+    const managerToken = localStorage.getItem('managerToken');
+    if (managerToken) {
+      return;
+    }
+
+    // Skip if on manager page (manager has different auth system)
+    if (window.location.pathname.startsWith('/manager')) {
+      return;
+    }
+
     // Prevent multiple connections
     if (socketRef.current) {
-      console.log('Socket already exists, skipping initialization');
       return;
     }
 
@@ -58,7 +85,6 @@ const NotificationBell = () => {
       });
 
       newSocket.on('connect', () => {
-        console.log('Connected to notification server');
         newSocket.emit('join', user._id);
         
         // Only load on first connection
@@ -70,14 +96,11 @@ const NotificationBell = () => {
       });
 
       newSocket.on('notification', (notification) => {
-        console.log('New notification:', notification);
         setNotifications(prev => [notification, ...prev]);
         setUnreadCount(prev => prev + 1);
       });
 
-      newSocket.on('disconnect', () => {
-        console.log('Disconnected from notification server');
-      });
+      newSocket.on('disconnect', () => {});
 
       socketRef.current = newSocket;
 
@@ -89,6 +112,15 @@ const NotificationBell = () => {
       console.error('Error initializing socket:', error);
     }
   }, [user]);
+
+  // Load notifications on component mount (in case Socket already connected)
+  useEffect(() => {
+    if (user && !hasLoadedRef.current) {
+      hasLoadedRef.current = true;
+      loadNotifications();
+      loadUnreadCount();
+    }
+  }, [user, loadNotifications, loadUnreadCount]);
 
   // Close dropdown on click outside
   useEffect(() => {
@@ -147,7 +179,7 @@ const NotificationBell = () => {
     }
   };
 
-  // Handle notification click - navigate
+  // Handle notification click - navigate or show modal
   const handleNotificationClickBell = async (notification) => {
     try {
       if (!notification.read) {
@@ -157,13 +189,37 @@ const NotificationBell = () => {
       console.error('Error marking notification as read:', error);
     }
 
+    // Handle contact reply - show modal
+    if (notification.type === 'contact_reply') {
+      const contactId = notification.contactId?._id || notification.contactId;
+      if (contactId) {
+        setShowDropdown(false);
+        setSelectedNotification(notification);
+        
+        // Load contact details
+        try {
+          const contact = await contactService.getContactDetails(contactId);
+          setContactData(contact);
+          setShowContactModal(true);
+        } catch (error) {
+          console.error('Error loading contact details:', error);
+          alert('Không thể tải thông tin liên hệ');
+        }
+        return;
+      }
+    }
+
+    // Handle story-related notifications
     const storyId = notification.storyId?._id || notification.storyId;
+    const storySlug = notification.storyId?.slug;
     const commentId = notification.commentId?._id || notification.commentId;
 
-    if (notification.type === 'new_chapter' && storyId) {
-      navigate(`/story/${storyId}`);
-    } else if ((notification.type === 'mention' || notification.type === 'reply') && commentId && storyId) {
-      navigate(`/story/${storyId}?comment=${commentId}`);
+    if (notification.type === 'new_chapter' && storySlug) {
+      navigate(`/story/${storySlug}`);
+    } else if ((notification.type === 'mention' || notification.type === 'reply') && commentId && storySlug) {
+      navigate(`/story/${storySlug}?comment=${commentId}`);
+    } else if (storySlug) {
+      navigate(`/story/${storySlug}`);
     } else if (storyId) {
       navigate(`/story/${storyId}`);
     }
@@ -173,11 +229,22 @@ const NotificationBell = () => {
     return null;
   }
 
+  // Don't render on manager pages
+  if (window.location.pathname.startsWith('/manager')) {
+    return null;
+  }
+
+  // Check if user has valid token (not manager token)
+  const userToken = localStorage.getItem('token');
+  if (!userToken) {
+    return null;
+  }
+
   return (
     <div ref={dropdownRef} className="relative">
       {/* Bell Button */}
       <button
-        onClick={() => setShowDropdown(!showDropdown)}
+        onClick={handleDropdownClick}
         className="relative p-2 text-text-light dark:text-white hover:bg-gray-100 dark:hover:bg-white/10 rounded-lg transition-colors"
         title="Thông báo"
       >
@@ -191,16 +258,30 @@ const NotificationBell = () => {
         )}
       </button>
 
+      {/* Contact Modal */}
+      {showContactModal && (
+        <ContactModal
+          notification={selectedNotification}
+          contact={contactData}
+          onClose={() => {
+            setShowContactModal(false);
+            setSelectedNotification(null);
+            setContactData(null);
+          }}
+          onDelete={handleDeleteNotification}
+        />
+      )}
+
       {/* Notification Dropdown */}
       {showDropdown && (
         <div className="absolute right-0 mt-2 w-80 bg-white dark:bg-[#1e1c27] rounded-lg shadow-2xl border border-gray-200 dark:border-white/10 z-50 max-h-96 overflow-y-auto">
           {/* Header */}
-          <div className="sticky top-0 bg-white dark:bg-[#1e1c27] border-b border-gray-200 dark:border-white/10 p-4 flex items-center justify-between">
-            <h3 className="text-lg font-bold text-text-light dark:text-white">Thông báo</h3>
+          <div className="sticky top-0 bg-white dark:bg-[#1e1c27] border-b border-gray-200 dark:border-white/10 p-3 flex items-center justify-between">
+            <h3 className="text-sm font-bold text-text-light dark:text-white">Thông báo</h3>
             {unreadCount > 0 && (
               <button
                 onClick={handleMarkAllAsRead}
-                className="text-xs text-primary hover:underline"
+                className="text-xs text-primary hover:underline whitespace-nowrap"
               >
                 Đánh dấu tất cả
               </button>
@@ -209,7 +290,7 @@ const NotificationBell = () => {
 
           {/* Notifications List */}
           {notifications.length === 0 ? (
-            <div className="p-6 text-center">
+            <div className="p-4 text-center">
               <p className="text-text-secondary-light dark:text-text-secondary-dark text-sm">
                 Không có thông báo nào
               </p>
@@ -220,23 +301,23 @@ const NotificationBell = () => {
                 <div
                   key={notification._id}
                   onClick={() => handleNotificationClickBell(notification)}
-                  className={`p-4 transition-colors cursor-pointer ${
+                  className={`px-3 py-2 transition-colors cursor-pointer ${
                     notification.read
                       ? 'bg-white dark:bg-[#1e1c27] hover:bg-gray-50 dark:hover:bg-white/5'
                       : 'bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30'
                   }`}
                 >
-                  <div className="flex gap-3">
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm text-text-light dark:text-white break-words hover:text-primary transition-colors">
+                  <div className="flex flex-col gap-1">
+                    <div className="min-w-0">
+                      <p className="text-xs text-text-light dark:text-white hover:text-primary transition-colors leading-tight whitespace-normal break-all" style={{wordWrap: 'break-word', overflowWrap: 'break-word'}}>
                         {notification.message}
                       </p>
                       {notification.storyId && (
-                        <p className="text-xs text-text-muted-light dark:text-text-muted-dark mt-1">
+                        <p className="text-xs text-text-muted-light dark:text-text-muted-dark mt-0.5 line-clamp-1">
                           Truyện: {notification.storyId.title}
                         </p>
                       )}
-                      <p className="text-xs text-text-muted-light dark:text-text-muted-dark mt-1">
+                      <p className="text-xs text-text-muted-light dark:text-text-muted-dark mt-0.5">
                         {new Date(notification.createdAt).toLocaleDateString('vi-VN', {
                           day: '2-digit',
                           month: '2-digit',
@@ -247,18 +328,24 @@ const NotificationBell = () => {
                     </div>
 
                     {/* Actions */}
-                    <div className="flex flex-col gap-1">
+                    <div className="flex gap-2 mt-1 pt-1 border-t border-gray-200 dark:border-white/10">
                       {!notification.read && (
                         <button
-                          onClick={() => handleMarkAsRead(notification._id)}
-                          className="text-xs text-primary hover:underline whitespace-nowrap"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleMarkAsRead(notification._id);
+                          }}
+                          className="text-xs text-primary hover:underline"
                         >
                           Đánh dấu
                         </button>
                       )}
                       <button
-                        onClick={() => handleDeleteNotification(notification._id)}
-                        className="text-xs text-red-500 hover:text-red-600 whitespace-nowrap"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDeleteNotification(notification._id);
+                        }}
+                        className="text-xs text-red-500 hover:text-red-600"
                       >
                         Xóa
                       </button>
@@ -270,7 +357,7 @@ const NotificationBell = () => {
           )}
 
           {/* Footer */}
-          <div className="sticky bottom-0 bg-white dark:bg-[#1e1c27] border-t border-gray-200 dark:border-white/10 p-4">
+          <div className="sticky bottom-0 bg-white dark:bg-[#1e1c27] border-t border-gray-200 dark:border-white/10 p-3">
             <button
               onClick={() => {
                 setShowDropdown(false);

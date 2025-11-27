@@ -86,34 +86,6 @@ const AllNotifications = () => {
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-200">
-      {/* Header */}
-      <header className="sticky top-0 z-10 bg-white dark:bg-[#191C2A] shadow-sm">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <div className="text-2xl font-bold text-primary">Lam điệp cô ảnh</div>
-          <div className="flex items-center gap-4">
-            <button
-              onClick={() => navigate('/notifications')}
-              className="text-slate-600 hover:text-primary dark:text-slate-300 dark:hover:text-white transition-colors"
-              title="Thông báo"
-            >
-              <span className="material-symbols-outlined">notifications</span>
-            </button>
-            <button
-              onClick={() => navigate('/profile')}
-              className="bg-center bg-no-repeat bg-cover rounded-full size-10"
-            >
-              {user?.avatar && (
-                <img 
-                  src={user.avatar} 
-                  alt="Profile" 
-                  className="w-full h-full rounded-full object-cover"
-                />
-              )}
-            </button>
-          </div>
-        </div>
-      </header>
-
       {/* Main Content */}
       <main className="flex-1 px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
         <div className="mx-auto max-w-4xl">
@@ -266,37 +238,6 @@ const AllNotifications = () => {
           )}
         </div>
       </main>
-
-      {/* Footer */}
-      <footer className="bg-white dark:bg-[#191C2A] shadow-[0_-1px_3px_rgba(0,0,0,0.1)]">
-        <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-          <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
-            <p className="text-sm text-slate-500 dark:text-slate-400">
-              © 2024 Lam điệp cô ảnh. Bảo lưu mọi quyền.
-            </p>
-            <div className="flex gap-6">
-              <a
-                href="#"
-                className="text-sm text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-white transition-colors"
-              >
-                Điều khoản
-              </a>
-              <a
-                href="#"
-                className="text-sm text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-white transition-colors"
-              >
-                Riêng tư
-              </a>
-              <a
-                href="#"
-                className="text-sm text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-white transition-colors"
-              >
-                Liên hệ
-              </a>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 };

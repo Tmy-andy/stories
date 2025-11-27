@@ -4,6 +4,7 @@ const Notification = require('../models/Notification');
 exports.getUserNotifications = async (req, res) => {
   try {
     const userId = req.user.id;
+    console.log('📬 GET /notifications called - userId:', userId);
     const { read } = req.query;
 
     let query = { userId };
@@ -11,15 +12,26 @@ exports.getUserNotifications = async (req, res) => {
       query.read = read === 'true';
     }
 
+    console.log('🔍 Query:', query);
     const notifications = await Notification.find(query)
       .populate('triggeredBy', 'username avatar')
       .populate('storyId', 'title slug')
       .populate('commentId', '_id')
+      .populate({
+        path: 'contactId',
+        select: 'name email subject message replyContent repliedAt userId',
+        populate: {
+          path: 'userId',
+          select: 'displayName username'
+        }
+      })
       .sort({ createdAt: -1 })
       .limit(50);
 
+    console.log('✅ Found notifications:', notifications.length);
     res.json(notifications);
   } catch (error) {
+    console.error('❌ Error in getUserNotifications:', error);
     res.status(500).json({ message: error.message });
   }
 };

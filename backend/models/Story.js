@@ -12,11 +12,6 @@ const storySchema = new mongoose.Schema({
     lowercase: true,
     trim: true
   },
-  author: {
-    type: String,
-    required: true,
-    trim: true
-  },
   authorId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',

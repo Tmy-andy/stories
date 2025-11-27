@@ -21,8 +21,8 @@ const Favorites = () => {
   const loadFavorites = async () => {
     try {
       setLoading(true);
-      const response = await favoriteService.getUserFavorites();
-      setFavorites(response.data);
+      const favorites = await favoriteService.getUserFavorites();
+      setFavorites(Array.isArray(favorites) ? favorites : []);
     } catch (error) {
       console.error('Error loading favorites:', error);
       if (error.response?.status === 401) {

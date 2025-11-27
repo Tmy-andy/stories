@@ -23,11 +23,14 @@ const ChapterReader = () => {
 
   // Auto-save reading position every 5 seconds
   useEffect(() => {
-    if (!chapter || !storyId) return;
+    if (!chapter || !story) {
+      return;
+    }
 
     const handleSavePosition = () => {
-      const scrollPosition = contentRef.current?.scrollTop || 0;
-      readingHistoryService.saveReadingPosition(storyId, parseInt(chapterNumber), scrollPosition)
+      // Get scroll position from window.scrollY
+      const scrollPosition = window.scrollY || 0;
+      readingHistoryService.saveReadingPosition(story._id, parseInt(chapterNumber), scrollPosition)
         .catch(err => console.error('Error auto-saving position:', err));
     };
 
@@ -39,19 +42,17 @@ const ChapterReader = () => {
         clearInterval(saveIntervalRef.current);
       }
     };
-  }, [chapter, storyId, chapterNumber]);
+  }, [chapter, story, chapterNumber]);
 
   // Restore reading position on first load
   useEffect(() => {
     const restorePosition = async () => {
       try {
-        const position = await readingHistoryService.getReadingPosition(storyId);
-        if (position && contentRef.current) {
+        const position = await readingHistoryService.getReadingPosition(story._id);
+        if (position && position.scrollPosition) {
           // Set a small delay to ensure content is rendered
           setTimeout(() => {
-            if (contentRef.current) {
-              contentRef.current.scrollTop = position.scrollPosition || 0;
-            }
+            window.scrollTo(0, position.scrollPosition);
           }, 100);
         }
       } catch (err) {
@@ -59,10 +60,10 @@ const ChapterReader = () => {
       }
     };
 
-    if (chapter && contentRef.current) {
+    if (chapter && story) {
       restorePosition();
     }
-  }, [chapter, storyId]);
+  }, [chapter, story]);
 
   const loadChapterData = async () => {
     try {

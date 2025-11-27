@@ -85,7 +85,7 @@ const ProfileReadingHistory = () => {
             Tác giả: {item.storyId.author}
           </p>
           <div className="flex items-center gap-2 text-sm">
-            <span className="text-primary font-semibold">Chương {item.chapterNumber}</span>
+            <span className="text-primary font-semibold">{item.chapterTitle || `Chương ${item.chapterNumber}`}</span>
             <span className="text-gray-500 dark:text-gray-400">
               • {new Date(item.updatedAt).toLocaleDateString('vi-VN')}
             </span>

@@ -32,7 +32,7 @@ const readingHistoryService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error saving reading position:', error);
+      console.error('Error saving reading position:', error.message, error.response?.data);
       throw error;
     }
   },

@@ -6,6 +6,8 @@ exports.saveReadingPosition = async (req, res) => {
     const { storyId, chapterNumber, scrollPosition } = req.body;
     const userId = req.user.id;
 
+    console.log('saveReadingPosition:', { userId, storyId, chapterNumber, scrollPosition });
+
     if (!storyId || !chapterNumber) {
       return res.status(400).json({ message: 'storyId and chapterNumber are required' });
     }
@@ -23,18 +25,23 @@ exports.saveReadingPosition = async (req, res) => {
       { upsert: true, new: true }
     );
 
+    console.log('saveReadingPosition - saved:', readingHistory);
+
     // Clean up old records - keep only 5 most recent stories
     const userReadingHistory = await ReadingHistory.find({ userId })
-      .sort({ updatedAt: -1 })
-      .limit(5);
+      .sort({ updatedAt: -1 });
 
-    const storyIdsToKeep = userReadingHistory.map(rh => rh.storyId.toString());
+    console.log('saveReadingPosition - total records after save:', userReadingHistory.length);
 
-    // Delete records outside the 5 most recent stories
-    await ReadingHistory.deleteMany({
-      userId,
-      storyId: { $nin: userReadingHistory.map(rh => rh.storyId) },
-    });
+    // If more than 5 records, delete the oldest ones
+    if (userReadingHistory.length > 5) {
+      const recordsToKeep = userReadingHistory.slice(0, 5).map(rh => rh._id);
+      await ReadingHistory.deleteMany({
+        userId,
+        _id: { $nin: recordsToKeep },
+      });
+      console.log('saveReadingPosition - cleaned up old records');
+    }
 
     res.json({ message: 'Reading position saved', readingHistory });
   } catch (error) {
@@ -66,9 +73,24 @@ exports.getAllReadingHistory = async (req, res) => {
     const userId = req.user.id;
     console.log('getAllReadingHistory - userId:', userId);
 
-    const history = await ReadingHistory.find({ userId })
+    let history = await ReadingHistory.find({ userId })
       .populate('storyId', 'title coverImage author')
       .sort({ updatedAt: -1 });
+
+    // Populate chapter titles
+    const Chapter = require('../models/Chapter');
+    history = await Promise.all(
+      history.map(async (item) => {
+        const chapter = await Chapter.findOne({
+          storyId: item.storyId._id,
+          chapterNumber: item.chapterNumber,
+        });
+        return {
+          ...item.toObject(),
+          chapterTitle: chapter?.title || `Chương ${item.chapterNumber}`,
+        };
+      })
+    );
 
     console.log('getAllReadingHistory - found records:', history.length);
     res.json(history);

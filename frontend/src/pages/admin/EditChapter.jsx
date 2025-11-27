@@ -28,10 +28,7 @@ function EditChapter() {
 
   useEffect(() => {
     const currentUser = authService.getCurrentUser();
-    console.log('Current user:', currentUser);
-    console.log('User role:', currentUser?.role);
     if (!currentUser || currentUser.role !== 'admin') {
-      console.log('Not admin, redirecting to home');
       navigate('/');
       return;
     }
@@ -54,11 +51,9 @@ function EditChapter() {
     try {
       setLoading(true);
       const token = authService.getToken();
-      console.log('Loading chapter:', chapterId);
       const res = await axios.get(`${API_URL}/chapters/${chapterId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      console.log('Chapter loaded:', res.data);
       setChapter(res.data);
       setFormData({
         title: res.data.title,
@@ -68,11 +63,9 @@ function EditChapter() {
       
       // Load story info - handle storyId as object or string
       const storyIdValue = typeof res.data.storyId === 'object' ? res.data.storyId._id : res.data.storyId;
-      console.log('Loading story:', storyIdValue);
       const storyRes = await axios.get(`${API_URL}/stories/${storyIdValue}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      console.log('Story loaded:', storyRes.data);
       setStory(storyRes.data);
     } catch (error) {
       console.error('Error loading chapter:', error);

@@ -19,7 +19,8 @@ module.exports = {
       },
       fontFamily: {
         "display": ["'Noto Serif'", "serif"],
-        "sans": ["'Noto Sans'", "sans-serif"]
+        "sans": ["'Noto Sans'", "sans-serif"],
+        "signature": ["'1FTV-VIP-Bastliga-One-Regular'", "cursive"]
       },
       borderRadius: {
         "DEFAULT": "0.25rem",

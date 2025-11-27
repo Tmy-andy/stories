@@ -51,11 +51,24 @@ function AdminDashboard() {
 
   const getStatusBadge = (status) => {
     const badges = {
-      'Đang ra': 'bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300',
-      'Hoàn thành': 'bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300',
-      'Tạm dừng': 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+      'publishing': 'bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300',
+      'completed': 'bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300',
+      'paused_indefinite': 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300',
+      'paused_timed': 'bg-orange-100 dark:bg-orange-900/50 text-orange-700 dark:text-orange-300',
+      'dropped': 'bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-300'
     };
-    return badges[status] || badges['Đang ra'];
+    return badges[status] || badges['publishing'];
+  };
+
+  const getStatusLabel = (status) => {
+    const labels = {
+      'publishing': 'Đang ra',
+      'completed': 'Hoàn thành',
+      'paused_indefinite': 'Hoãn vô thời hạn',
+      'paused_timed': 'Hoãn có thời hạn',
+      'dropped': 'Ngừng xuất bản'
+    };
+    return labels[status] || 'Đang ra';
   };
 
   if (!user) return null;
@@ -178,7 +191,7 @@ function AdminDashboard() {
                         </td>
                         <td className="h-[72px] px-4 py-2 text-sm font-normal leading-normal">
                           <span className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium ${getStatusBadge(story.status)}`}>
-                            {story.status}
+                            {getStatusLabel(story.status)}
                           </span>
                         </td>
                         <td className="h-[72px] px-4 py-2 text-text-secondary-light dark:text-text-secondary-dark text-sm font-normal leading-normal">

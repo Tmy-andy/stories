@@ -9,11 +9,17 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [user, setUser] = useState(null);
+  const [isManager, setIsManager] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     const currentUser = authService.getCurrentUser();
     setUser(currentUser);
+    
+    // Check if user is the admin/manager
+    if (currentUser && currentUser.email === 'tmy300803@gmail.com') {
+      setIsManager(true);
+    }
   }, []);
 
   const handleLogout = () => {
@@ -24,7 +30,7 @@ const Header = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm border-b border-gray-200 dark:border-white/10">
+    <header className={`sticky bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm border-b border-gray-200 dark:border-white/10 ${isManager ? 'top-9 z-40' : 'top-0 z-50'}`}>
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between whitespace-nowrap py-3 gap-8">
           {/* Logo */}
@@ -68,13 +74,13 @@ const Header = () => {
                   )}
                   <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-bold overflow-hidden">
                     {user.avatar ? (
-                      <img src={user.avatar} alt={user.username} className="w-full h-full object-cover" />
+                      <img src={user.avatar} alt={user.displayName || user.username} className="w-full h-full object-cover" />
                     ) : (
-                      user.username.charAt(0).toUpperCase()
+                      (user.displayName || user.username).charAt(0).toUpperCase()
                     )}
                   </div>
                   <span className={user.role === 'admin' ? "text-primary dark:text-primary text-sm font-medium" : "text-text-light dark:text-white text-sm font-medium"}>
-                    {user.username}
+                    {user.displayName || user.username}
                   </span>
                   {user.role === 'admin' && (
                     <span className="px-2 py-0.5 bg-primary/20 text-primary text-xs font-bold rounded">ADMIN</span>
@@ -167,13 +173,13 @@ const Header = () => {
                   <div className="flex items-center gap-2 px-4 py-2 rounded-lg">
                     <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-bold overflow-hidden">
                       {user.avatar ? (
-                        <img src={user.avatar} alt={user.username} className="w-full h-full object-cover" />
+                        <img src={user.avatar} alt={user.displayName || user.username} className="w-full h-full object-cover" />
                       ) : (
-                        user.username.charAt(0).toUpperCase()
+                        (user.displayName || user.username).charAt(0).toUpperCase()
                       )}
                     </div>
                     <div>
-                      <p className="text-text-light dark:text-white text-sm font-medium">{user.username}</p>
+                      <p className="text-text-light dark:text-white text-sm font-medium">{user.displayName || user.username}</p>
                       {user.role === 'admin' && (
                         <span className="text-xs text-primary font-bold">ADMIN</span>
                       )}

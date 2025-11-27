@@ -14,6 +14,18 @@ const StoryDetail = () => {
   const chaptersPerPage = 20;
   const commentId = searchParams.get('comment');
 
+  const statusLabels = {
+    publishing: 'Đang ra',
+    completed: 'Hoàn thành',
+    paused_indefinite: 'Tạm dừng vô thời hạn',
+    paused_timed: 'Tạm dừng có thời hạn',
+    dropped: 'Ngừng xuất bản'
+  };
+
+  const getStatusLabel = (status) => {
+    return statusLabels[status] || status;
+  };
+
   useEffect(() => {
     loadStoryData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -84,10 +96,10 @@ const StoryDetail = () => {
               <div className="bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg w-48 shrink-0 mx-auto sm:mx-0" style={{ backgroundImage: `url("${story.coverImage || 'https://via.placeholder.com/300x400?text=No+Image'}")` }}></div>
               <div className="flex flex-col gap-2">
                 <h1 className="text-gray-900 dark:text-white text-3xl font-display font-bold">{story.title}</h1>
-                <p className="text-primary text-base font-medium">Tác giả: {story.author}</p>
+                <p className="text-primary text-base font-medium">Tác giả: {typeof story.authorId === 'object' ? (story.authorId?.displayName || story.authorId?.username) : 'N/A'}</p>
                 <div className="flex gap-2 flex-wrap pt-2">
                   <div className="flex h-7 items-center justify-center rounded-full bg-gray-200 dark:bg-white/10 px-3"><p className="text-gray-800 dark:text-white text-xs font-medium">{story.category}</p></div>
-                  <div className="flex h-7 items-center justify-center rounded-full bg-gray-200 dark:bg-white/10 px-3"><p className="text-gray-800 dark:text-white text-xs font-medium">{story.status}</p></div>
+                  <div className="flex h-7 items-center justify-center rounded-full bg-gray-200 dark:bg-white/10 px-3"><p className="text-gray-800 dark:text-white text-xs font-medium">{getStatusLabel(story.status)}</p></div>
                 </div>
                 <p className="text-gray-600 dark:text-[#a29db9] text-base mt-2">{story.description}</p>
                 <div className="pt-4">
@@ -105,7 +117,7 @@ const StoryDetail = () => {
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 flex-1">
             <div className="flex flex-col gap-1 rounded-lg p-4 bg-gray-100 dark:bg-white/5"><p className="text-gray-600 dark:text-[#a29db9] text-sm font-medium">Lượt xem</p><p className="text-gray-900 dark:text-white text-xl font-bold">{story.views}</p></div>
             <div className="flex flex-col gap-1 rounded-lg p-4 bg-gray-100 dark:bg-white/5"><p className="text-gray-600 dark:text-[#a29db9] text-sm font-medium">Số chương</p><p className="text-gray-900 dark:text-white text-xl font-bold">{chapters.length}</p></div>
-            <div className="flex flex-col gap-1 rounded-lg p-4 bg-gray-100 dark:bg-white/5"><p className="text-gray-600 dark:text-[#a29db9] text-sm font-medium">Trạng thái</p><p className="text-gray-900 dark:text-white text-xl font-bold">{story.status}</p></div>
+            <div className="flex flex-col gap-1 rounded-lg p-4 bg-gray-100 dark:bg-white/5"><p className="text-gray-600 dark:text-[#a29db9] text-sm font-medium">Trạng thái</p><p className="text-gray-900 dark:text-white text-xl font-bold">{getStatusLabel(story.status)}</p></div>
           </div>
         </div>
 

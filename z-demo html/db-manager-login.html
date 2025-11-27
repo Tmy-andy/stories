@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html class="dark" lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Đăng nhập Manager - Lam điệp cô ảnh</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#290ea0",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#141022",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings:
+                'FILL' 0,
+                'wght' 400,
+                'GRAD' 0,
+                'opsz' 24
+        }
+
+        input.otp-input {
+            background-color: transparent !important;
+            color: inherit !important;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        input.otp-input:-webkit-autofill,
+        input.otp-input:-webkit-autofill:hover,
+        input.otp-input:-webkit-autofill:focus,
+        input.otp-input:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 30px #211c34 inset !important;
+            -webkit-text-fill-color: #ffffff !important;
+            transition: background-color 5000s ease-in-out 0s;
+        }
+
+        html.light input.otp-input:-webkit-autofill,
+        html.light input.otp-input:-webkit-autofill:hover,
+        html.light input.otp-input:-webkit-autofill:focus,
+        html.light input.otp-input:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 30px #e2e8f0 inset !important;
+            -webkit-text-fill-color: #1f2937 !important;
+        }
+
+        .otp-input:focus {
+            outline: none;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .shake-error {
+            animation: shake 0.5s;
+        }
+    </style>
+</head>
+
+<body class="font-display bg-background-light dark:bg-background-dark">
+    <div class="relative flex h-screen min-h-screen w-full flex-col items-center justify-center bg-background-light dark:bg-background-dark p-4 sm:p-6">
+        <!-- Modal Container -->
+        <div
+            class="w-full max-w-md rounded-xl bg-white dark:bg-[#211c34] shadow-2xl dark:shadow-black/30 p-8 text-center flex flex-col items-center">
+            <!-- Icon -->
+            <div class="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 mb-6">
+                <span class="material-symbols-outlined text-primary text-4xl">
+                    admin_panel_settings
+                </span>
+            </div>
+            
+            <!-- HeadlineText -->
+            <h1 class="text-gray-900 dark:text-white tracking-tight text-2xl sm:text-3xl font-bold leading-tight pb-2">
+                Truy cập Manager
+            </h1>
+            
+            <!-- BodyText -->
+            <p class="text-gray-600 dark:text-gray-400 text-base font-normal leading-normal pb-8">
+                Nhập mã PIN 6 số để tiếp tục
+            </p>
+
+            <!-- Error Message -->
+            <div id="errorMessage" class="w-full mb-4 p-3 rounded-lg bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-300 text-sm font-medium hidden">
+                <span class="material-symbols-outlined text-sm inline mr-2">error</span>
+                <span id="errorText">Mã PIN không chính xác</span>
+            </div>
+
+            <!-- PIN Input -->
+            <div class="flex justify-center w-full pb-8">
+                <fieldset class="relative flex gap-2 sm:gap-4" id="otpContainer">
+                    <label class="sr-only" for="otp-1">Số thứ nhất</label>
+                    <input autofocus class="otp-input w-12 h-14 sm:w-14 sm:h-16 rounded-lg border-2 border-gray-300 dark:border-[#403b54] bg-white dark:bg-[#2b2839] text-gray-900 dark:text-white focus:border-primary focus:ring-2 focus:ring-primary/50"
+                        id="otp-1" inputmode="numeric" maxlength="1" type="text" />
+                    <label class="sr-only" for="otp-2">Số thứ hai</label>
+                    <input class="otp-input w-12 h-14 sm:w-14 sm:h-16 rounded-lg border-2 border-gray-300 dark:border-[#403b54] bg-white dark:bg-[#2b2839] text-gray-900 dark:text-white focus:border-primary focus:ring-2 focus:ring-primary/50"
+                        id="otp-2" inputmode="numeric" maxlength="1" type="text" />
+                    <label class="sr-only" for="otp-3">Số thứ ba</label>
+                    <input class="otp-input w-12 h-14 sm:w-14 sm:h-16 rounded-lg border-2 border-gray-300 dark:border-[#403b54] bg-white dark:bg-[#2b2839] text-gray-900 dark:text-white focus:border-primary focus:ring-2 focus:ring-primary/50"
+                        id="otp-3" inputmode="numeric" maxlength="1" type="text" />
+                    <label class="sr-only" for="otp-4">Số thứ tư</label>
+                    <input class="otp-input w-12 h-14 sm:w-14 sm:h-16 rounded-lg border-2 border-gray-300 dark:border-[#403b54] bg-white dark:bg-[#2b2839] text-gray-900 dark:text-white focus:border-primary focus:ring-2 focus:ring-primary/50"
+                        id="otp-4" inputmode="numeric" maxlength="1" type="text" />
+                    <label class="sr-only" for="otp-5">Số thứ năm</label>
+                    <input class="otp-input w-12 h-14 sm:w-14 sm:h-16 rounded-lg border-2 border-gray-300 dark:border-[#403b54] bg-white dark:bg-[#2b2839] text-gray-900 dark:text-white focus:border-primary focus:ring-2 focus:ring-primary/50"
+                        id="otp-5" inputmode="numeric" maxlength="1" type="text" />
+                    <label class="sr-only" for="otp-6">Số thứ sáu</label>
+                    <input class="otp-input w-12 h-14 sm:w-14 sm:h-16 rounded-lg border-2 border-gray-300 dark:border-[#403b54] bg-white dark:bg-[#2b2839] text-gray-900 dark:text-white focus:border-primary focus:ring-2 focus:ring-primary/50"
+                        id="otp-6" inputmode="numeric" maxlength="1" type="text" />
+                </fieldset>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loadingSpinner" class="hidden mb-6">
+                <div class="animate-spin">
+                    <span class="material-symbols-outlined text-primary text-3xl">progress_activity</span>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="flex w-full pb-4">
+                <button id="submitBtn"
+                    class="flex w-full min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 bg-primary text-white text-base font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-[#211c34] transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
+                    <span class="truncate">Xác nhận</span>
+                </button>
+            </div>
+
+            <!-- Info Text -->
+            <div class="pt-4 text-center">
+                <p class="text-xs text-gray-500 dark:text-gray-400">Mã PIN được gửi đến email quản trị viên</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // API Base URL - Điều chỉnh theo môi trường
+        const API_BASE_URL = window.location.hostname === 'localhost' 
+            ? 'http://localhost:5000' 
+            : window.location.origin;
+
+        const inputs = document.querySelectorAll('.otp-input');
+        const submitBtn = document.getElementById('submitBtn');
+        const errorMessage = document.getElementById('errorMessage');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+
+        // Focus vào input đầu tiên khi load trang
+        inputs[0].focus();
+
+        // Xử lý input OTP
+        inputs.forEach((input, index) => {
+            input.addEventListener('input', (e) => {
+                const value = e.target.value;
+
+                // Chỉ cho phép số
+                if (!/^\d$/.test(value) && value !== '') {
+                    e.target.value = '';
+                    return;
+                }
+
+                // Khi gõ số, nhảy sang ô tiếp theo
+                if (value !== '') {
+                    if (index < inputs.length - 1) {
+                        inputs[index + 1].focus();
+                    } else {
+                        // Ô cuối cùng, xác nhận tự động
+                        setTimeout(() => verifyPin(), 300);
+                    }
+                }
+
+                // Cập nhật trạng thái button
+                updateSubmitButton();
+            });
+
+            // Xử lý phím Backspace
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && e.target.value === '') {
+                    if (index > 0) {
+                        inputs[index - 1].focus();
+                    }
+                }
+                // Xử lý phím mũi tên
+                if (e.key === 'ArrowLeft' && index > 0) {
+                    inputs[index - 1].focus();
+                }
+                if (e.key === 'ArrowRight' && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+            });
+
+            // Xử lý paste
+            input.addEventListener('paste', (e) => {
+                e.preventDefault();
+                const pasteData = e.clipboardData.getData('text');
+                const digits = pasteData.replace(/\D/g, '').slice(0, 6 - index);
+                
+                digits.split('').forEach((digit, i) => {
+                    if (index + i < inputs.length) {
+                        inputs[index + i].value = digit;
+                    }
+                });
+
+                if (inputs[Math.min(index + digits.length, inputs.length - 1)].value) {
+                    inputs[Math.min(index + digits.length, inputs.length - 1)].focus();
+                }
+
+                updateSubmitButton();
+            });
+        });
+
+        function updateSubmitButton() {
+            const allFilled = Array.from(inputs).every(input => input.value !== '');
+            submitBtn.disabled = !allFilled;
+        }
+
+        submitBtn.addEventListener('click', verifyPin);
+
+        // Enter key submit
+        document.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const allFilled = Array.from(inputs).every(input => input.value !== '');
+                if (allFilled) {
+                    verifyPin();
+                }
+            }
+        });
+
+        async function verifyPin() {
+            const pin = Array.from(inputs).map(input => input.value).join('');
+
+            if (pin.length !== 6) {
+                showError('Vui lòng nhập đủ 6 số');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            loadingSpinner.classList.remove('hidden');
+            errorMessage.classList.add('hidden');
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/manager/verify-pin`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ pin })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.token) {
+                    // Lưu token vào localStorage
+                    localStorage.setItem('managerToken', data.token);
+                    
+                    // Chuyển hướng đến dashboard
+                    window.location.href = '/manager/dashboard.html';
+                } else {
+                    showError(data.message || 'Mã PIN không chính xác');
+                    clearInputs();
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showError('Có lỗi kết nối, vui lòng thử lại');
+                clearInputs();
+            } finally {
+                submitBtn.disabled = false;
+                loadingSpinner.classList.add('hidden');
+            }
+        }
+
+        function showError(message) {
+            errorMessage.classList.remove('hidden');
+            document.getElementById('errorText').textContent = message;
+            
+            // Shake animation
+            const container = document.getElementById('otpContainer');
+            container.classList.add('shake-error');
+            setTimeout(() => {
+                container.classList.remove('shake-error');
+            }, 500);
+        }
+
+        function clearInputs() {
+            inputs.forEach(input => input.value = '');
+            inputs[0].focus();
+        }
+    </script>
+</body>
+
+</html>

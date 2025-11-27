@@ -26,10 +26,11 @@ export const favoriteService = {
   // Lấy danh sách yêu thích
   getUserFavorites: async () => {
     const token = authService.getToken();
-    return axios.get(
+    const response = await axios.get(
       `${API_URL}/favorites/my-favorites`,
       { headers: { Authorization: `Bearer ${token}` } }
     );
+    return response.data;
   },
 
   // Kiểm tra đã yêu thích

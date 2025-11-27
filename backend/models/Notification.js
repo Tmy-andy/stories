@@ -8,7 +8,7 @@ const notificationSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ['new_chapter', 'mention', 'reply', 'like', 'comment'],
+    enum: ['new_chapter', 'mention', 'reply', 'like', 'comment', 'contact_reply'],
     required: true
   },
   message: {
@@ -22,6 +22,10 @@ const notificationSchema = new mongoose.Schema({
   commentId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Comment'
+  },
+  contactId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Contact'
   },
   triggeredBy: {
     type: mongoose.Schema.Types.ObjectId,

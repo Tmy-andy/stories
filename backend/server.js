@@ -57,6 +57,9 @@ const commentRoutes = require('./routes/comments');
 const favoriteRoutes = require('./routes/favorites');
 const notificationRoutes = require('./routes/notifications');
 const readingHistoryRoutes = require('./routes/readingHistory');
+const contactRoutes = require('./routes/contact');
+const managerAuthRoutes = require('./routes/manager');
+const managerAPIRoutes = require('./routes/managerAPI');
 
 // Routes
 app.use('/api/stories', storyRoutes);
@@ -66,6 +69,9 @@ app.use('/api/comments', commentRoutes);
 app.use('/api/favorites', favoriteRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/reading-history', readingHistoryRoutes);
+app.use('/api/contact', contactRoutes);
+app.use('/api/manager', managerAuthRoutes);
+app.use('/api/manager', managerAPIRoutes);
 
 // Route mặc định
 app.get('/', (req, res) => {

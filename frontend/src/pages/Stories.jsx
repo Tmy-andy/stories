@@ -28,6 +28,17 @@ const Stories = () => {
     'Linh dị'
   ];
 
+  const getStatusLabel = (status) => {
+    const statusMap = {
+      publishing: 'Đang ra',
+      completed: 'Hoàn thành',
+      paused_indefinite: 'Hoãn vô thời hạn',
+      paused_timed: 'Hoãn có thời hạn',
+      dropped: 'Ngừng xuất bản'
+    };
+    return statusMap[status] || status;
+  };
+
   // Load từ URL params khi component mount
   useEffect(() => {
     const categoryParam = searchParams.get('category');
@@ -262,7 +273,7 @@ const Stories = () => {
                 <div className="flex items-center gap-2 mt-1">
                   <span className="text-xs text-gray-500 dark:text-gray-400">{story.category}</span>
                   <span className="text-xs text-gray-500 dark:text-gray-400">•</span>
-                  <span className="text-xs text-gray-500 dark:text-gray-400">{story.status}</span>
+                  <span className="text-xs text-gray-500 dark:text-gray-400">{getStatusLabel(story.status)}</span>
                 </div>
               </div>
             </Link>

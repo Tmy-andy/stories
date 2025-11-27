@@ -9,10 +9,10 @@ exports.getAllStories = async (req, res) => {
     const query = {};
 
     // Handle both single category (legacy) and multiple categories (new)
+    // Use $all for AND logic - story must have ALL selected categories
     if (categories) {
-      // categories is an array from frontend: ["Tiên hiệp", "Kiếm hiệp"]
       const categoryArray = Array.isArray(categories) ? categories : [categories];
-      query.category = { $in: categoryArray };
+      query.category = { $all: categoryArray };
     } else if (category) {
       // Legacy support: single category
       query.category = { $in: [category] };
@@ -59,7 +59,7 @@ exports.getStoryById = async (req, res) => {
       };
     }
     
-    const story = await Story.findOne(query);
+    const story = await Story.findOne(query).populate('authorId', 'displayName username email');
     
     if (!story) {
       console.log('Story not found');

@@ -7,6 +7,21 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  paramsSerializer: {
+    serialize: (params) => {
+      const queryString = new URLSearchParams();
+      Object.keys(params).forEach((key) => {
+        if (Array.isArray(params[key])) {
+          params[key].forEach((value) => {
+            queryString.append(key, value);
+          });
+        } else {
+          queryString.set(key, params[key]);
+        }
+      });
+      return queryString.toString();
+    },
+  },
 });
 
 // Add JWT token to requests
