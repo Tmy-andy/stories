@@ -34,7 +34,9 @@ exports.getCategoriesWithCounts = async (req, res) => {
       })
     );
 
-    res.json(categoriesWithCounts);
+    res.json({
+      categories: categoriesWithCounts
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
