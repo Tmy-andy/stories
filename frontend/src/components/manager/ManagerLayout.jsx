@@ -64,6 +64,16 @@ const ManagerLayout = ({ children }) => {
       path: '/manager/contacts',
     },
     {
+      label: 'Thể loại',
+      icon: MessageSquare,
+      path: '/manager/categories',
+    },
+    {
+      label: 'Cấp độ',
+      icon: Users,
+      path: '/manager/levels',
+    },
+    {
       label: 'Cài đặt',
       icon: Settings,
       path: '/manager/settings',
