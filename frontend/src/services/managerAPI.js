@@ -67,6 +67,11 @@ export const managerAPI = {
   deleteUser: (id) => api.delete(`/api/manager/users/${id}`),
   toggleUserStatus: (id) => api.patch(`/api/manager/users/${id}/toggle-status`),
   updateUserRole: (id, newRole) => api.patch(`/api/manager/users/${id}/role`, { newRole }),
+  blockUser: (id) => api.post(`/api/manager/users/${id}/block`),
+
+  // Blacklist
+  getBlacklist: (params) => api.get('/api/manager/blacklist', { params }),
+  removeFromBlacklist: (id) => api.delete(`/api/manager/blacklist/${id}`),
 
   // Comments
   getComments: (params) => api.get('/api/manager/comments', { params }),

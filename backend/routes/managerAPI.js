@@ -6,6 +6,7 @@ const User = require('../models/User');
 const Comment = require('../models/Comment');
 const Contact = require('../models/Contact');
 const Chapter = require('../models/Chapter');
+const Blacklist = require('../models/Blacklist');
 const contactController = require('../controllers/contactController');
 
 /**
@@ -884,6 +885,164 @@ router.patch('/chapters/:id/status', verifyManagerToken, async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Lỗi khi cập nhật trạng thái chương',
+    });
+  }
+});
+
+/**
+ * Blacklist Management
+ */
+
+// Block user (add to blacklist)
+router.post('/users/:id/block', verifyManagerToken, async (req, res) => {
+  try {
+    // Only admin can block users
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({
+        success: false,
+        message: 'Chỉ quản trị viên mới có thể chặn người dùng',
+      });
+    }
+
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'Không tìm thấy người dùng',
+      });
+    }
+
+    // Cannot block admin account
+    if (user.email === 'tmy300803@gmail.com') {
+      return res.status(403).json({
+        success: false,
+        message: 'Không thể chặn tài khoản quản trị chính',
+      });
+    }
+
+    // Add to blacklist (both email and IP)
+    const blacklistRecords = [];
+    
+    if (user.email) {
+      await Blacklist.updateOne(
+        { email: user.email },
+        {
+          $set: {
+            email: user.email,
+            reason: `Người dùng bị chặn bởi ${req.user.id}`,
+            blockedAt: new Date(),
+            blockedBy: req.user.id
+          }
+        },
+        { upsert: true }
+      );
+      blacklistRecords.push(user.email);
+    }
+
+    if (user.ipAddress) {
+      await Blacklist.updateOne(
+        { ipAddress: user.ipAddress },
+        {
+          $set: {
+            ipAddress: user.ipAddress,
+            reason: `Người dùng bị chặn bởi ${req.user.id}`,
+            blockedAt: new Date(),
+            blockedBy: req.user.id
+          }
+        },
+        { upsert: true }
+      );
+      blacklistRecords.push(user.ipAddress);
+    }
+
+    res.json({
+      success: true,
+      message: `Chặn người dùng ${user.email} thành công`,
+      blockedRecords: blacklistRecords,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Lỗi khi chặn người dùng',
+    });
+  }
+});
+
+// Get blacklist
+router.get('/blacklist', verifyManagerToken, async (req, res) => {
+  try {
+    // Only admin can view blacklist
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({
+        success: false,
+        message: 'Chỉ quản trị viên mới có thể xem danh sách chặn',
+      });
+    }
+
+    const { page = 1, limit = 10, search } = req.query;
+    const skip = (page - 1) * limit;
+
+    let query = {};
+    if (search) {
+      query.$or = [
+        { email: { $regex: search, $options: 'i' } },
+        { ipAddress: { $regex: search, $options: 'i' } },
+      ];
+    }
+
+    const blacklist = await Blacklist.find(query)
+      .populate('blockedBy', 'email username')
+      .sort({ blockedAt: -1 })
+      .skip(skip)
+      .limit(parseInt(limit));
+
+    const total = await Blacklist.countDocuments(query);
+
+    res.json({
+      success: true,
+      blacklist,
+      pageInfo: {
+        page: parseInt(page),
+        limit: parseInt(limit),
+        total,
+        totalPages: Math.ceil(total / limit),
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Lỗi khi lấy danh sách chặn',
+    });
+  }
+});
+
+// Remove from blacklist
+router.delete('/blacklist/:id', verifyManagerToken, async (req, res) => {
+  try {
+    // Only admin can remove from blacklist
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({
+        success: false,
+        message: 'Chỉ quản trị viên mới có thể gỡ chặn',
+      });
+    }
+
+    const blacklistRecord = await Blacklist.findByIdAndDelete(req.params.id);
+    if (!blacklistRecord) {
+      return res.status(404).json({
+        success: false,
+        message: 'Không tìm thấy bản ghi',
+      });
+    }
+
+    res.json({
+      success: true,
+      message: 'Gỡ chặn thành công',
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Lỗi khi gỡ chặn',
     });
   }
 });

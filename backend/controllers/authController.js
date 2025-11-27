@@ -1,11 +1,33 @@
 const User = require('../models/User');
 const Comment = require('../models/Comment');
+const Blacklist = require('../models/Blacklist');
 const jwt = require('jsonwebtoken');
 
 // Đăng ký user mới
 exports.register = async (req, res) => {
   try {
     const { username, email, password } = req.body;
+
+    // Get IP address from request
+    const ipAddress = req.headers['x-forwarded-for']?.split(',')[0].trim() || 
+                      req.connection.remoteAddress || 
+                      req.socket.remoteAddress || 
+                      req.ip ||
+                      'unknown';
+
+    // Kiểm tra blacklist
+    const blacklisted = await Blacklist.findOne({
+      $or: [
+        { email: email.toLowerCase() },
+        { ipAddress: ipAddress }
+      ]
+    });
+
+    if (blacklisted) {
+      return res.status(403).json({ 
+        message: 'Tài khoản hoặc IP của bạn đã bị chặn. Vui lòng liên hệ quản trị viên.' 
+      });
+    }
 
     // Kiểm tra email đã tồn tại
     const existingUser = await User.findOne({ $or: [{ email }, { username }] });
@@ -14,9 +36,6 @@ exports.register = async (req, res) => {
         message: existingUser.email === email ? 'Email đã được sử dụng' : 'Tên người dùng đã tồn tại' 
       });
     }
-
-    // Get IP address from request
-    const ipAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || req.ip;
 
     // Tạo user mới (role mặc định là 'user')
     const user = new User({
@@ -56,6 +75,27 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
+
+    // Get IP address from request
+    const ipAddress = req.headers['x-forwarded-for']?.split(',')[0].trim() || 
+                      req.connection.remoteAddress || 
+                      req.socket.remoteAddress || 
+                      req.ip ||
+                      'unknown';
+
+    // Kiểm tra blacklist
+    const blacklisted = await Blacklist.findOne({
+      $or: [
+        { email: email.toLowerCase() },
+        { ipAddress: ipAddress }
+      ]
+    });
+
+    if (blacklisted) {
+      return res.status(403).json({ 
+        message: 'Tài khoản hoặc IP của bạn đã bị chặn. Vui lòng liên hệ quản trị viên.' 
+      });
+    }
 
     // Tìm user
     const user = await User.findOne({ email });

@@ -111,24 +111,14 @@ const ManagerUsers = () => {
       const user = users.find(u => u._id === blockingUserId);
       if (!user) return;
 
-      // Lưu blacklist vào localStorage
-      const blacklist = JSON.parse(localStorage.getItem('userBlacklist') || '{"ips": [], "emails": []}');
-      
-      if (!blacklist.ips.includes(user.ipAddress)) {
-        blacklist.ips.push(user.ipAddress);
-      }
-      if (!blacklist.emails.includes(user.email)) {
-        blacklist.emails.push(user.email);
-      }
-
-      localStorage.setItem('userBlacklist', JSON.stringify(blacklist));
+      await managerAPI.blockUser(blockingUserId);
       
       // Xóa user khỏi danh sách
       setUsers(users.filter(u => u._id !== blockingUserId));
       setShowBlockModal(false);
-      alert(`Đã chặn người dùng ${user.email} (IP: ${user.ipAddress})`);
+      alert(`Đã chặn người dùng ${user.email} thành công${user.ipAddress ? ` (IP: ${user.ipAddress})` : ''}`);
     } catch (err) {
-      alert('Lỗi khi chặn người dùng');
+      alert(err.response?.data?.message || 'Lỗi khi chặn người dùng');
     }
   };
 
