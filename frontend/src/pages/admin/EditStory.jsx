@@ -63,12 +63,23 @@ function EditStory() {
       setLoading(true);
       const story = await getStoryById(id);
       const currentUser = authService.getCurrentUser();
+      
+      // Convert category to array of IDs
+      let categoryIds = [];
+      if (Array.isArray(story.category)) {
+        categoryIds = story.category.map(cat => 
+          typeof cat === 'string' ? cat : cat._id
+        );
+      } else if (story.category) {
+        categoryIds = [typeof story.category === 'string' ? story.category : story.category._id];
+      }
+      
       setFormData({
         title: story.title || '',
         author: currentUser.username,
         description: story.description || '',
         coverImage: story.coverImage || '',
-        category: Array.isArray(story.category) ? story.category : [story.category || 'Tiên hiệp'],
+        category: categoryIds.length > 0 ? categoryIds : [],
         status: story.status || 'publishing',
         featured: story.featured || false
       });
