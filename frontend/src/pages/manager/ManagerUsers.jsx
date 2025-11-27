@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { managerAPI } from '../../services/managerAPI';
 import { Users, Search, Edit2, Trash2, Lock, Unlock, AlertCircle, Loader } from 'lucide-react';
 import ManagerLayout from '../../components/manager/ManagerLayout';
+import { MedalIcon, calculateLevel } from '../../utils/tierSystem';
 
 const ManagerUsers = () => {
   const [users, setUsers] = useState([]);
@@ -14,10 +15,12 @@ const ManagerUsers = () => {
   const [deleting, setDeleting] = useState(null);
   const [blockingUserId, setBlockingUserId] = useState(null);
   const [showBlockModal, setShowBlockModal] = useState(false);
+  const [sortBy, setSortBy] = useState('membershipPoints'); // 'membershipPoints' or 'createdAt'
+  const [sortOrder, setSortOrder] = useState('desc'); // 'asc' or 'desc'
 
   useEffect(() => {
     loadUsers();
-  }, [pageInfo.page, filterRole, filterStatus, searchTerm]);
+  }, [pageInfo.page, filterRole, filterStatus, searchTerm, sortBy, sortOrder]);
 
   const loadUsers = async () => {
     try {
@@ -28,9 +31,21 @@ const ManagerUsers = () => {
         role: filterRole !== 'all' ? filterRole : undefined,
         status: filterStatus !== 'all' ? filterStatus : undefined,
         search: searchTerm || undefined,
+        sort: sortBy,
+        order: sortOrder,
       });
 
-      setUsers(response.data.users);
+      // Client-side sorting by points for more reliable sorting
+      let users = response.data.users;
+      if (sortBy === 'membershipPoints') {
+        users.sort((a, b) => {
+          const aPoints = a.membershipPoints || 0;
+          const bPoints = b.membershipPoints || 0;
+          return sortOrder === 'desc' ? bPoints - aPoints : aPoints - bPoints;
+        });
+      }
+
+      setUsers(users);
       setPageInfo(response.data.pageInfo);
       setError('');
     } catch (err) {
@@ -213,6 +228,10 @@ const ManagerUsers = () => {
                 <th className="px-6 py-3">Tên người dùng</th>
                 <th className="px-6 py-3">Email</th>
                 <th className="px-6 py-3">Vai trò</th>
+                <th className="px-6 py-3">Cấp độ</th>
+                <th className="px-6 py-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-[#3c3858]" onClick={() => setSortOrder(sortOrder === 'desc' ? 'asc' : 'desc')}>
+                  Điểm {sortBy === 'membershipPoints' && (sortOrder === 'desc' ? '↓' : '↑')}
+                </th>
                 <th className="px-6 py-3">Trạng thái</th>
                 <th className="px-6 py-3">Ngày đăng ký</th>
                 <th className="px-6 py-3">Hành động</th>
@@ -227,6 +246,15 @@ const ManagerUsers = () => {
                     </td>
                     <td className="px-6 py-4 text-xs">{user.email}</td>
                     <td className="px-6 py-4">{getRoleBadge(user.role)}</td>
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-2">
+                        <MedalIcon level={calculateLevel(user.membershipPoints || 0)} size={18} />
+                        <span className="text-xs font-medium capitalize">
+                          {['Đồng', 'Bạc', 'Vàng', 'Kim Cương'][calculateLevel(user.membershipPoints || 0)] || 'Chưa xếp hạng'}
+                        </span>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 font-semibold text-primary">{user.membershipPoints || 0}</td>
                     <td className="px-6 py-4">{getStatusBadge(user.isActive)}</td>
                     <td className="px-6 py-4 text-xs">
                       {new Date(user.createdAt).toLocaleDateString('vi-VN')}
