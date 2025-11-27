@@ -37,7 +37,7 @@ const Stories = () => {
   const loadCategories = async () => {
     try {
       const data = await categoryService.getCategories();
-      setCategories(data);
+      setCategories(data.categories || []);
     } catch (error) {
       console.error('Error loading categories:', error);
     }

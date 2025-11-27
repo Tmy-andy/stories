@@ -6,7 +6,9 @@ exports.getAllCategories = async (req, res) => {
   try {
     const categories = await Category.find({ isActive: true })
       .sort({ displayOrder: 1 });
-    res.json(categories);
+    res.json({
+      categories: categories
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
