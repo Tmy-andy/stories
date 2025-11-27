@@ -69,7 +69,11 @@ const StoryDetail = () => {
                 <h1 className="text-gray-900 dark:text-white text-3xl font-display font-bold">{story.title}</h1>
                 <p className="text-primary text-base font-medium">Tác giả: {story.author}</p>
                 <div className="flex gap-2 flex-wrap pt-2">
-                  <div className="flex h-7 items-center justify-center rounded-full bg-gray-200 dark:bg-white/10 px-3"><p className="text-gray-800 dark:text-white text-xs font-medium">{story.category}</p></div>
+                  <div className="flex h-7 items-center justify-center rounded-full bg-gray-200 dark:bg-white/10 px-3"><p className="text-gray-800 dark:text-white text-xs font-medium">
+                    {Array.isArray(story.category) 
+                      ? story.category.map(c => c.name || c).join(', ')
+                      : story.category}
+                  </p></div>
                   <div className="flex h-7 items-center justify-center rounded-full bg-gray-200 dark:bg-white/10 px-3"><p className="text-gray-800 dark:text-white text-xs font-medium">{story.status}</p></div>
                 </div>
                 <p className="text-gray-600 dark:text-[#a29db9] text-base mt-2">{story.description}</p>
