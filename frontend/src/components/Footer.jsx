@@ -6,16 +6,16 @@ const Footer = () => {
   return (
     <footer className="bg-secondary-light dark:bg-secondary-dark border-t border-gray-200 dark:border-white/10 mt-16 w-full">
       <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
-          {/* Brand Section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-8">
+          {/* Left Column - Brand & Social */}
           <div>
-            <Link to="/" className="flex items-center gap-3 text-primary mb-4">
+            <Link to="/" className="flex items-center gap-3 text-primary mb-6">
               <div className="w-10 h-10">
                 <img src={logo} alt="Logo" className="w-full h-full object-contain" />
               </div>
               <h2 className="text-text-light dark:text-white text-xl font-bold font-display">Lam điệp cô ảnh</h2>
             </Link>
-            <p className="text-sm text-text-muted-light dark:text-text-muted-dark leading-relaxed mb-4">
+            <p className="text-sm text-text-muted-light dark:text-text-muted-dark leading-relaxed mb-6">
               Nơi chắp cánh cho những câu chuyện tiểu thuyết, đưa bạn vào thế giới của trí tưởng tượng.
             </p>
             <div className="flex gap-3">
@@ -31,45 +31,28 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h4 className="font-bold text-text-light dark:text-white mb-4 text-sm uppercase tracking-wider">Khám phá</h4>
-            <ul className="space-y-3">
-              <li><Link to="/" className="text-sm text-text-muted-light dark:text-text-muted-dark hover:text-primary dark:hover:text-primary transition-colors flex items-center gap-2">
-                <span className="material-symbols-outlined text-base">home</span>
-                Trang chủ
-              </Link></li>
-              <li><Link to="/stories" className="text-sm text-text-muted-light dark:text-text-muted-dark hover:text-primary dark:hover:text-primary transition-colors flex items-center gap-2">
-                <span className="material-symbols-outlined text-base">menu_book</span>
-                Danh sách truyện
-              </Link></li>
-              <li><Link to="/categories" className="text-sm text-text-muted-light dark:text-text-muted-dark hover:text-primary dark:hover:text-primary transition-colors flex items-center gap-2">
-                <span className="material-symbols-outlined text-base">category</span>
-                Thể loại
-              </Link></li>
-            </ul>
-          </div>
+          {/* Right Column - Links */}
+          <div className="grid grid-cols-2 gap-8">
+            {/* Explore */}
+            <div>
+              <h4 className="font-bold text-text-light dark:text-white mb-4 text-sm uppercase tracking-wider">Khám phá</h4>
+              <ul className="space-y-3">
+                <li><Link to="/" className="text-sm text-text-muted-light dark:text-text-muted-dark hover:text-primary dark:hover:text-primary transition-colors">Trang chủ</Link></li>
+                <li><Link to="/stories" className="text-sm text-text-muted-light dark:text-text-muted-dark hover:text-primary dark:hover:text-primary transition-colors">Danh sách truyện</Link></li>
+                <li><Link to="/categories" className="text-sm text-text-muted-light dark:text-text-muted-dark hover:text-primary dark:hover:text-primary transition-colors">Thể loại</Link></li>
+                <li><Link to="/contact" className="text-sm text-text-muted-light dark:text-text-muted-dark hover:text-primary dark:hover:text-primary transition-colors">Liên hệ</Link></li>
+              </ul>
+            </div>
 
-          {/* Categories */}
-          <div>
-            <h4 className="font-bold text-text-light dark:text-white mb-4 text-sm uppercase tracking-wider">Thể loại nổi bật</h4>
-            <ul className="space-y-3">
-              <li><Link to="/category/tienhiep" className="text-sm text-text-muted-light dark:text-text-muted-dark hover:text-primary dark:hover:text-primary transition-colors">Tiên hiệp</Link></li>
-              <li><Link to="/category/kiem" className="text-sm text-text-muted-light dark:text-text-muted-dark hover:text-primary dark:hover:text-primary transition-colors">Kiếm hiệp</Link></li>
-              <li><Link to="/category/nguon" className="text-sm text-text-muted-light dark:text-text-muted-dark hover:text-primary dark:hover:text-primary transition-colors">Ngôn tình</Link></li>
-              <li><Link to="/category/huyenhuyen" className="text-sm text-text-muted-light dark:text-text-muted-dark hover:text-primary dark:hover:text-primary transition-colors">Huyền huyễn</Link></li>
-            </ul>
-          </div>
-
-          {/* Support */}
-          <div>
-            <h4 className="font-bold text-text-light dark:text-white mb-4 text-sm uppercase tracking-wider">Hỗ trợ</h4>
-            <ul className="space-y-3">
-              <li><Link to="/about" className="text-sm text-text-muted-light dark:text-text-muted-dark hover:text-primary dark:hover:text-primary transition-colors">Về chúng tôi</Link></li>
-              <li><Link to="/contact" className="text-sm text-text-muted-light dark:text-text-muted-dark hover:text-primary dark:hover:text-primary transition-colors">Liên hệ</Link></li>
-              <li><Link to="/terms-and-conditions" className="text-sm text-text-muted-light dark:text-text-muted-dark hover:text-primary dark:hover:text-primary transition-colors">Điều khoản sử dụng</Link></li>
-              <li><Link to="/privacy-policy" className="text-sm text-text-muted-light dark:text-text-muted-dark hover:text-primary dark:hover:text-primary transition-colors">Chính sách bảo mật</Link></li>
-            </ul>
+            {/* Legal */}
+            <div>
+              <h4 className="font-bold text-text-light dark:text-white mb-4 text-sm uppercase tracking-wider">Pháp lý</h4>
+              <ul className="space-y-3">
+                <li><Link to="/about" className="text-sm text-text-muted-light dark:text-text-muted-dark hover:text-primary dark:hover:text-primary transition-colors">Về chúng tôi</Link></li>
+                <li><Link to="/terms-and-conditions" className="text-sm text-text-muted-light dark:text-text-muted-dark hover:text-primary dark:hover:text-primary transition-colors">Điều khoản sử dụng</Link></li>
+                <li><Link to="/privacy-policy" className="text-sm text-text-muted-light dark:text-text-muted-dark hover:text-primary dark:hover:text-primary transition-colors">Chính sách bảo mật</Link></li>
+              </ul>
+            </div>
           </div>
         </div>
 
