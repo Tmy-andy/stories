@@ -17,6 +17,23 @@ export const authService = {
     if (response.data.token) {
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
+      
+      // If user is admin, create admin token for manager access
+      if (response.data.user.role === 'admin') {
+        try {
+          // Parse token to get payload
+          const tokenParts = response.data.token.split('.');
+          const payload = JSON.parse(atob(tokenParts[1]));
+          
+          // Create admin token with manager format
+          // For client-side, we'll use the user token as admin token
+          // The backend middleware accepts both
+          localStorage.setItem('managerToken', response.data.token);
+          console.log('✅ Admin token created for manager access');
+        } catch (e) {
+          console.log('⚠️ Could not create admin token:', e.message);
+        }
+      }
     }
     return response.data;
   },
@@ -25,6 +42,7 @@ export const authService = {
   logout: () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    localStorage.removeItem('managerToken'); // Also remove admin token if exists
   },
 
   // Lấy user hiện tại

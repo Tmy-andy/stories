@@ -24,10 +24,9 @@ const ManagerUsers = () => {
   const [updatingRole, setUpdatingRole] = useState(false);
 
   useEffect(() => {
-    // Get current user role from token (manager or user token if admin)
+    // Get current user role from manager token (or admin token)
     let role = 'manager';
     
-    // First try manager token
     const managerToken = localStorage.getItem('managerToken');
     if (managerToken) {
       try {
@@ -35,20 +34,7 @@ const ManagerUsers = () => {
         role = decoded.role || 'manager';
       } catch (e) {
         console.log('Invalid manager token');
-      }
-    }
-    
-    // Also check user token (for admin users accessing manager)
-    const userToken = localStorage.getItem('token');
-    if (userToken && role === 'manager') {
-      try {
-        const decoded = JSON.parse(atob(userToken.split('.')[1]));
-        if (decoded.role === 'admin') {
-          role = 'admin';
-          console.log('Admin user accessing manager with user token');
-        }
-      } catch (e) {
-        console.log('Invalid user token');
+        role = 'manager';
       }
     }
     
