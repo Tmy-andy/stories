@@ -3,17 +3,32 @@ const Comment = require('../models/Comment');
 const Blacklist = require('../models/Blacklist');
 const jwt = require('jsonwebtoken');
 
+// Helper function to get client IP address
+const getClientIP = (req) => {
+  // Try multiple ways to get the real IP
+  const forwarded = req.headers['x-forwarded-for'];
+  if (forwarded) {
+    return forwarded.split(',')[0].trim();
+  }
+  
+  if (req.headers['cf-connecting-ip']) {
+    return req.headers['cf-connecting-ip'];
+  }
+  
+  if (req.headers['x-real-ip']) {
+    return req.headers['x-real-ip'];
+  }
+  
+  return req.ip || req.connection.remoteAddress || req.socket.remoteAddress || 'unknown';
+};
+
 // Đăng ký user mới
 exports.register = async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
     // Get IP address from request
-    const ipAddress = req.headers['x-forwarded-for']?.split(',')[0].trim() || 
-                      req.connection.remoteAddress || 
-                      req.socket.remoteAddress || 
-                      req.ip ||
-                      'unknown';
+    const ipAddress = getClientIP(req);
 
     // Kiểm tra blacklist
     const blacklisted = await Blacklist.findOne({
@@ -77,11 +92,7 @@ exports.login = async (req, res) => {
     const { email, password } = req.body;
 
     // Get IP address from request
-    const ipAddress = req.headers['x-forwarded-for']?.split(',')[0].trim() || 
-                      req.connection.remoteAddress || 
-                      req.socket.remoteAddress || 
-                      req.ip ||
-                      'unknown';
+    const ipAddress = getClientIP(req);
 
     // Kiểm tra blacklist
     const blacklisted = await Blacklist.findOne({

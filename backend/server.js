@@ -44,6 +44,9 @@ io.on('connection', (socket) => {
 app.use(cors());
 app.use(express.json());
 
+// Trust proxy for getting real client IP
+app.set('trust proxy', 1);
+
 // Kết nối MongoDB
 mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log('MongoDB connected'))
