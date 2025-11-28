@@ -42,8 +42,12 @@ io.on('connection', (socket) => {
 
 // Middleware
 app.use(cors({
-  origin: '*',
-  credentials: false,
+  origin: [
+    'http://localhost:3000',
+    'http://localhost:5173',
+    'https://lamdiepcoanh.netlify.app'
+  ],
+  credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-User-Token']
 }));
