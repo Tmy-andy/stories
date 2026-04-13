@@ -8,7 +8,7 @@
 | **Người thực hiện** | Tmy-andy |
 | **Tag** | `[FEATURE]` |
 | **Mức rủi ro** | `MEDIUM` |
-| **Commit hash** | _(chưa commit)_ |
+| **Commit hash** | `553bbf5` |
 | **Branch** | main |
 
 ## Mục đích

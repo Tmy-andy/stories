@@ -6,12 +6,14 @@ const FavoriteButton = ({ storyId, size = 24, className = '' }) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [loading, setLoading] = useState(false);
   const user = authService.getCurrentUser();
+  const userId = user?.id || user?._id;
 
   useEffect(() => {
-    if (user) {
+    if (userId) {
       checkFavorite();
     }
-  }, [storyId, user]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [storyId, userId]);
 
   const checkFavorite = async () => {
     try {

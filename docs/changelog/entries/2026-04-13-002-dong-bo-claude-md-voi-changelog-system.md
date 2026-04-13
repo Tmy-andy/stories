@@ -8,7 +8,7 @@
 | **Người thực hiện** | Tmy-andy (qua Claude) |
 | **Tag** | `[DOCS]` |
 | **Mức rủi ro** | `LOW` |
-| **Commit hash** | _(chưa commit)_ |
+| **Commit hash** | `56aa224` |
 | **Branch** | main |
 
 ## Mục đích
