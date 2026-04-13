@@ -8,7 +8,7 @@
 | **Người thực hiện** | Tmy-andy |
 | **Tag** | `[FIX]` |
 | **Mức rủi ro** | `LOW` |
-| **Commit hash** | _(chưa commit)_ |
+| **Commit hash** | `e55163d` |
 | **Branch** | main |
 
 ## Mục đích
