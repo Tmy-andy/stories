@@ -71,7 +71,7 @@ git commit -m "restore backend/.env tracking"
 
 ## Ghi chú
 
-- **Secret cũ đã lộ trên GitHub** — dù repo chưa show cho ai, vẫn nên đổi password MongoDB Atlas (`Overless30803.`) khi có thời gian. Entry này không làm việc đó.
+- **Secret cũ đã lộ trên GitHub** — dù repo chưa show cho ai, vẫn nên đổi password MongoDB Atlas khi có thời gian. Entry này không làm việc đó.
 - **MongoDB Atlas**: phải thêm `0.0.0.0/0` vào Network Access vì Render IP không cố định.
 - **Env vars trên Render** phải set đầy đủ: `MONGO_URI`, `JWT_SECRET`, `FRONTEND_URL`, `EMAIL_USER`, `EMAIL_PASSWORD`. **KHÔNG** set `PORT`.
 - Sau khi commit, quay lại file này và [CHANGELOG.md](../CHANGELOG.md) điền commit hash.
