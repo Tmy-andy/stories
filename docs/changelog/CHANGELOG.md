@@ -13,6 +13,7 @@ Format mỗi dòng:
 
 ### Tháng 04
 
+- 2026-04-13 `[CONFIG]` `MEDIUM` — Chuẩn bị deploy backend lên Render: đổi URL frontend, gỡ `.env` khỏi git tracking → [entry](entries/2026-04-13-003-chuan-bi-deploy-backend-render.md) · commit: _(chưa commit)_
 - 2026-04-13 `[DOCS]` `LOW` — Đồng bộ CLAUDE.md với hệ thống changelog + whitelist `.claude/` trong .gitignore → [entry](entries/2026-04-13-002-dong-bo-claude-md-voi-changelog-system.md) · commit: _(chưa commit)_
 - 2026-04-13 `[DOCS]` `LOW` — Khởi tạo hệ thống changelog → [entry](entries/2026-04-13-001-khoi-tao-changelog.md) · commit: _(chưa commit)_
 
