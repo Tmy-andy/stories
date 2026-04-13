@@ -87,7 +87,7 @@ const Home = () => {
                 <div className="flex flex-col flex-1 justify-between p-4 pt-0 gap-4">
                   <div>
                     <p className="text-text-light dark:text-white text-base font-medium leading-normal font-display">{story.title}</p>
-                    <p className="text-text-muted-light dark:text-text-muted-dark text-sm font-normal leading-normal">Tác giả: {story.author}</p>
+                    <p className="text-text-muted-light dark:text-text-muted-dark text-sm font-normal leading-normal">Tác giả: {story.authorId?.displayName || story.authorId?.username || 'Ẩn danh'}</p>
                   </div>
                   <Link
                     to={`/story/${story._id}`}
@@ -114,6 +114,7 @@ const Home = () => {
               ></div>
               <div>
                 <h3 className="text-text-light dark:text-white text-base font-medium leading-normal font-display group-hover:text-primary dark:group-hover:text-primary transition-colors">{story.title}</h3>
+                <p className="text-text-muted-light dark:text-text-muted-dark text-sm font-normal leading-normal">Tác giả: {story.authorId?.displayName || story.authorId?.username || 'Ẩn danh'}</p>
                 <p className="text-text-muted-light dark:text-text-muted-dark text-sm font-normal leading-normal">Chương {story.chapterCount}</p>
               </div>
             </Link>

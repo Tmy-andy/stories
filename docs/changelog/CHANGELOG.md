@@ -13,6 +13,7 @@ Format mỗi dòng:
 
 ### Tháng 04
 
+- 2026-04-13 `[FIX]` `LOW` — Phase 1: Hiển thị tên tác giả ở Home (populate `authorId`, sửa field `story.author` → `authorId.displayName`) → [entry](entries/2026-04-13-006-phase-1-fix-author-display.md) · commit: _(chưa commit)_
 - 2026-04-13 `[FIX]` `LOW` — Sửa CommentInput crash khi `user.username` undefined → [entry](entries/2026-04-13-005-fix-commentinput-username-undefined.md) · commit: _(chưa commit)_
 - 2026-04-13 `[FEATURE]` `MEDIUM` — Search autocomplete dropdown ở Header + Enter chuyển sang trang kết quả → [entry](entries/2026-04-13-004-search-autocomplete-header.md) · commit: _(chưa commit)_
 - 2026-04-13 `[CONFIG]` `MEDIUM` — Chuẩn bị deploy backend lên Render: đổi URL frontend, gỡ `.env` khỏi git tracking → [entry](entries/2026-04-13-003-chuan-bi-deploy-backend-render.md) · commit: `1538775`

@@ -145,6 +145,7 @@ exports.getFeaturedStories = async (req, res) => {
   try {
     const stories = await Story.find({ featured: true })
       .populate('category', 'name slug')
+      .populate('authorId', 'displayName username avatar')
       .sort({ views: -1 })
       .limit(10);
     res.json(stories);
@@ -159,6 +160,7 @@ exports.getLatestStories = async (req, res) => {
     const limit = parseInt(req.query.limit) || 10;
     const stories = await Story.find()
       .populate('category', 'name slug')
+      .populate('authorId', 'displayName username avatar')
       .sort({ updatedAt: -1 })
       .limit(limit);
     res.json(stories);
