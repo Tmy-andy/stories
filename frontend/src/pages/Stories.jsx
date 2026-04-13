@@ -51,6 +51,8 @@ const Stories = () => {
     }
   }, [searchParams]);
 
+  const searchKeyword = searchParams.get('search') || '';
+
   // Close category filter when clicking outside
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -65,7 +67,8 @@ const Stories = () => {
   useEffect(() => {
     loadStories();
     loadFavorites();
-  }, [selectedCategories, selectedStatus]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedCategories, selectedStatus, searchKeyword]);
 
   const loadFavorites = async () => {
     if (!user) return;
@@ -82,15 +85,16 @@ const Stories = () => {
     try {
       setLoading(true);
       const params = {};
-      
+
       // Convert Set to array for API
       if (selectedCategories.size > 0) {
         params.categories = Array.from(selectedCategories);
       }
       if (selectedStatus) params.status = selectedStatus;
-      
+      if (searchKeyword) params.search = searchKeyword;
+
       const data = await getAllStories(params);
-      setStories(data);
+      setStories(Array.isArray(data) ? data : (data?.stories || []));
     } catch (error) {
       console.error('Error loading stories:', error);
     } finally {
@@ -141,7 +145,16 @@ const Stories = () => {
     <div className="py-8 px-4">
       {/* Title and Filters */}
       <div className="flex flex-wrap justify-between gap-3 p-4 mb-4">
-        <p className="text-text-light dark:text-white text-4xl font-black leading-tight tracking-[-0.033em] min-w-72 font-display">Danh Sách Truyện</p>
+        <div className="min-w-72">
+          <p className="text-text-light dark:text-white text-4xl font-black leading-tight tracking-[-0.033em] font-display">
+            {searchKeyword ? 'Kết Quả Tìm Kiếm' : 'Danh Sách Truyện'}
+          </p>
+          {searchKeyword && (
+            <p className="text-text-muted-light dark:text-text-muted-dark text-sm mt-2">
+              Từ khóa: <span className="font-semibold text-primary">"{searchKeyword}"</span>
+            </p>
+          )}
+        </div>
       </div>
 
       {/* Filter Buttons */}

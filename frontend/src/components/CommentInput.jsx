@@ -129,9 +129,9 @@ const CommentInput = ({ storyId, chapterId, onCommentAdded, isReply = false, onC
       <div className="flex gap-2">
         <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold overflow-hidden shrink-0">
           {user.avatar ? (
-            <img src={user.avatar} alt={user.username} className="w-full h-full object-cover" />
+            <img src={user.avatar} alt={user.displayName || user.username || 'User'} className="w-full h-full object-cover" />
           ) : (
-            user.username.charAt(0).toUpperCase()
+            (user.displayName || user.username || '?').charAt(0).toUpperCase()
           )}
         </div>
         <div className="flex-1">

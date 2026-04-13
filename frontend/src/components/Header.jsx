@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import logo from '../assets/images/logo.png';
 import { authService } from '../services/authService';
+import { getAllStories } from '../services/storyService';
 import { MedalIcon, calculateLevel, AdminVerifiedIcon } from '../utils/tierSystem';
 import NotificationBell from './NotificationBell';
 
@@ -10,17 +11,80 @@ const Header = () => {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [user, setUser] = useState(null);
   const [isManager, setIsManager] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [searchLoading, setSearchLoading] = useState(false);
+  const searchRef = useRef(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const currentUser = authService.getCurrentUser();
     setUser(currentUser);
-    
+
     // Check if user is admin or manager
     if (currentUser && (currentUser.role === 'admin' || currentUser.role === 'manager')) {
       setIsManager(true);
     }
   }, []);
+
+  // Debounced search for autocomplete dropdown
+  useEffect(() => {
+    const query = searchQuery.trim();
+    if (!query) {
+      setSearchResults([]);
+      setSearchLoading(false);
+      return;
+    }
+
+    setSearchLoading(true);
+    const timer = setTimeout(async () => {
+      try {
+        const data = await getAllStories({ search: query, limit: 6 });
+        const list = Array.isArray(data) ? data : (data?.stories || []);
+        setSearchResults(list.slice(0, 6));
+      } catch (err) {
+        console.error('Search error:', err);
+        setSearchResults([]);
+      } finally {
+        setSearchLoading(false);
+      }
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (searchRef.current && !searchRef.current.contains(e.target)) {
+        setShowDropdown(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Clear search dropdown when route changes
+  useEffect(() => {
+    setShowDropdown(false);
+    setSearchQuery('');
+  }, [location.pathname, location.search]);
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    const q = searchQuery.trim();
+    if (!q) return;
+    setShowDropdown(false);
+    navigate(`/stories?search=${encodeURIComponent(q)}`);
+  };
+
+  const handleSelectResult = (story) => {
+    setShowDropdown(false);
+    setSearchQuery('');
+    navigate(`/story/${story.slug || story._id}`);
+  };
 
   const handleLogout = () => {
     authService.logout();
@@ -50,13 +114,58 @@ const Header = () => {
 
           {/* Search and Auth */}
           <div className="hidden md:flex flex-1 justify-end items-center gap-4">
-            <div className="relative w-64">
-              <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-muted-light dark:text-text-muted-dark">search</span>
-              <input 
-                className="w-full h-10 pl-10 pr-4 bg-secondary-light dark:bg-secondary-dark border border-transparent rounded-lg text-sm text-text-light dark:text-white focus:ring-2 focus:ring-primary focus:border-primary placeholder:text-text-muted-light dark:placeholder:text-text-muted-dark" 
-                placeholder="Tìm kiếm truyện..." 
-                type="text"
-              />
+            <div className="relative w-64" ref={searchRef}>
+              <form onSubmit={handleSearchSubmit}>
+                <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-muted-light dark:text-text-muted-dark pointer-events-none">search</span>
+                <input
+                  className="w-full h-10 pl-10 pr-4 bg-secondary-light dark:bg-secondary-dark border border-transparent rounded-lg text-sm text-text-light dark:text-white focus:ring-2 focus:ring-primary focus:border-primary placeholder:text-text-muted-light dark:placeholder:text-text-muted-dark"
+                  placeholder="Tìm kiếm truyện..."
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    setShowDropdown(true);
+                  }}
+                  onFocus={() => setShowDropdown(true)}
+                />
+              </form>
+
+              {showDropdown && searchQuery.trim() && (
+                <div className="absolute top-12 left-0 right-0 bg-white dark:bg-[#1e1c27] border border-gray-200 dark:border-white/10 rounded-lg shadow-xl z-50 max-h-96 overflow-y-auto">
+                  {searchLoading ? (
+                    <div className="px-4 py-3 text-sm text-text-muted-light dark:text-text-muted-dark">Đang tìm...</div>
+                  ) : searchResults.length > 0 ? (
+                    <>
+                      {searchResults.map((story) => (
+                        <button
+                          key={story._id}
+                          type="button"
+                          onClick={() => handleSelectResult(story)}
+                          className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors text-left"
+                        >
+                          <div
+                            className="w-10 h-14 flex-shrink-0 bg-center bg-cover rounded"
+                            style={{ backgroundImage: `url("${story.coverImage || 'https://via.placeholder.com/40x56?text=?'}")` }}
+                          />
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium text-text-light dark:text-white truncate">{story.title}</p>
+                            <p className="text-xs text-text-muted-light dark:text-text-muted-dark truncate">{story.author}</p>
+                          </div>
+                        </button>
+                      ))}
+                      <button
+                        type="button"
+                        onClick={handleSearchSubmit}
+                        className="w-full px-4 py-2 text-sm text-primary hover:bg-gray-100 dark:hover:bg-white/10 border-t border-gray-200 dark:border-white/10 text-left"
+                      >
+                        Xem tất cả kết quả cho "{searchQuery.trim()}"
+                      </button>
+                    </>
+                  ) : (
+                    <div className="px-4 py-3 text-sm text-text-muted-light dark:text-text-muted-dark">Không tìm thấy truyện phù hợp</div>
+                  )}
+                </div>
+              )}
             </div>
             
             {user ? (
