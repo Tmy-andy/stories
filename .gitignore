@@ -26,6 +26,13 @@ package-lock.json
 *.swo
 *~
 
+# Claude Code — KHÔNG ignore (phải commit để rule đồng bộ giữa các máy)
+# CLAUDE.md, docs/changelog/, .claude/ đều phải được giữ trong git.
+# Xem CLAUDE.md mục "File phải được giữ trong git".
+!.claude/
+!CLAUDE.md
+!docs/changelog/
+
 # OS
 .DS_Store
 Thumbs.db
