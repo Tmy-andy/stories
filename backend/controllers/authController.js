@@ -58,7 +58,8 @@ exports.register = async (req, res) => {
       email,
       password,
       role: 'user',
-      ipAddress: ipAddress
+      ipAddress: ipAddress,
+      ipHistory: ipAddress && ipAddress !== 'unknown' ? [{ ip: ipAddress, seenAt: new Date() }] : []
     });
 
     await user.save();
@@ -118,6 +119,18 @@ exports.login = async (req, res) => {
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
       return res.status(401).json({ message: 'Email hoặc mật khẩu không đúng' });
+    }
+
+    // Ghi lại IP hiện tại + cập nhật ipHistory
+    if (ipAddress && ipAddress !== 'unknown') {
+      user.ipAddress = ipAddress;
+      const existingEntry = (user.ipHistory || []).find(h => h.ip === ipAddress);
+      if (existingEntry) {
+        existingEntry.seenAt = new Date();
+      } else {
+        user.ipHistory = [...(user.ipHistory || []), { ip: ipAddress, seenAt: new Date() }];
+      }
+      await user.save();
     }
 
     // Tạo token - đảm bảo có id

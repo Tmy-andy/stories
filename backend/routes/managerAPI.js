@@ -976,12 +976,19 @@ router.post('/users/:id/block', verifyManagerToken, async (req, res) => {
       blacklistRecords.push(user.email);
     }
 
-    if (user.ipAddress) {
+    // Gộp tất cả IP: ipHistory + ipAddress hiện tại
+    const ipSet = new Set();
+    if (Array.isArray(user.ipHistory)) {
+      user.ipHistory.forEach(h => { if (h?.ip) ipSet.add(h.ip); });
+    }
+    if (user.ipAddress) ipSet.add(user.ipAddress);
+
+    for (const ip of ipSet) {
       await Blacklist.updateOne(
-        { ipAddress: user.ipAddress },
+        { ipAddress: ip },
         {
           $set: {
-            ipAddress: user.ipAddress,
+            ipAddress: ip,
             reason: `Người dùng bị chặn bởi ${req.user.id}`,
             blockedAt: new Date(),
             blockedBy: req.user.id
@@ -989,13 +996,14 @@ router.post('/users/:id/block', verifyManagerToken, async (req, res) => {
         },
         { upsert: true }
       );
-      blacklistRecords.push(user.ipAddress);
+      blacklistRecords.push(ip);
     }
 
     res.json({
       success: true,
       message: `Chặn người dùng ${user.email} thành công`,
       blockedRecords: blacklistRecords,
+      blockedIpCount: ipSet.size,
     });
   } catch (error) {
     res.status(500).json({

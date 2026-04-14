@@ -106,12 +106,13 @@ const ManagerUsers = () => {
       const user = users.find(u => u._id === blockingUserId);
       if (!user) return;
 
-      await managerAPI.blockUser(blockingUserId);
-      
+      const res = await managerAPI.blockUser(blockingUserId);
+      const count = res?.data?.blockedIpCount ?? 0;
+
       // Xóa user khỏi danh sách
       setUsers(users.filter(u => u._id !== blockingUserId));
       setShowBlockModal(false);
-      alert(`Đã chặn người dùng ${user.email} thành công${user.ipAddress ? ` (IP: ${user.ipAddress})` : ''}`);
+      alert(`Đã chặn người dùng ${user.email} thành công${count > 0 ? ` (đã chặn ${count} IP)` : ''}`);
     } catch (err) {
       alert(err.response?.data?.message || 'Lỗi khi chặn người dùng');
     }
@@ -497,16 +498,32 @@ const ManagerUsers = () => {
                       ⚠️ Hành động này sẽ chặn hoàn toàn:
                     </p>
                   </div>
-                  <div className="space-y-2 text-sm">
-                    <p className="text-gray-700 dark:text-gray-300">
-                      <strong>Email:</strong> {users.find(u => u._id === blockingUserId)?.email}
-                    </p>
-                    <p className="text-gray-700 dark:text-gray-300">
-                      <strong>IP Address:</strong> {users.find(u => u._id === blockingUserId)?.ipAddress || 'N/A'}
-                    </p>
-                  </div>
+                  {(() => {
+                    const u = users.find(x => x._id === blockingUserId);
+                    const ipSet = new Set();
+                    (u?.ipHistory || []).forEach(h => { if (h?.ip) ipSet.add(h.ip); });
+                    if (u?.ipAddress) ipSet.add(u.ipAddress);
+                    const ipList = Array.from(ipSet);
+                    return (
+                      <div className="space-y-2 text-sm">
+                        <p className="text-gray-700 dark:text-gray-300">
+                          <strong>Email:</strong> {u?.email}
+                        </p>
+                        <div className="text-gray-700 dark:text-gray-300">
+                          <strong>IP sẽ chặn ({ipList.length}):</strong>
+                          {ipList.length > 0 ? (
+                            <ul className="mt-1 ml-4 list-disc text-xs space-y-0.5">
+                              {ipList.map(ip => <li key={ip} className="font-mono">{ip}</li>)}
+                            </ul>
+                          ) : (
+                            <span className="ml-2 text-gray-400">Không có IP — chỉ chặn email</span>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })()}
                   <p className="text-gray-700 dark:text-gray-300 text-sm mt-4">
-                    Người dùng này sẽ không thể đăng nhập lại bằng email hoặc IP này.
+                    Người dùng này sẽ không thể đăng nhập lại bằng email hoặc bất kỳ IP nào trong danh sách trên.
                   </p>
                 </div>
               )}

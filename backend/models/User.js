@@ -79,6 +79,13 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: null
   },
+  ipHistory: {
+    type: [{
+      ip: { type: String },
+      seenAt: { type: Date, default: Date.now }
+    }],
+    default: []
+  },
   createdAt: {
     type: Date,
     default: Date.now
