@@ -13,6 +13,7 @@ Format mỗi dòng:
 
 ### Tháng 04
 
+- 2026-04-14 `[FEATURE]` `MEDIUM` — CMS trang tĩnh (`Page` model + `/manager/pages`) + thiết kế `/about` dynamic + banner `announcement` ở Terms/Privacy → [entry](entries/2026-04-14-005-cms-pages-tinh-va-about.md) · commit: `(chưa commit)`
 - 2026-04-14 `[FEATURE]` `MEDIUM` — Banner `/` đọc từ `/manager/settings` (title/subtitle/subtitle Hán/image) + thêm field `bannerSubtitleSecondary` → [entry](entries/2026-04-14-004-banner-customization-home.md) · commit: `fa47efd`
 - 2026-04-14 `[FIX]` `MEDIUM` — Lưu `ipHistory` khi login + block user sẽ chặn tất cả IP từng dùng (chặn triệt để 1-IP-nhiều-account) → [entry](entries/2026-04-14-003-fix-ip-blocking-luu-ip-history.md) · commit: `55e9aa7`
 - 2026-04-14 `[FEATURE]` `MEDIUM` — Cấp quyền Tác giả ở `/manager/users` (admin-only) + đồng bộ email ở `/contact`, `/terms-and-conditions`, `/privacy-policy` từ `settings.contactEmail` → [entry](entries/2026-04-14-002-cap-quyen-tac-gia-va-dong-bo-email.md) · commit: `90a9bb4`

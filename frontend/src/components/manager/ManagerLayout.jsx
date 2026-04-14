@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { 
-  LogOut, 
-  LayoutDashboard, 
-  BookOpen, 
-  Users, 
-  MessageSquare, 
+import {
+  LogOut,
+  LayoutDashboard,
+  BookOpen,
+  Users,
+  MessageSquare,
   Mail,
   Settings,
+  FileText,
   Menu,
   X
 } from 'lucide-react';
@@ -62,6 +63,11 @@ const ManagerLayout = ({ children }) => {
       label: 'Thể loại',
       icon: MessageSquare,
       path: '/manager/categories',
+    },
+    {
+      label: 'Trang tĩnh',
+      icon: FileText,
+      path: '/manager/pages',
     },
     {
       label: 'Cài đặt',

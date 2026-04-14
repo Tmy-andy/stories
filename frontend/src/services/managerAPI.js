@@ -84,6 +84,11 @@ export const managerAPI = {
   rejectComment: (id) => api.patch(`/api/manager/comments/${id}/reject`),
   deleteComment: (id) => api.delete(`/api/manager/comments/${id}`),
 
+  // Static Pages CMS
+  getPages: () => api.get('/api/manager/pages'),
+  getPage: (slug) => api.get(`/api/manager/pages/${slug}`),
+  updatePage: (slug, content) => api.patch(`/api/manager/pages/${slug}`, { content }),
+
   // Contact
   getContacts: (params) => api.get('/api/manager/contacts', { params }),
   getContactById: (id) => api.get(`/api/manager/contacts/${id}`),

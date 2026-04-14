@@ -1,9 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Megaphone } from 'lucide-react';
 import { useContactEmail } from '../hooks/useContactEmail';
+import { usePage } from '../hooks/usePage';
 
 const PrivacyPolicy = () => {
   const contactEmail = useContactEmail();
+  const { get } = usePage('privacy-policy');
+  const announcement = get('announcement');
   return (
     <main className="flex flex-col gap-8 md:gap-12 min-h-screen">
       {/* Page Container */}
@@ -22,6 +26,15 @@ const PrivacyPolicy = () => {
               Cập nhật lần cuối: 26 tháng 11 năm 2025
             </p>
           </div>
+
+          {announcement && (
+            <div className="mb-10 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-4 flex items-start gap-3">
+              <Megaphone className="w-5 h-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
+              <p className="text-sm text-amber-900 dark:text-amber-200 leading-relaxed whitespace-pre-line">
+                {announcement}
+              </p>
+            </div>
+          )}
 
           {/* Content Sections */}
           <div className="space-y-10">

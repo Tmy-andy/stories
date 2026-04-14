@@ -7,6 +7,8 @@ const Comment = require('../models/Comment');
 const Contact = require('../models/Contact');
 const Chapter = require('../models/Chapter');
 const Blacklist = require('../models/Blacklist');
+const Page = require('../models/Page');
+const { hydrate, getAllSlugs, getDefaults } = require('../data/pageDefaults');
 const contactController = require('../controllers/contactController');
 
 /**
@@ -1089,6 +1091,87 @@ router.delete('/blacklist/:id', verifyManagerToken, async (req, res) => {
       success: false,
       message: 'Lỗi khi gỡ chặn',
     });
+  }
+});
+
+// ============ Static Pages CMS ============
+
+// GET /api/manager/pages — list all pages with metadata
+router.get('/pages', verifyManagerToken, async (req, res) => {
+  try {
+    const slugs = getAllSlugs();
+    const docs = await Page.find({ slug: { $in: slugs } });
+    const docMap = Object.fromEntries(docs.map(d => [d.slug, d]));
+    const pages = slugs.map(slug => {
+      const def = getDefaults(slug);
+      const doc = docMap[slug];
+      return {
+        slug,
+        title: def.title,
+        subtitle: def.subtitle,
+        updatedAt: doc?.updatedAt || null,
+        fieldCount: def.fields.length
+      };
+    });
+    res.json({ success: true, data: pages });
+  } catch (error) {
+    console.error('Error listing pages:', error);
+    res.status(500).json({ success: false, message: 'Lỗi khi lấy danh sách trang' });
+  }
+});
+
+// GET /api/manager/pages/:slug — detail
+router.get('/pages/:slug', verifyManagerToken, async (req, res) => {
+  try {
+    const { slug } = req.params;
+    if (!getDefaults(slug)) {
+      return res.status(404).json({ success: false, message: 'Không tìm thấy trang' });
+    }
+    const doc = await Page.findOne({ slug });
+    const storedContent = doc ? Object.fromEntries(doc.content) : {};
+    res.json({ success: true, data: hydrate(slug, storedContent) });
+  } catch (error) {
+    console.error('Error fetching page:', error);
+    res.status(500).json({ success: false, message: 'Lỗi khi tải trang' });
+  }
+});
+
+// PATCH /api/manager/pages/:slug — update content (admin only)
+router.patch('/pages/:slug', verifyManagerToken, async (req, res) => {
+  try {
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({ success: false, message: 'Chỉ admin được chỉnh sửa trang' });
+    }
+    const { slug } = req.params;
+    const def = getDefaults(slug);
+    if (!def) {
+      return res.status(404).json({ success: false, message: 'Không tìm thấy trang' });
+    }
+    const { content } = req.body;
+    if (!content || typeof content !== 'object') {
+      return res.status(400).json({ success: false, message: 'Thiếu content' });
+    }
+    const validKeys = new Set(def.fields.map(f => f.key));
+    const sanitized = {};
+    for (const [k, v] of Object.entries(content)) {
+      if (validKeys.has(k) && typeof v === 'string') {
+        sanitized[k] = v;
+      }
+    }
+    const doc = await Page.findOneAndUpdate(
+      { slug },
+      { $set: { content: sanitized } },
+      { new: true, upsert: true }
+    );
+    const storedContent = Object.fromEntries(doc.content);
+    res.json({
+      success: true,
+      message: 'Cập nhật trang thành công',
+      data: hydrate(slug, storedContent)
+    });
+  } catch (error) {
+    console.error('Error updating page:', error);
+    res.status(500).json({ success: false, message: 'Lỗi khi cập nhật trang' });
   }
 });
 

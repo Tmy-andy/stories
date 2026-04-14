@@ -34,6 +34,9 @@ import ManagerAuthors from './pages/manager/ManagerAuthors';
 import ManagerContacts from './pages/manager/ManagerContacts';
 import ManagerSettings from './pages/manager/ManagerSettings';
 import ManagerCategories from './pages/manager/ManagerCategories';
+import ManagerPages from './pages/manager/ManagerPages';
+import ManagerPageEdit from './pages/manager/ManagerPageEdit';
+import About from './pages/About';
 import './index.css';
 
 function App() {
@@ -50,6 +53,8 @@ function App() {
         <Route path="/manager/contacts" element={<ManagerContacts />} />
         <Route path="/manager/settings" element={<ManagerSettings />} />
         <Route path="/manager/categories" element={<ManagerCategories />} />
+        <Route path="/manager/pages" element={<ManagerPages />} />
+        <Route path="/manager/pages/:slug" element={<ManagerPageEdit />} />
 
         {/* Admin routes - full layout without Header/Footer/padding */}
         <Route path="/admin" element={
@@ -99,6 +104,7 @@ function App() {
                   <Route path="/stories" element={<Stories />} />
                   <Route path="/categories" element={<Categories />} />
                   <Route path="/contact" element={<Contact />} />
+                  <Route path="/about" element={<About />} />
                   <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
                   <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                   <Route path="/story/:id" element={<StoryDetail />} />

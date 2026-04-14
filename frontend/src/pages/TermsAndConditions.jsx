@@ -1,10 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle, Megaphone } from 'lucide-react';
 import { useContactEmail } from '../hooks/useContactEmail';
+import { usePage } from '../hooks/usePage';
 
 const TermsAndConditions = () => {
   const contactEmail = useContactEmail();
+  const { get } = usePage('terms-and-conditions');
+  const announcement = get('announcement');
   return (
     <main className="flex flex-col gap-8 md:gap-12 min-h-screen">
       {/* Page Container */}
@@ -23,6 +26,16 @@ const TermsAndConditions = () => {
               Cập nhật lần cuối: 24 tháng 07, 2024
             </p>
           </div>
+
+          {/* Announcement */}
+          {announcement && (
+            <div className="mx-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-900/50 rounded-xl p-5 flex items-start gap-3">
+              <Megaphone className="w-5 h-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
+              <p className="text-amber-800 dark:text-amber-200 text-sm leading-relaxed whitespace-pre-line">
+                {announcement}
+              </p>
+            </div>
+          )}
 
           {/* Content Section */}
           <div className="flex flex-col gap-8">
