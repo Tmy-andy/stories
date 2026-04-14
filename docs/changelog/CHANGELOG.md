@@ -13,7 +13,7 @@ Format mỗi dòng:
 
 ### Tháng 04
 
-- 2026-04-14 `[FIX]` `MEDIUM` — Profile: tác giả ở Lịch sử đọc + tab Truyện yêu thích lấy từ `Favorite` collection. URL truyện mặc định dùng `slug`. `/manager/stories` cột Tác giả hết N/A → [entry](entries/2026-04-14-001-fix-tac-gia-va-slug-truyen.md) · commit: `(chưa commit)`
+- 2026-04-14 `[FIX]` `MEDIUM` — Profile: tác giả ở Lịch sử đọc + tab Truyện yêu thích lấy từ `Favorite` collection. URL truyện mặc định dùng `slug`. `/manager/stories` cột Tác giả hết N/A → [entry](entries/2026-04-14-001-fix-tac-gia-va-slug-truyen.md) · commit: `bdc11be`
 - 2026-04-13 `[FIX]` `LOW` — FavoriteButton race condition: dùng `userId` làm useEffect dep thay vì object `user` → fix không gỡ thích được + spam API → [entry](entries/2026-04-13-007-fix-favoritebutton-race-condition.md) · commit: `e55163d`
 - 2026-04-13 `[FIX]` `LOW` — Phase 1: Hiển thị tên tác giả ở Home (populate `authorId`, sửa field `story.author` → `authorId.displayName`) → [entry](entries/2026-04-13-006-phase-1-fix-author-display.md) · commit: `553bbf5`
 - 2026-04-13 `[FIX]` `LOW` — Sửa CommentInput crash khi `user.username` undefined → [entry](entries/2026-04-13-005-fix-commentinput-username-undefined.md) · commit: `553bbf5`

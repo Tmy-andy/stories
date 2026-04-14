@@ -8,7 +8,7 @@
 | **Người thực hiện** | Claude (Opus 4.6) |
 | **Tag** | `[FIX]` |
 | **Mức rủi ro** | `MEDIUM` |
-| **Commit hash** | (điền sau khi commit) |
+| **Commit hash** | `bdc11be` |
 | **Branch** | main |
 
 ## Mục đích
