@@ -56,7 +56,11 @@ exports.getReadingHistory = async (req, res) => {
     const userId = req.user.id;
 
     const history = await ReadingHistory.find({ userId })
-      .populate('storyId', 'title coverImage author')
+      .populate({
+        path: 'storyId',
+        select: 'title coverImage slug authorId',
+        populate: { path: 'authorId', select: 'displayName username' }
+      })
       .sort({ updatedAt: -1 })
       .limit(5);
 
@@ -74,7 +78,11 @@ exports.getAllReadingHistory = async (req, res) => {
     console.log('getAllReadingHistory - userId:', userId);
 
     let history = await ReadingHistory.find({ userId })
-      .populate('storyId', 'title coverImage author')
+      .populate({
+        path: 'storyId',
+        select: 'title coverImage slug authorId',
+        populate: { path: 'authorId', select: 'displayName username' }
+      })
       .sort({ updatedAt: -1 });
 
     // Populate chapter titles

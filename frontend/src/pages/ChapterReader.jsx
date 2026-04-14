@@ -139,7 +139,7 @@ const ChapterReader = () => {
                 Trang chủ
               </Link>
               <span className="text-text-muted-light dark:text-text-muted-dark text-sm font-medium leading-normal">/</span>
-              <Link to={`/story/${storyId}`} className="text-text-muted-light dark:text-text-muted-dark text-sm font-medium leading-normal hover:text-primary">
+              <Link to={`/story/${story?.slug || storyId}`} className="text-text-muted-light dark:text-text-muted-dark text-sm font-medium leading-normal hover:text-primary">
                 {story.title}
               </Link>
               <span className="text-text-muted-light dark:text-text-muted-dark text-sm font-medium leading-normal">/</span>
@@ -192,7 +192,7 @@ const ChapterReader = () => {
 
                 {/* Home button */}
                 <Link 
-                  to={`/story/${storyId}`}
+                  to={`/story/${story?.slug || storyId}`}
                   className="w-auto min-w-[84px] max-w-[480px] cursor-pointer flex items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-gray-200 dark:bg-white/10 text-text-light dark:text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-gray-300 dark:hover:bg-white/20 transition-colors"
                   title="Về trang truyện"
                 >
@@ -243,7 +243,7 @@ const ChapterReader = () => {
 
                 {/* Home icon */}
                 <Link 
-                  to={`/story/${storyId}`}
+                  to={`/story/${story?.slug || storyId}`}
                   className="flex-shrink-0 flex items-center justify-center overflow-hidden rounded-lg h-10 w-10 bg-gray-200 dark:bg-white/10 text-text-light dark:text-white hover:bg-gray-300 dark:hover:bg-white/20 transition-colors"
                   title="Về trang truyện"
                 >

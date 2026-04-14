@@ -355,7 +355,7 @@ const ManagerStories = () => {
                     <td className="px-6 py-4 font-medium text-gray-900 dark:text-white max-w-xs truncate">
                       {story.title}
                     </td>
-                    <td className="px-6 py-4">{story.author?.name || 'N/A'}</td>
+                    <td className="px-6 py-4">{story.authorId?.displayName || story.authorId?.username || 'N/A'}</td>
                     <td className="px-6 py-4 text-xs">
                       {new Date(story.createdAt).toLocaleDateString('vi-VN')}
                     </td>

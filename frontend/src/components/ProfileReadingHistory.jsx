@@ -32,8 +32,9 @@ const ProfileReadingHistory = () => {
     }
   };
 
-  const handleNavigateToStory = (storyId, chapterNumber) => {
-    navigate(`/chapter/${storyId}/${chapterNumber}`);
+  const handleNavigateToStory = (story, chapterNumber) => {
+    const storyKey = story?.slug || story?._id;
+    navigate(`/chapter/${storyKey}/${chapterNumber}`);
   };
 
   const handleDeleteReadingHistory = async (storyId, e) => {
@@ -61,7 +62,7 @@ const ProfileReadingHistory = () => {
 
   const ReadingHistoryItem = ({ item }) => (
     <div
-      onClick={() => handleNavigateToStory(item.storyId._id, item.chapterNumber)}
+      onClick={() => handleNavigateToStory(item.storyId, item.chapterNumber)}
       className="py-4 px-4 border-b border-gray-200 dark:border-white/10 last:border-b-0 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors cursor-pointer group"
     >
       <div className="flex items-start gap-4">
@@ -82,7 +83,7 @@ const ProfileReadingHistory = () => {
             {item.storyId.title}
           </h4>
           <p className="text-gray-500 dark:text-gray-400 text-sm mb-1">
-            Tác giả: {item.storyId.author}
+            Tác giả: {item.storyId.authorId?.displayName || item.storyId.authorId?.username || 'Ẩn danh'}
           </p>
           <div className="flex items-center gap-2 text-sm">
             <span className="text-primary font-semibold">{item.chapterTitle || `Chương ${item.chapterNumber}`}</span>

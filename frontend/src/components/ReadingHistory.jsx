@@ -32,9 +32,10 @@ const ReadingHistory = () => {
     }
   };
 
-  const handleNavigateToStory = (storyId, chapterNumber) => {
+  const handleNavigateToStory = (story, chapterNumber) => {
     // Navigate to chapter with saved position
-    navigate(`/chapter/${storyId}/${chapterNumber}`);
+    const storyKey = story?.slug || story?._id;
+    navigate(`/chapter/${storyKey}/${chapterNumber}`);
   };
 
   const handleDeleteReadingHistory = async (storyId, e) => {
@@ -63,7 +64,7 @@ const ReadingHistory = () => {
   const ReadingHistoryItem = ({ item }) => (
     <div
       key={item._id}
-      onClick={() => handleNavigateToStory(item.storyId._id, item.chapterNumber)}
+      onClick={() => handleNavigateToStory(item.storyId, item.chapterNumber)}
       className="p-4 bg-white dark:bg-[#1c182d] border border-gray-200 dark:border-gray-700 rounded-lg hover:shadow-md dark:hover:shadow-lg hover:border-primary/50 dark:hover:border-primary/50 transition-all cursor-pointer group"
     >
       <div className="flex gap-4">
@@ -84,7 +85,7 @@ const ReadingHistory = () => {
             {item.storyId.title}
           </h4>
           <p className="text-text-secondary-light dark:text-text-secondary-dark text-sm mb-2">
-            Tác giả: {item.storyId.author}
+            Tác giả: {item.storyId.authorId?.displayName || item.storyId.authorId?.username || 'Ẩn danh'}
           </p>
           <div className="flex items-center gap-2 text-sm">
             <span className="text-primary font-semibold">Chương {item.chapterNumber}</span>

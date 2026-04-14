@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { authService } from '../services/authService';
+import { favoriteService } from '../services/favoriteService';
 import { MedalIcon, calculateLevel, AdminVerifiedIcon } from '../utils/tierSystem';
 import UserTooltip from '../components/UserTooltip';
 import ReadingHistory from '../components/ReadingHistory';
@@ -13,6 +14,8 @@ function Profile() {
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
   const [comments, setComments] = useState([]);
+  const [favorites, setFavorites] = useState([]);
+  const [favoritesLoading, setFavoritesLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('comments');
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -42,6 +45,24 @@ function Profile() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (activeTab !== 'favorites' || !user) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        setFavoritesLoading(true);
+        const data = await favoriteService.getUserFavorites();
+        if (!cancelled) setFavorites(Array.isArray(data) ? data : []);
+      } catch (err) {
+        console.error('Error loading favorites:', err);
+        if (!cancelled) setFavorites([]);
+      } finally {
+        if (!cancelled) setFavoritesLoading(false);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [activeTab, user]);
 
   const getMembershipLevelColor = (level) => {
     const colors = {
@@ -268,7 +289,7 @@ function Profile() {
                         {comment.content}
                       </p>
                       <Link
-                        to={`/story/${comment.storyId._id}`}
+                        to={`/story/${comment.storyId.slug || comment.storyId._id}`}
                         className="text-gray-500 dark:text-gray-400 text-sm font-normal leading-normal pt-2 px-0 underline hover:text-primary transition-colors"
                       >
                         trong truyện '{comment.storyId.title}'
@@ -311,24 +332,32 @@ function Profile() {
 
         {activeTab === 'favorites' && (
           <>
-            {profile.favorites && profile.favorites.length > 0 ? (
+            {favoritesLoading ? (
+              <div className="flex justify-center items-center py-8">
+                <p className="text-gray-600 dark:text-gray-400">Đang tải...</p>
+              </div>
+            ) : favorites.length > 0 ? (
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 p-4">
-                {profile.favorites.map((story) => (
-                  <Link
-                    key={story._id}
-                    to={`/story/${story._id}`}
-                    className="flex flex-col gap-2 hover:opacity-80 transition-opacity"
-                  >
-                    <img
-                      src={story.coverImage || 'https://via.placeholder.com/150x200'}
-                      alt={story.title}
-                      className="w-full aspect-[3/4] object-cover rounded-lg"
-                    />
-                    <p className="text-sm font-medium text-gray-900 dark:text-white line-clamp-2">
-                      {story.title}
-                    </p>
-                  </Link>
-                ))}
+                {favorites.map((fav) => {
+                  const story = fav.storyId || {};
+                  const storyKey = story.slug || story._id;
+                  return (
+                    <Link
+                      key={fav._id}
+                      to={`/story/${storyKey}`}
+                      className="flex flex-col gap-2 hover:opacity-80 transition-opacity"
+                    >
+                      <img
+                        src={story.coverImage || 'https://via.placeholder.com/150x200'}
+                        alt={story.title}
+                        className="w-full aspect-[3/4] object-cover rounded-lg"
+                      />
+                      <p className="text-sm font-medium text-gray-900 dark:text-white line-clamp-2">
+                        {story.title}
+                      </p>
+                    </Link>
+                  );
+                })}
               </div>
             ) : (
               <div className="flex flex-col items-center justify-center text-center p-10 bg-white dark:bg-background-dark rounded-lg mt-4">

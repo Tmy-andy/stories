@@ -55,7 +55,11 @@ const getUserFavorites = async (req, res) => {
     const userId = req.user.id;
 
     const favorites = await Favorite.find({ userId })
-      .populate('storyId', 'title author coverImage chapterCount')
+      .populate({
+        path: 'storyId',
+        select: 'title slug coverImage chapterCount authorId',
+        populate: { path: 'authorId', select: 'displayName username' }
+      })
       .sort({ createdAt: -1 });
 
     res.json(favorites);

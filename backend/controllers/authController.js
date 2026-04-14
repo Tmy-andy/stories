@@ -220,7 +220,7 @@ exports.getUserProfile = async (req, res) => {
 
     // Lấy bình luận gần đây
     let recentComments = await Comment.find({ userId })
-      .populate('storyId', 'title')
+      .populate('storyId', 'title slug')
       .sort({ createdAt: -1 })
       .limit(10);
 

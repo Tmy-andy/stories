@@ -90,7 +90,7 @@ const Home = () => {
                     <p className="text-text-muted-light dark:text-text-muted-dark text-sm font-normal leading-normal">Tác giả: {story.authorId?.displayName || story.authorId?.username || 'Ẩn danh'}</p>
                   </div>
                   <Link
-                    to={`/story/${story._id}`}
+                    to={`/story/${story.slug || story._id}`}
                     className="flex w-full min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary/10 dark:bg-[#2b2839] text-primary dark:text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors"
                   >
                     <span className="truncate">Xem chi tiết</span>
@@ -107,7 +107,7 @@ const Home = () => {
         <h2 className="text-text-light dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5 font-display">Mới Cập Nhật</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4">
           {newStories.map((story) => (
-            <Link key={story._id} to={`/story/${story._id}`} className="flex flex-col gap-3 group">
+            <Link key={story._id} to={`/story/${story.slug || story._id}`} className="flex flex-col gap-3 group">
               <div
                 className="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg flex flex-col transition-transform duration-300 group-hover:scale-105"
                 style={{ backgroundImage: `url("${story.coverImage}")` }}

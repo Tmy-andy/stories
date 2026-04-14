@@ -84,7 +84,7 @@ const Favorites = () => {
             className="flex flex-col gap-3 group rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
           >
             <div className="relative">
-              <Link to={`/story/${favorite.storyId._id}`}>
+              <Link to={`/story/${favorite.storyId.slug || favorite.storyId._id}`}>
                 <div
                   className="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg flex flex-col transition-transform duration-300 group-hover:scale-105"
                   style={{ backgroundImage: `url("${favorite.storyId.coverImage}")` }}
@@ -99,13 +99,13 @@ const Favorites = () => {
               </div>
             </div>
             <div className="flex-1">
-              <Link to={`/story/${favorite.storyId._id}`}>
+              <Link to={`/story/${favorite.storyId.slug || favorite.storyId._id}`}>
                 <h3 className="text-text-light dark:text-white text-base font-medium leading-normal font-display group-hover:text-primary dark:group-hover:text-primary transition-colors">
                   {favorite.storyId.title}
                 </h3>
               </Link>
               <p className="text-text-muted-light dark:text-text-muted-dark text-sm font-normal leading-normal">
-                {favorite.storyId.author}
+                {favorite.storyId.authorId?.displayName || favorite.storyId.authorId?.username || 'Ẩn danh'}
               </p>
               <p className="text-text-muted-light dark:text-text-muted-dark text-sm font-normal leading-normal">
                 {favorite.storyId.chapterCount} chương
