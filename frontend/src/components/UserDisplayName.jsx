@@ -1,7 +1,7 @@
 import React from 'react';
 import { MedalIcon, calculateLevel } from '../utils/tierSystem';
 
-// Component hiển thị tên người dùng với huy chương
+// Component hiển thị user với huy chương
 export function UserDisplayName({ user, size = 'md' }) {
   if (!user) return null;
 
