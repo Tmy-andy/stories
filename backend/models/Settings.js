@@ -28,6 +28,10 @@ const settingsSchema = new mongoose.Schema({
     type: String,
     default: 'Discover amazing stories'
   },
+  bannerSubtitleSecondary: {
+    type: String,
+    default: ''
+  },
   bannerButtonText: {
     type: String,
     default: 'Start Reading'

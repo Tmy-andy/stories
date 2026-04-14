@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import heroBanner from '../assets/images/hero-banner.png';
 import { storyService } from '../services/storyService';
+import { useHomeBanner } from '../hooks/useHomeBanner';
 
 const Home = () => {
   const [featuredStories, setFeaturedStories] = useState([]);
   const [newStories, setNewStories] = useState([]);
   const [loading, setLoading] = useState(true);
+  const banner = useHomeBanner();
+  const bannerBgImage = banner.image || heroBanner;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,28 +47,27 @@ const Home = () => {
             <div
               className="flex min-h-[480px] flex-col gap-6 bg-cover bg-center bg-no-repeat @[480px]:gap-8 @[480px]:rounded-xl items-start justify-end px-4 pb-4 @[480px]:px-10"
               style={{
-                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.5) 100%), url(${heroBanner})`
+                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.5) 100%), url(${bannerBgImage})`
               }}
             >
               <div className="flex flex-col gap-2 text-left">
                 <h1 className="text-white font-semibold leading-tight tracking-[-0.033em] @[480px]:text-3xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em] pb-2" style={{ fontFamily: "'Noto Serif Display', serif", fontSize: '2.7rem' }}>
-                  Lam Điệp Cô Ảnh
+                  {banner.title}
                 </h1>
                 <h2 className="text-white text-base font-normal leading-relaxed @[480px]:text-lg @[480px]:leading-relaxed max-w-xl">
-                  {/* Tiếng Việt */}
-                  <span className="block mb-4">
-                    Lam điệp cô ảnh, chấn dực ư vô quang chi dạ.<br />
-                    Truyền kỳ dị sử, ngưỡng mộ chi tâm.
-                  </span>
-
-                  {/* Chữ Hán */}
-                  <span
-                    className="block text-xl @[480px]:text-2xl tracking-wide leading-relaxed"
-                    style={{ fontFamily: "'Noto Serif TC', serif" }}
-                  >
-                    藍蝶孤影，振翼於無光之夜。<br />
-                    傳奇異事，令人心生仰慕。
-                  </span>
+                  {banner.subtitle && (
+                    <span className="block mb-4 whitespace-pre-line">
+                      {banner.subtitle}
+                    </span>
+                  )}
+                  {banner.subtitleSecondary && (
+                    <span
+                      className="block text-xl @[480px]:text-2xl tracking-wide leading-relaxed whitespace-pre-line"
+                      style={{ fontFamily: "'Noto Serif TC', serif" }}
+                    >
+                      {banner.subtitleSecondary}
+                    </span>
+                  )}
                 </h2>
               </div>
             </div>

@@ -17,6 +17,7 @@ const ManagerSettings = () => {
     contactEmail: '',
     bannerTitle: '',
     bannerSubtitle: '',
+    bannerSubtitleSecondary: '',
     bannerButtonText: '',
     bannerImage: null,
     maintenanceMode: false,
@@ -213,32 +214,56 @@ const ManagerSettings = () => {
                   <h3 className="text-lg font-semibold text-neutral-text-light dark:text-white">
                     Banner Hero
                   </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <label className="flex flex-col">
-                      <p className="text-neutral-text-light dark:text-white text-base font-medium leading-normal pb-2">
-                        Tiêu Đề Banner
-                      </p>
-                      <input
-                        type="text"
-                        name="bannerTitle"
-                        value={settings.bannerTitle}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-2 rounded-lg border border-neutral-border-light dark:border-neutral-border-dark bg-background-light dark:bg-background-dark text-neutral-text-light dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50"
-                      />
-                    </label>
-                    <label className="flex flex-col">
-                      <p className="text-neutral-text-light dark:text-white text-base font-medium leading-normal pb-2">
-                        Text Nút CTA
-                      </p>
-                      <input
-                        type="text"
-                        name="bannerButtonText"
-                        value={settings.bannerButtonText}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-2 rounded-lg border border-neutral-border-light dark:border-neutral-border-dark bg-background-light dark:bg-background-dark text-neutral-text-light dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50"
-                      />
-                    </label>
-                  </div>
+                  <label className="flex flex-col">
+                    <p className="text-neutral-text-light dark:text-white text-base font-medium leading-normal pb-2">
+                      Tiêu Đề Banner
+                    </p>
+                    <input
+                      type="text"
+                      name="bannerTitle"
+                      value={settings.bannerTitle}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-2 rounded-lg border border-neutral-border-light dark:border-neutral-border-dark bg-background-light dark:bg-background-dark text-neutral-text-light dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50"
+                    />
+                  </label>
+                  <label className="flex flex-col">
+                    <p className="text-neutral-text-light dark:text-white text-base font-medium leading-normal pb-2">
+                      Mô tả (tiếng Việt)
+                    </p>
+                    <textarea
+                      name="bannerSubtitle"
+                      value={settings.bannerSubtitle}
+                      onChange={handleInputChange}
+                      rows={3}
+                      placeholder="Xuống dòng được phép"
+                      className="w-full px-4 py-2 rounded-lg border border-neutral-border-light dark:border-neutral-border-dark bg-background-light dark:bg-background-dark text-neutral-text-light dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50 resize-y"
+                    />
+                  </label>
+                  <label className="flex flex-col">
+                    <p className="text-neutral-text-light dark:text-white text-base font-medium leading-normal pb-2">
+                      Mô tả phụ (chữ Hán / ngôn ngữ khác)
+                    </p>
+                    <textarea
+                      name="bannerSubtitleSecondary"
+                      value={settings.bannerSubtitleSecondary}
+                      onChange={handleInputChange}
+                      rows={3}
+                      placeholder="Để trống nếu không muốn hiển thị"
+                      className="w-full px-4 py-2 rounded-lg border border-neutral-border-light dark:border-neutral-border-dark bg-background-light dark:bg-background-dark text-neutral-text-light dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50 resize-y"
+                    />
+                  </label>
+                  <label className="flex flex-col">
+                    <p className="text-neutral-text-light dark:text-white text-base font-medium leading-normal pb-2">
+                      Text Nút CTA (để dành cho sau)
+                    </p>
+                    <input
+                      type="text"
+                      name="bannerButtonText"
+                      value={settings.bannerButtonText}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-2 rounded-lg border border-neutral-border-light dark:border-neutral-border-dark bg-background-light dark:bg-background-dark text-neutral-text-light dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50"
+                    />
+                  </label>
                   
                   <div className="border-t border-neutral-border-light dark:border-neutral-border-dark pt-6">
                     <h3 className="text-lg font-semibold text-neutral-text-light dark:text-white mb-4">

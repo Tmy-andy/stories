@@ -33,6 +33,7 @@ exports.updateSettings = async (req, res) => {
       contactEmail,
       bannerTitle,
       bannerSubtitle,
+      bannerSubtitleSecondary,
       bannerButtonText,
       maintenanceMode,
       requireEmailVerification,
@@ -56,6 +57,7 @@ exports.updateSettings = async (req, res) => {
     if (contactEmail !== undefined) settings.contactEmail = contactEmail;
     if (bannerTitle !== undefined) settings.bannerTitle = bannerTitle;
     if (bannerSubtitle !== undefined) settings.bannerSubtitle = bannerSubtitle;
+    if (bannerSubtitleSecondary !== undefined) settings.bannerSubtitleSecondary = bannerSubtitleSecondary;
     if (bannerButtonText !== undefined) settings.bannerButtonText = bannerButtonText;
     if (maintenanceMode !== undefined) settings.maintenanceMode = maintenanceMode;
     if (requireEmailVerification !== undefined) settings.requireEmailVerification = requireEmailVerification;
