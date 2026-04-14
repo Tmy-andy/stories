@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useContactEmail } from '../hooks/useContactEmail';
 
 const PrivacyPolicy = () => {
+  const contactEmail = useContactEmail();
   return (
     <main className="flex flex-col gap-8 md:gap-12 min-h-screen">
       {/* Page Container */}
@@ -199,10 +201,10 @@ const PrivacyPolicy = () => {
                   trên trang này. Nếu bạn có bất kỳ câu hỏi nào về chính sách bảo mật hoặc cách chúng tôi xử lý
                   dữ liệu của bạn, vui lòng liên hệ với chúng tôi qua email:{' '}
                   <a
-                    className="text-primary font-medium hover:underline"
-                    href="mailto:khitabolonhauvikhongdatduocten@gmail.com"
+                    className="text-primary font-medium hover:underline break-all"
+                    href={`mailto:${contactEmail}`}
                   >
-                    khitabolonhauvikhongdatduocten@gmail.com
+                    {contactEmail}
                   </a>
                   .
                 </p>

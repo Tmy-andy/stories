@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { AlertCircle } from 'lucide-react';
+import { useContactEmail } from '../hooks/useContactEmail';
 
 const TermsAndConditions = () => {
+  const contactEmail = useContactEmail();
   return (
     <main className="flex flex-col gap-8 md:gap-12 min-h-screen">
       {/* Page Container */}
@@ -234,10 +236,10 @@ const TermsAndConditions = () => {
               <p className="text-text-light dark:text-text-dark text-base font-normal leading-relaxed">
                 Nếu có bất kỳ câu hỏi nào về các điều khoản này, xin vui lòng liên hệ qua email:{' '}
                 <a
-                  className="text-primary font-medium hover:underline"
-                  href="mailto:khitabolonhauvikhongdatduocten@gmail.com"
+                  className="text-primary font-medium hover:underline break-all"
+                  href={`mailto:${contactEmail}`}
                 >
-                  khitabolonhauvikhongdatduocten@gmail.com
+                  {contactEmail}
                 </a>
                 .
               </p>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { managerAPI } from '../../services/managerAPI';
-import { Users, Search, Edit2, Trash2, Lock, Unlock, AlertCircle, Loader } from 'lucide-react';
+import { Users, Search, Edit2, Trash2, Lock, Unlock, AlertCircle, Loader, UserCheck, UserX } from 'lucide-react';
 import ManagerLayout from '../../components/manager/ManagerLayout';
 import { MedalIcon, calculateLevel, AdminVerifiedIcon } from '../../utils/tierSystem';
 import { authService } from '../../services/authService';
@@ -114,6 +114,16 @@ const ManagerUsers = () => {
       alert(`Đã chặn người dùng ${user.email} thành công${user.ipAddress ? ` (IP: ${user.ipAddress})` : ''}`);
     } catch (err) {
       alert(err.response?.data?.message || 'Lỗi khi chặn người dùng');
+    }
+  };
+
+  const handleToggleAuthor = async (id, currentIsAuthor) => {
+    try {
+      const res = await managerAPI.toggleUserAuthor(id);
+      const nextValue = res.data?.isAuthor ?? !currentIsAuthor;
+      setUsers(users.map(u => u._id === id ? { ...u, isAuthor: nextValue } : u));
+    } catch (err) {
+      alert(err.response?.data?.message || 'Lỗi khi cập nhật quyền Tác giả');
     }
   };
 
@@ -258,6 +268,7 @@ const ManagerUsers = () => {
                 <th className="px-6 py-3">Tên người dùng</th>
                 <th className="px-6 py-3">Email</th>
                 <th className="px-6 py-3">Vai trò</th>
+                <th className="px-6 py-3">Tác giả</th>
                 <th className="px-6 py-3">Cấp độ</th>
                 <th className="px-6 py-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-[#3c3858]" onClick={() => setSortOrder(sortOrder === 'desc' ? 'asc' : 'desc')}>
                   Điểm {sortBy === 'membershipPoints' && (sortOrder === 'desc' ? '↓' : '↑')}
@@ -276,6 +287,15 @@ const ManagerUsers = () => {
                     </td>
                     <td className="px-6 py-4 text-xs">{user.email}</td>
                     <td className="px-6 py-4">{getRoleBadge(user.role)}</td>
+                    <td className="px-6 py-4">
+                      {user.isAuthor ? (
+                        <span className="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300">
+                          Tác giả
+                        </span>
+                      ) : (
+                        <span className="text-xs text-gray-400">—</span>
+                      )}
+                    </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-2">
                         {user.role === 'admin' ? (
@@ -334,6 +354,20 @@ const ManagerUsers = () => {
                                 <Edit2 className="w-4 h-4" />
                               </button>
                             )}
+                            {/* Admin-only: Toggle author permission */}
+                            {currentUserRole === 'admin' && user.role !== 'admin' && (
+                              <button
+                                onClick={() => handleToggleAuthor(user._id, user.isAuthor)}
+                                title={user.isAuthor ? 'Gỡ quyền Tác giả' : 'Cấp quyền Tác giả'}
+                                className="p-1 hover:bg-gray-100 dark:hover:bg-[#2A2640] rounded transition-colors"
+                              >
+                                {user.isAuthor ? (
+                                  <UserX className="w-4 h-4 text-gray-600" />
+                                ) : (
+                                  <UserCheck className="w-4 h-4 text-blue-600" />
+                                )}
+                              </button>
+                            )}
                             <button
                               onClick={() => handleDelete(user._id)}
                               disabled={deleting === user._id}
@@ -353,7 +387,7 @@ const ManagerUsers = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="6" className="px-6 py-8 text-center text-gray-500 dark:text-gray-400">
+                  <td colSpan="9" className="px-6 py-8 text-center text-gray-500 dark:text-gray-400">
                     Không tìm thấy người dùng nào
                   </td>
                 </tr>

@@ -373,6 +373,43 @@ router.patch('/users/:id/toggle-status', verifyManagerToken, async (req, res) =>
   }
 });
 
+// Toggle author permission (only admin can do this)
+router.patch('/users/:id/toggle-author', verifyManagerToken, async (req, res) => {
+  try {
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({
+        success: false,
+        message: 'Chỉ quản trị viên mới có thể cấp quyền Tác giả',
+      });
+    }
+
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'Không tìm thấy người dùng',
+      });
+    }
+
+    user.isAuthor = !user.isAuthor;
+    await user.save();
+
+    res.json({
+      success: true,
+      message: user.isAuthor
+        ? 'Đã cấp quyền Tác giả'
+        : 'Đã gỡ quyền Tác giả',
+      isAuthor: user.isAuthor,
+    });
+  } catch (error) {
+    console.error('Error toggling author:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Lỗi khi cập nhật quyền Tác giả',
+    });
+  }
+});
+
 // Update user role (only admin can do this)
 router.patch('/users/:id/role', verifyManagerToken, async (req, res) => {
   try {

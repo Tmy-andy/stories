@@ -397,6 +397,17 @@ function UserProfile() {
                         {(user.membershipPoints || 0).toLocaleString()}
                       </span>
                     </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-600 dark:text-gray-400">
+                        Tác giả:
+                      </span>
+                      <span className={`font-semibold text-sm flex items-center gap-1 ${user.isAuthor ? 'text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-400'}`}>
+                        <span className="material-symbols-outlined text-base">
+                          {user.isAuthor ? 'verified' : 'lock'}
+                        </span>
+                        {user.isAuthor ? 'Đã xác minh' : 'Chưa cấp quyền'}
+                      </span>
+                    </div>
                   </div>
                 </div>
 

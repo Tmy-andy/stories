@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { authService } from '../services/authService';
 import contactService from '../services/contactService';
+import { useContactEmail } from '../hooks/useContactEmail';
 
 const Contact = () => {
   const user = authService.getCurrentUser();
+  const contactEmail = useContactEmail();
   const [formData, setFormData] = useState({
     name: user?.username || '',
     email: user?.email || '',
@@ -74,7 +76,12 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-bold text-text-light dark:text-white mb-2">Email</h3>
-                    <p className="text-text-muted-light dark:text-text-muted-dark">khitabolonhauvikhongdatduocten@gmail.com</p>
+                    <a
+                      href={`mailto:${contactEmail}`}
+                      className="text-text-muted-light dark:text-text-muted-dark hover:text-primary dark:hover:text-primary transition-colors break-all"
+                    >
+                      {contactEmail}
+                    </a>
                   </div>
                 </div>
               </div>

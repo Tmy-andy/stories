@@ -71,6 +71,7 @@ export const managerAPI = {
   deleteUser: (id) => api.delete(`/api/manager/users/${id}`),
   toggleUserStatus: (id) => api.patch(`/api/manager/users/${id}/toggle-status`),
   updateUserRole: (id, newRole) => api.patch(`/api/manager/users/${id}/role`, { newRole }),
+  toggleUserAuthor: (id) => api.patch(`/api/manager/users/${id}/toggle-author`),
   blockUser: (id) => api.post(`/api/manager/users/${id}/block`),
 
   // Blacklist
