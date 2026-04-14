@@ -13,6 +13,7 @@ Format mỗi dòng:
 
 ### Tháng 04
 
+- 2026-04-14 `[FEATURE]` `MEDIUM` — Cấp quyền Tác giả ở `/manager/users` (admin-only) + đồng bộ email ở `/contact`, `/terms-and-conditions`, `/privacy-policy` từ `settings.contactEmail` → [entry](entries/2026-04-14-002-cap-quyen-tac-gia-va-dong-bo-email.md) · commit: `90a9bb4`
 - 2026-04-14 `[FIX]` `MEDIUM` — Profile: tác giả ở Lịch sử đọc + tab Truyện yêu thích lấy từ `Favorite` collection. URL truyện mặc định dùng `slug`. `/manager/stories` cột Tác giả hết N/A → [entry](entries/2026-04-14-001-fix-tac-gia-va-slug-truyen.md) · commit: `bdc11be`
 - 2026-04-13 `[FIX]` `LOW` — FavoriteButton race condition: dùng `userId` làm useEffect dep thay vì object `user` → fix không gỡ thích được + spam API → [entry](entries/2026-04-13-007-fix-favoritebutton-race-condition.md) · commit: `e55163d`
 - 2026-04-13 `[FIX]` `LOW` — Phase 1: Hiển thị tên tác giả ở Home (populate `authorId`, sửa field `story.author` → `authorId.displayName`) → [entry](entries/2026-04-13-006-phase-1-fix-author-display.md) · commit: `553bbf5`
