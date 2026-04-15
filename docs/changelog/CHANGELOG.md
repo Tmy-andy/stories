@@ -13,6 +13,7 @@ Format mỗi dòng:
 
 ### Tháng 04
 
+- 2026-04-14 `[FEATURE]` `LOW` — Trang lỗi 404 / 500 / 502 / 503 + `ErrorBoundary` bọc App → [entry](entries/2026-04-14-007-trang-loi-404-500-502-503.md) · commit: `(chưa commit)`
 - 2026-04-14 `[FEATURE]` `MEDIUM` — `/manager/stories`: edit truyện thành page riêng + nút "Thêm truyện" có live preview (bỏ modal) → [entry](entries/2026-04-14-006-edit-story-thanh-page-va-create-co-preview.md) · commit: `50e6410`
 - 2026-04-14 `[FEATURE]` `MEDIUM` — CMS trang tĩnh (`Page` model + `/manager/pages`) + thiết kế `/about` dynamic + banner `announcement` ở Terms/Privacy → [entry](entries/2026-04-14-005-cms-pages-tinh-va-about.md) · commit: `a2eaa5f`
 - 2026-04-14 `[FEATURE]` `MEDIUM` — Banner `/` đọc từ `/manager/settings` (title/subtitle/subtitle Hán/image) + thêm field `bannerSubtitleSecondary` → [entry](entries/2026-04-14-004-banner-customization-home.md) · commit: `fa47efd`

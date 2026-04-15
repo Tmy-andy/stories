@@ -38,10 +38,16 @@ import ManagerCategories from './pages/manager/ManagerCategories';
 import ManagerPages from './pages/manager/ManagerPages';
 import ManagerPageEdit from './pages/manager/ManagerPageEdit';
 import About from './pages/About';
+import NotFound from './pages/errors/NotFound';
+import ServerError from './pages/errors/ServerError';
+import BadGateway from './pages/errors/BadGateway';
+import ServiceUnavailable from './pages/errors/ServiceUnavailable';
+import ErrorBoundary from './components/ErrorBoundary';
 import './index.css';
 
 function App() {
   return (
+    <ErrorBoundary>
     <Router>
       <AdminBar />
       <Routes>
@@ -120,6 +126,10 @@ function App() {
                   <Route path="/user-profile" element={<UserProfile />} />
                   <Route path="/favorites" element={<Favorites />} />
                   <Route path="/notifications" element={<AllNotifications />} />
+                  <Route path="/500" element={<ServerError />} />
+                  <Route path="/502" element={<BadGateway />} />
+                  <Route path="/503" element={<ServiceUnavailable />} />
+                  <Route path="*" element={<NotFound />} />
                 </Routes>
               </div>
             </div>
@@ -128,6 +138,7 @@ function App() {
         } />
       </Routes>
     </Router>
+    </ErrorBoundary>
   );
 }
 
