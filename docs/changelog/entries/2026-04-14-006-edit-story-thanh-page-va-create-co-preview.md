@@ -8,7 +8,7 @@
 | **Người thực hiện** | Claude (Opus 4.6) |
 | **Tag** | `[FEATURE]` |
 | **Mức rủi ro** | `MEDIUM` |
-| **Commit hash** | (điền sau khi commit) |
+| **Commit hash** | `50e6410` |
 | **Branch** | main |
 
 ## Mục đích
