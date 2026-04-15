@@ -45,6 +45,7 @@ export const managerAPI = {
   // Stories
   getStories: (params) => api.get('/api/manager/stories', { params }),
   getStoryById: (id) => api.get(`/api/manager/stories/${id}`),
+  createStory: (data) => api.post('/api/manager/stories', data),
   updateStory: (id, data) => api.put(`/api/manager/stories/${id}`, data),
   deleteStory: (id) => api.delete(`/api/manager/stories/${id}`),
   toggleStoryStatus: (id) => api.patch(`/api/manager/stories/${id}/toggle-status`),

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { managerAPI } from '../../services/managerAPI';
 import { BookOpen, Search, Edit2, Trash2, Eye, EyeOff, AlertCircle, Loader, X, Plus, Folder } from 'lucide-react';
 import ManagerLayout from '../../components/manager/ManagerLayout';
-import categoryService from '../../services/categoryService';
 
 const ManagerStories = () => {
   const [stories, setStories] = useState([]);
@@ -12,14 +12,10 @@ const ManagerStories = () => {
   const [filterStatus, setFilterStatus] = useState('all');
   const [pageInfo, setPageInfo] = useState({ page: 1, totalPages: 1 });
   const [deleting, setDeleting] = useState(null);
-  const [categories, setCategories] = useState([]);
 
   // Modal states
   const [selectedStory, setSelectedStory] = useState(null);
   const [showChaptersModal, setShowChaptersModal] = useState(false);
-  const [showEditStoryModal, setShowEditStoryModal] = useState(false);
-  const [editingStory, setEditingStory] = useState(null);
-  const [savingStory, setSavingStory] = useState(false);
   const [chapters, setChapters] = useState([]);
   const [chaptersLoading, setChaptersLoading] = useState(false);
   const [showAddChapter, setShowAddChapter] = useState(false);
@@ -29,18 +25,8 @@ const ManagerStories = () => {
   const [deletingChapter, setDeletingChapter] = useState(null);
 
   useEffect(() => {
-    loadCategories();
     loadStories();
   }, [pageInfo.page, filterStatus, searchTerm]);
-
-  const loadCategories = async () => {
-    try {
-      const data = await categoryService.getCategories();
-      setCategories(data.categories || []);
-    } catch (error) {
-      console.error('Error loading categories:', error);
-    }
-  };
 
   const loadStories = async () => {
     try {
@@ -79,57 +65,6 @@ const ManagerStories = () => {
     setSelectedStory(story);
     setShowChaptersModal(true);
     loadChapters(story.slug || story._id);
-  };
-
-  const handleEditStory = async (story) => {
-    try {
-      // Fetch full story data
-      const response = await managerAPI.getStoryById(story._id);
-      setEditingStory({
-        _id: response.data.story._id,
-        title: response.data.story.title,
-        description: response.data.story.description || '',
-        category: response.data.story.category || [],
-        status: response.data.story.status,
-      });
-      setShowEditStoryModal(true);
-    } catch (err) {
-      alert('Lỗi khi tải thông tin truyện: ' + (err.response?.data?.message || err.message));
-      console.error('Error loading story:', err);
-    }
-  };
-
-  const handleSaveStory = async (e) => {
-    e.preventDefault();
-    if (!editingStory.title.trim()) {
-      alert('Vui lòng nhập tiêu đề truyện');
-      return;
-    }
-
-    try {
-      setSavingStory(true);
-      await managerAPI.updateStory(editingStory._id, {
-        title: editingStory.title,
-        description: editingStory.description,
-        category: editingStory.category,
-        status: editingStory.status,
-      });
-      
-      // Update local state
-      setStories(stories.map(s =>
-        s._id === editingStory._id
-          ? { ...s, ...editingStory }
-          : s
-      ));
-      
-      setShowEditStoryModal(false);
-      setEditingStory(null);
-      alert('Cập nhật truyện thành công!');
-    } catch (err) {
-      alert('Lỗi khi cập nhật truyện: ' + (err.response?.data?.message || err.message));
-    } finally {
-      setSavingStory(false);
-    }
   };
 
   const handleAddChapter = async (e) => {
@@ -289,6 +224,12 @@ const ManagerStories = () => {
           <h1 className="text-gray-900 dark:text-white text-3xl font-bold">Quản lý truyện</h1>
           <p className="text-gray-600 dark:text-gray-400 text-base">Hiển thị tất cả truyện trên hệ thống</p>
         </div>
+        <Link
+          to="/manager/stories/new"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white text-sm font-medium rounded-lg hover:bg-primary/90 transition-colors"
+        >
+          <Plus className="w-4 h-4" /> Thêm truyện
+        </Link>
       </div>
 
       {error && (
@@ -369,13 +310,13 @@ const ManagerStories = () => {
                         >
                           <Folder className="w-4 h-4 text-blue-600" />
                         </button>
-                        <button
-                          onClick={() => handleEditStory(story)}
+                        <Link
+                          to={`/manager/stories/${story._id}/edit`}
                           title="Chỉnh sửa truyện"
                           className="p-1 hover:bg-gray-100 dark:hover:bg-[#2A2640] rounded transition-colors"
                         >
                           <Edit2 className="w-4 h-4 text-blue-600" />
-                        </button>
+                        </Link>
                         <button
                           onClick={() => handleToggleStatus(story._id, story.status)}
                           title={story.status === 'publishing' ? 'Tạm hoãn' : 'Tiếp tục'}
@@ -644,110 +585,6 @@ const ManagerStories = () => {
         </div>
       )}
 
-      {/* Edit Story Modal */}
-      {showEditStoryModal && editingStory && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-[#1C182F] rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            {/* Modal Header */}
-            <div className="sticky top-0 flex items-center justify-between p-6 border-b border-gray-200 dark:border-[#2A2640] bg-white dark:bg-[#1C182F]">
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white">Chỉnh sửa truyện</h2>
-              <button
-                onClick={() => {
-                  setShowEditStoryModal(false);
-                  setEditingStory(null);
-                }}
-                className="p-1 hover:bg-gray-100 dark:hover:bg-[#2A2640] rounded"
-              >
-                <X className="w-6 h-6" />
-              </button>
-            </div>
-
-            {/* Modal Body */}
-            <div className="p-6">
-              <form onSubmit={handleSaveStory} className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Tiêu đề truyện</label>
-                  <input
-                    type="text"
-                    value={editingStory.title}
-                    onChange={(e) => setEditingStory({...editingStory, title: e.target.value})}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-[#3c3858] rounded-lg bg-white dark:bg-[#2A2640] text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
-                    placeholder="Nhập tiêu đề truyện..."
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Mô tả</label>
-                  <textarea
-                    value={editingStory.description}
-                    onChange={(e) => setEditingStory({...editingStory, description: e.target.value})}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-[#3c3858] rounded-lg bg-white dark:bg-[#2A2640] text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 min-h-32"
-                    placeholder="Nhập mô tả truyện..."
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Thể loại</label>
-                  <div className="space-y-2 max-h-48 overflow-y-auto p-2 border border-gray-300 dark:border-[#3c3858] rounded-lg bg-white dark:bg-[#2A2640]">
-                    {categories.map((cat) => (
-                      <label key={cat._id} className="flex items-center gap-2 cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={editingStory.category.includes(cat._id)}
-                          onChange={(e) => {
-                            const newCategory = e.target.checked
-                              ? [...editingStory.category, cat._id]
-                              : editingStory.category.filter(c => c !== cat._id);
-                            setEditingStory({...editingStory, category: newCategory});
-                          }}
-                          className="w-4 h-4 rounded border-gray-300 dark:border-[#3c3858] text-blue-600 focus:ring-2 focus:ring-blue-500"
-                        />
-                        <span className="text-sm text-gray-700 dark:text-gray-300">{cat.name}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Trạng thái</label>
-                  <select
-                    value={editingStory.status}
-                    onChange={(e) => setEditingStory({...editingStory, status: e.target.value})}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-[#3c3858] rounded-lg bg-white dark:bg-[#2A2640] text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
-                  >
-                    <option value="publishing">Đang ra</option>
-                    <option value="completed">Hoàn thành</option>
-                    <option value="paused_indefinite">Hoãn vô thời hạn</option>
-                    <option value="paused_timed">Hoãn có thời hạn</option>
-                    <option value="dropped">Ngừng xuất bản</option>
-                  </select>
-                </div>
-
-                <div className="flex gap-2 pt-4">
-                  <button
-                    type="submit"
-                    disabled={savingStory}
-                    className="flex-1 px-4 py-2 bg-green-600 hover:bg-green-700 disabled:opacity-50 text-white font-medium rounded-lg transition-colors"
-                  >
-                    {savingStory ? 'Đang lưu...' : 'Lưu thay đổi'}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setShowEditStoryModal(false);
-                      setEditingStory(null);
-                    }}
-                    className="flex-1 px-4 py-2 bg-gray-300 dark:bg-[#3c3858] hover:bg-gray-400 text-gray-800 dark:text-white font-medium rounded-lg transition-colors"
-                  >
-                    Hủy
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      )}
     </ManagerLayout>
   );
 };

@@ -59,6 +59,42 @@ router.get('/dashboard', verifyManagerToken, async (req, res) => {
  * Stories Management
  */
 
+// Create story
+router.post('/stories', verifyManagerToken, async (req, res) => {
+  try {
+    const { title, description, coverImage, category, status, featured } = req.body;
+
+    if (!title || !description) {
+      return res.status(400).json({ success: false, message: 'Thiếu title hoặc description' });
+    }
+
+    let authorId = req.user?.id;
+    if (!authorId) {
+      const admin = await User.findOne({ role: 'admin' }).select('_id');
+      if (!admin) {
+        return res.status(400).json({ success: false, message: 'Không tìm thấy admin làm authorId' });
+      }
+      authorId = admin._id;
+    }
+
+    const story = new Story({
+      title,
+      description,
+      coverImage: coverImage || '',
+      category: Array.isArray(category) ? category : [],
+      status: status || 'publishing',
+      featured: !!featured,
+      authorId,
+    });
+
+    await story.save();
+    res.status(201).json({ success: true, story });
+  } catch (error) {
+    console.error('Error creating story:', error);
+    res.status(500).json({ success: false, message: 'Lỗi khi tạo truyện: ' + error.message });
+  }
+});
+
 // Get all stories
 router.get('/stories', verifyManagerToken, async (req, res) => {
   try {
@@ -138,28 +174,28 @@ router.get('/stories/:id', verifyManagerToken, async (req, res) => {
 // Update story
 router.put('/stories/:id', verifyManagerToken, async (req, res) => {
   try {
-    const { title, description, category, status } = req.body;
+    const { title, description, category, status, coverImage, featured } = req.body;
     const { id } = req.params;
 
+    const updateDoc = { title, description, category, status };
+    if (coverImage !== undefined) updateDoc.coverImage = coverImage;
+    if (featured !== undefined) updateDoc.featured = !!featured;
+
     let story = null;
-    
+
     if (id.match(/^[0-9a-fA-F]{24}$/)) {
       try {
-        story = await Story.findByIdAndUpdate(
-          id,
-          { title, description, category, status },
-          { new: true }
-        );
+        story = await Story.findByIdAndUpdate(id, updateDoc, { new: true });
       } catch (err) {
         console.log('Error updating by ID:', err.message);
       }
     }
-    
+
     // If not updated by ID, try by slug
     if (!story) {
       story = await Story.findOneAndUpdate(
         { slug: { $regex: `^${id}$`, $options: 'i' } },
-        { title, description, category, status },
+        updateDoc,
         { new: true }
       );
     }
