@@ -175,6 +175,22 @@ const ManagerEditChapter = () => {
                   <span className="material-symbols-outlined text-lg">{b.icon}</span>
                 </button>
               ))}
+              <div className="mx-1 h-4 w-px bg-gray-300 dark:bg-[#403b54]" />
+              <button
+                type="button"
+                onClick={() => {
+                  if (contentRef.current) {
+                    contentRef.current.focus();
+                    const noteHtml = '<br><blockquote style="border-left:3px solid #7c3aed;padding-left:12px;color:#7c3aed;margin:8px 0;">Ghi chú: </blockquote><br>';
+                    document.execCommand('insertHTML', false, noteHtml);
+                    syncContent();
+                  }
+                }}
+                title="Chèn ghi chú"
+                className="flex h-8 w-8 items-center justify-center rounded text-gray-600 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-white/10 transition-colors"
+              >
+                <span className="material-symbols-outlined text-lg">sticky_note_2</span>
+              </button>
             </div>
           )}
 

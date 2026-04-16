@@ -330,10 +330,13 @@ function EditChapter() {
                     <button
                       type="button"
                       onClick={() => {
-                        setFormData(prev => ({
-                          ...prev,
-                          content: prev.content + '\n> Ghi chú: \n'
-                        }));
+                        if (contentRef.current) {
+                          // Insert note block at cursor or at end
+                          contentRef.current.focus();
+                          const noteHtml = '<br><blockquote style="border-left:3px solid #7c3aed;padding-left:12px;color:#7c3aed;margin:8px 0;">Ghi chú: </blockquote><br>';
+                          document.execCommand('insertHTML', false, noteHtml);
+                          syncContentFromEditor();
+                        }
                         setInNoteMode(false);
                       }}
                       className="flex h-9 px-3 items-center justify-center rounded text-white bg-primary hover:bg-primary/90 transition-colors text-sm font-semibold"
