@@ -30,6 +30,8 @@ import ManagerLogin from './pages/manager/ManagerLogin';
 import ManagerDashboard from './pages/manager/ManagerDashboard';
 import ManagerStories from './pages/manager/ManagerStories';
 import ManagerStoryForm from './pages/manager/ManagerStoryForm';
+import ManagerChapters from './pages/manager/ManagerChapters';
+import ManagerEditChapter from './pages/manager/ManagerEditChapter';
 import ManagerUsers from './pages/manager/ManagerUsers';
 import ManagerAuthors from './pages/manager/ManagerAuthors';
 import ManagerContacts from './pages/manager/ManagerContacts';
@@ -57,6 +59,8 @@ function App() {
         <Route path="/manager/stories" element={<ManagerStories />} />
         <Route path="/manager/stories/new" element={<ManagerStoryForm />} />
         <Route path="/manager/stories/:id/edit" element={<ManagerStoryForm />} />
+        <Route path="/manager/stories/:storyId/chapters" element={<ManagerChapters />} />
+        <Route path="/manager/stories/:storyId/chapters/:chapterId/edit" element={<ManagerEditChapter />} />
         <Route path="/manager/users" element={<ManagerUsers />} />
         <Route path="/manager/authors" element={<ManagerAuthors />} />
         <Route path="/manager/contacts" element={<ManagerContacts />} />

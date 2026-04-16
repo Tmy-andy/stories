@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { managerAPI } from '../../services/managerAPI';
-import { BookOpen, Search, Edit2, Trash2, Eye, EyeOff, AlertCircle, Loader, X, Plus, Folder } from 'lucide-react';
+import { BookOpen, Search, Edit2, Trash2, Eye, EyeOff, AlertCircle, Loader, Plus, Folder } from 'lucide-react';
 import ManagerLayout from '../../components/manager/ManagerLayout';
 
 const ManagerStories = () => {
@@ -12,17 +12,6 @@ const ManagerStories = () => {
   const [filterStatus, setFilterStatus] = useState('all');
   const [pageInfo, setPageInfo] = useState({ page: 1, totalPages: 1 });
   const [deleting, setDeleting] = useState(null);
-
-  // Modal states
-  const [selectedStory, setSelectedStory] = useState(null);
-  const [showChaptersModal, setShowChaptersModal] = useState(false);
-  const [chapters, setChapters] = useState([]);
-  const [chaptersLoading, setChaptersLoading] = useState(false);
-  const [showAddChapter, setShowAddChapter] = useState(false);
-  const [newChapter, setNewChapter] = useState({ title: '', content: '' });
-  const [editingChapter, setEditingChapter] = useState(null);
-  const [savingChapter, setSavingChapter] = useState(false);
-  const [deletingChapter, setDeletingChapter] = useState(null);
 
   useEffect(() => {
     loadStories();
@@ -46,102 +35,6 @@ const ManagerStories = () => {
       console.error('Error loading stories:', err);
     } finally {
       setLoading(false);
-    }
-  };
-
-  const loadChapters = async (storyId) => {
-    try {
-      setChaptersLoading(true);
-      const response = await managerAPI.getChapters(storyId);
-      setChapters(response.data.chapters);
-    } catch (err) {
-      alert('Lỗi khi tải danh sách chương: ' + (err.response?.data?.message || err.message));
-    } finally {
-      setChaptersLoading(false);
-    }
-  };
-
-  const handleViewChapters = (story) => {
-    setSelectedStory(story);
-    setShowChaptersModal(true);
-    loadChapters(story.slug || story._id);
-  };
-
-  const handleAddChapter = async (e) => {
-    e.preventDefault();
-    if (!newChapter.title.trim() || !newChapter.content.trim()) {
-      alert('Vui lòng điền đầy đủ tiêu đề và nội dung chương');
-      return;
-    }
-
-    try {
-      setSavingChapter(true);
-      const chapterNumber = chapters.length + 1;
-      await managerAPI.createChapter({
-        storyId: selectedStory._id,
-        chapterNumber,
-        title: newChapter.title,
-        content: newChapter.content,
-      });
-      
-      setNewChapter({ title: '', content: '' });
-      setShowAddChapter(false);
-      await loadChapters(selectedStory.slug || selectedStory._id);
-      alert('Thêm chương thành công!');
-    } catch (err) {
-      alert('Lỗi khi thêm chương: ' + (err.response?.data?.message || err.message));
-    } finally {
-      setSavingChapter(false);
-    }
-  };
-
-  const handleUpdateChapter = async (e) => {
-    e.preventDefault();
-    if (!editingChapter.title.trim() || !editingChapter.content.trim()) {
-      alert('Vui lòng điền đầy đủ tiêu đề và nội dung chương');
-      return;
-    }
-
-    try {
-      setSavingChapter(true);
-      await managerAPI.updateChapter(editingChapter._id, {
-        title: editingChapter.title,
-        content: editingChapter.content,
-        status: editingChapter.status,
-      });
-      
-      setEditingChapter(null);
-      await loadChapters(selectedStory.slug || selectedStory._id);
-      alert('Cập nhật chương thành công!');
-    } catch (err) {
-      alert('Lỗi khi cập nhật chương: ' + (err.response?.data?.message || err.message));
-    } finally {
-      setSavingChapter(false);
-    }
-  };
-
-  const handleDeleteChapter = async (chapterId, chapterNumber) => {
-    if (!window.confirm(`Bạn có chắc chắn muốn xóa chương ${chapterNumber}?`)) return;
-
-    try {
-      setDeletingChapter(chapterId);
-      await managerAPI.deleteChapter(chapterId);
-      await loadChapters(selectedStory.slug || selectedStory._id);
-      alert('Xóa chương thành công!');
-    } catch (err) {
-      alert('Lỗi khi xóa chương: ' + (err.response?.data?.message || err.message));
-    } finally {
-      setDeletingChapter(null);
-    }
-  };
-
-  const handleUpdateChapterStatus = async (chapterId, currentStatus) => {
-    const newStatus = currentStatus === 'published' ? 'draft' : 'published';
-    try {
-      await managerAPI.updateChapterStatus(chapterId, newStatus);
-      await loadChapters(selectedStory.slug || selectedStory._id);
-    } catch (err) {
-      alert('Lỗi khi cập nhật trạng thái: ' + (err.response?.data?.message || err.message));
     }
   };
 
@@ -191,19 +84,7 @@ const ManagerStories = () => {
     );
   };
 
-  const getChapterStatusBadge = (status) => {
-    const statusMap = {
-      published: { label: 'Công khai', color: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' },
-      draft: { label: 'Nháp', color: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300' },
-      archived: { label: 'Lưu trữ', color: 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300' },
-    };
-    const statusInfo = statusMap[status] || statusMap.draft;
-    return (
-      <span className={`px-2 py-1 text-xs font-medium rounded-full ${statusInfo.color}`}>
-        {statusInfo.label}
-      </span>
-    );
-  };
+
 
   if (loading && stories.length === 0) {
     return (
@@ -303,13 +184,13 @@ const ManagerStories = () => {
                     <td className="px-6 py-4">{getStatusBadge(story.status)}</td>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => handleViewChapters(story)}
+                        <Link
+                          to={`/manager/stories/${story._id}/chapters`}
                           title="Quản lý chương"
                           className="p-1 hover:bg-gray-100 dark:hover:bg-[#2A2640] rounded transition-colors"
                         >
                           <Folder className="w-4 h-4 text-blue-600" />
-                        </button>
+                        </Link>
                         <Link
                           to={`/manager/stories/${story._id}/edit`}
                           title="Chỉnh sửa truyện"
@@ -379,211 +260,6 @@ const ManagerStories = () => {
           </div>
         )}
       </div>
-
-      {/* Chapters Modal */}
-      {showChaptersModal && selectedStory && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-[#1C182F] rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto">
-            {/* Modal Header */}
-            <div className="sticky top-0 flex items-center justify-between p-6 border-b border-gray-200 dark:border-[#2A2640] bg-white dark:bg-[#1C182F]">
-              <div>
-                <h2 className="text-xl font-bold text-gray-900 dark:text-white">{selectedStory.title}</h2>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Quản lý {chapters.length} chương</p>
-              </div>
-              <button
-                onClick={() => {
-                  setShowChaptersModal(false);
-                  setEditingChapter(null);
-                  setShowAddChapter(false);
-                  setNewChapter({ title: '', content: '' });
-                }}
-                className="p-1 hover:bg-gray-100 dark:hover:bg-[#2A2640] rounded"
-              >
-                <X className="w-6 h-6" />
-              </button>
-            </div>
-
-            {/* Modal Body */}
-            <div className="p-6 space-y-6">
-              {/* Add Chapter Button */}
-              {!editingChapter && (
-                <button
-                  onClick={() => setShowAddChapter(!showAddChapter)}
-                  className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
-                >
-                  <Plus className="w-5 h-5" />
-                  Thêm Chương Mới
-                </button>
-              )}
-
-              {/* Add Chapter Form */}
-              {showAddChapter && !editingChapter && (
-                <form onSubmit={handleAddChapter} className="bg-gray-50 dark:bg-[#2A2640] p-4 rounded-lg space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Thêm Chương Mới</h3>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Tiêu đề chương</label>
-                    <input
-                      type="text"
-                      value={newChapter.title}
-                      onChange={(e) => setNewChapter({...newChapter, title: e.target.value})}
-                      className="w-full px-4 py-2 border border-gray-300 dark:border-[#3c3858] rounded-lg bg-white dark:bg-[#1C182F] text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
-                      placeholder="Nhập tiêu đề chương..."
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Nội dung</label>
-                    <textarea
-                      value={newChapter.content}
-                      onChange={(e) => setNewChapter({...newChapter, content: e.target.value})}
-                      className="w-full px-4 py-2 border border-gray-300 dark:border-[#3c3858] rounded-lg bg-white dark:bg-[#1C182F] text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 min-h-64"
-                      placeholder="Nhập nội dung chương..."
-                      required
-                    />
-                  </div>
-                  <div className="flex gap-2">
-                    <button
-                      type="submit"
-                      disabled={savingChapter}
-                      className="flex-1 px-4 py-2 bg-green-600 hover:bg-green-700 disabled:opacity-50 text-white font-medium rounded-lg transition-colors"
-                    >
-                      {savingChapter ? 'Đang lưu...' : 'Thêm Chương'}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setShowAddChapter(false);
-                        setNewChapter({ title: '', content: '' });
-                      }}
-                      className="flex-1 px-4 py-2 bg-gray-300 dark:bg-[#3c3858] hover:bg-gray-400 text-gray-800 dark:text-white font-medium rounded-lg transition-colors"
-                    >
-                      Hủy
-                    </button>
-                  </div>
-                </form>
-              )}
-
-              {/* Edit Chapter Form */}
-              {editingChapter && (
-                <form onSubmit={handleUpdateChapter} className="bg-gray-50 dark:bg-[#2A2640] p-4 rounded-lg space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Chỉnh Sửa Chương {editingChapter.chapterNumber}</h3>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Tiêu đề chương</label>
-                    <input
-                      type="text"
-                      value={editingChapter.title}
-                      onChange={(e) => setEditingChapter({...editingChapter, title: e.target.value})}
-                      className="w-full px-4 py-2 border border-gray-300 dark:border-[#3c3858] rounded-lg bg-white dark:bg-[#1C182F] text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
-                      placeholder="Nhập tiêu đề chương..."
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Nội dung</label>
-                    <textarea
-                      value={editingChapter.content}
-                      onChange={(e) => setEditingChapter({...editingChapter, content: e.target.value})}
-                      className="w-full px-4 py-2 border border-gray-300 dark:border-[#3c3858] rounded-lg bg-white dark:bg-[#1C182F] text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 min-h-64"
-                      placeholder="Nhập nội dung chương..."
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Trạng thái</label>
-                    <select
-                      value={editingChapter.status}
-                      onChange={(e) => setEditingChapter({...editingChapter, status: e.target.value})}
-                      className="w-full px-4 py-2 border border-gray-300 dark:border-[#3c3858] rounded-lg bg-white dark:bg-[#1C182F] text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
-                    >
-                      <option value="draft">Nháp</option>
-                      <option value="published">Công khai</option>
-                      <option value="archived">Lưu trữ</option>
-                    </select>
-                  </div>
-                  <div className="flex gap-2">
-                    <button
-                      type="submit"
-                      disabled={savingChapter}
-                      className="flex-1 px-4 py-2 bg-green-600 hover:bg-green-700 disabled:opacity-50 text-white font-medium rounded-lg transition-colors"
-                    >
-                      {savingChapter ? 'Đang lưu...' : 'Cập Nhật'}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setEditingChapter(null);
-                      }}
-                      className="flex-1 px-4 py-2 bg-gray-300 dark:bg-[#3c3858] hover:bg-gray-400 text-gray-800 dark:text-white font-medium rounded-lg transition-colors"
-                    >
-                      Hủy
-                    </button>
-                  </div>
-                </form>
-              )}
-
-              {/* Chapters List */}
-              <div className="space-y-3">
-                {chaptersLoading ? (
-                  <div className="text-center py-8">
-                    <Loader className="w-6 h-6 animate-spin mx-auto text-gray-400" />
-                    <p className="text-gray-600 dark:text-gray-400 mt-2">Đang tải...</p>
-                  </div>
-                ) : chapters.length > 0 ? (
-                  chapters.map((chapter) => (
-                    <div
-                      key={chapter._id}
-                      className="bg-gray-50 dark:bg-[#2A2640] p-4 rounded-lg border border-gray-200 dark:border-[#3c3858] hover:border-gray-300 dark:hover:border-[#4a5870] transition-colors"
-                    >
-                      <div className="flex items-start justify-between gap-4">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-1">
-                            <h4 className="font-semibold text-gray-900 dark:text-white">Chương {chapter.chapterNumber}: {chapter.title}</h4>
-                            {getChapterStatusBadge(chapter.status)}
-                          </div>
-                          <p className="text-sm text-gray-600 dark:text-gray-400">{chapter.views || 0} lượt xem</p>
-                        </div>
-                      </div>
-
-                      {/* Action Buttons */}
-                      {!editingChapter && (
-                        <div className="flex flex-wrap gap-2 mt-3 pt-3 border-t border-gray-200 dark:border-[#3c3858]">
-                          <button
-                            onClick={() => setEditingChapter(chapter)}
-                            className="px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors"
-                          >
-                            Chỉnh sửa
-                          </button>
-                          <button
-                            onClick={() => handleUpdateChapterStatus(chapter._id, chapter.status)}
-                            className={`px-3 py-1 text-sm rounded transition-colors ${
-                              chapter.status === 'published'
-                                ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 hover:bg-yellow-200 dark:hover:bg-yellow-900/50'
-                                : 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-900/50'
-                            }`}
-                          >
-                            {chapter.status === 'published' ? 'Đưa về nháp' : 'Công khai'}
-                          </button>
-                          <button
-                            onClick={() => handleDeleteChapter(chapter._id, chapter.chapterNumber)}
-                            disabled={deletingChapter === chapter._id}
-                            className="px-3 py-1 text-sm bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 rounded hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors disabled:opacity-50"
-                          >
-                            {deletingChapter === chapter._id ? 'Đang xóa...' : 'Xóa'}
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  ))
-                ) : (
-                  <div className="text-center py-8 text-gray-600 dark:text-gray-400">
-                    Chưa có chương nào. Hãy thêm chương đầu tiên!
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
     </ManagerLayout>
   );

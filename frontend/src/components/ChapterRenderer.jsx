@@ -82,7 +82,20 @@ function ChapterRenderer({ content, isEditable = false, onChange = null, onNoteA
     );
   }
 
+  // Check if content contains HTML tags (from contentEditable editor)
+  const hasHtml = /<[a-z][\s\S]*>/i.test(content || '');
+
   // Render mode (preview/read) - giống mockup HTML
+  // If content has HTML (from rich text editor), render directly
+  if (hasHtml) {
+    return (
+      <div
+        className="prose prose-sm max-w-none flex-1 p-4 text-base font-normal leading-relaxed text-gray-900 dark:text-white dark:prose-invert"
+        dangerouslySetInnerHTML={{ __html: content }}
+      />
+    );
+  }
+
   return (
     <div className="prose prose-sm max-w-none flex-1 p-4 text-base font-normal leading-relaxed text-gray-900 dark:text-white dark:prose-invert">
       {blocks.map((block, index) => {

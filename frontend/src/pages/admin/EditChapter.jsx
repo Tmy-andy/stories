@@ -36,6 +36,16 @@ function EditChapter() {
     loadChapter();
   }, [chapterId, navigate]);
 
+  // Initialize contentEditable with loaded content
+  useEffect(() => {
+    if (contentRef.current && formData.content && !isPreview) {
+      // Only set innerHTML if it differs (avoids cursor jump)
+      if (contentRef.current.innerHTML !== formData.content) {
+        contentRef.current.innerHTML = formData.content;
+      }
+    }
+  }, [loading, isPreview]); // re-run when loading finishes or switching from preview
+
   // Auto-save draft every 1 minute
   useEffect(() => {
     const autoSaveInterval = setInterval(() => {
@@ -81,8 +91,19 @@ function EditChapter() {
   };
 
   const applyFormat = (command, value = null) => {
-    document.execCommand(command, false, value);
-    contentRef.current?.focus();
+    // execCommand only works on contentEditable elements, not textarea
+    if (contentRef.current) {
+      contentRef.current.focus();
+      document.execCommand(command, false, value);
+      // Sync innerHTML → state after formatting
+      syncContentFromEditor();
+    }
+  };
+
+  const syncContentFromEditor = () => {
+    if (contentRef.current) {
+      setFormData(prev => ({ ...prev, content: contentRef.current.innerHTML }));
+    }
   };
 
   const handleNoteClick = () => {
@@ -325,18 +346,20 @@ function EditChapter() {
                 {/* Content Area */}
                 {isPreview ? (
                   <div className="flex-1 overflow-y-auto">
-                    <ChapterRenderer 
-                      content={formData.content} 
+                    <ChapterRenderer
+                      content={formData.content}
                       isEditable={false}
                     />
                   </div>
                 ) : (
-                  <textarea
+                  <div
                     ref={contentRef}
-                    value={formData.content}
-                    onChange={handleContentChange}
-                    placeholder="Nhập nội dung chương..."
-                    className="flex-1 p-4 text-base font-normal leading-relaxed text-gray-900 dark:text-white bg-white dark:bg-[#1e1c27] outline-none resize-none"
+                    contentEditable
+                    suppressContentEditableWarning
+                    onInput={syncContentFromEditor}
+                    onBlur={syncContentFromEditor}
+                    data-placeholder="Nhập nội dung chương..."
+                    className="flex-1 p-4 text-base font-normal leading-relaxed text-gray-900 dark:text-white bg-white dark:bg-[#1e1c27] outline-none overflow-y-auto min-h-[400px] [&:empty]:before:content-[attr(data-placeholder)] [&:empty]:before:text-gray-400 [&:empty]:before:dark:text-[#a29db9]"
                   />
                 )}
               </div>
