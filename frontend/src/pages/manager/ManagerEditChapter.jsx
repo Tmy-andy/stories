@@ -181,7 +181,7 @@ const ManagerEditChapter = () => {
                 onClick={() => {
                   if (contentRef.current) {
                     contentRef.current.focus();
-                    const noteHtml = '<br><details class="chapter-note" open><summary>Ghi chú của tác giả</summary><div class="note-body">Nội dung ghi chú...</div></details><br>';
+                    const noteHtml = '<br><details class="chapter-note"><summary>Ghi chú của tác giả</summary><div class="note-body">Nội dung ghi chú...</div></details><br>';
                     document.execCommand('insertHTML', false, noteHtml);
                     syncContent();
                   }
