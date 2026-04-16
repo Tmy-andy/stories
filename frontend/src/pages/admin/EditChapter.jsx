@@ -331,9 +331,8 @@ function EditChapter() {
                       type="button"
                       onClick={() => {
                         if (contentRef.current) {
-                          // Insert note block at cursor or at end
                           contentRef.current.focus();
-                          const noteHtml = '<br><blockquote style="border-left:3px solid #7c3aed;padding-left:12px;color:#7c3aed;margin:8px 0;">Ghi chú: </blockquote><br>';
+                          const noteHtml = '<br><details class="chapter-note" open><summary>Ghi chú của tác giả</summary><div class="note-body">N��i dung ghi chú...</div></details><br>';
                           document.execCommand('insertHTML', false, noteHtml);
                           syncContentFromEditor();
                         }

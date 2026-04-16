@@ -87,10 +87,11 @@ function ChapterRenderer({ content, isEditable = false, onChange = null, onNoteA
 
   // Render mode (preview/read) - giống mockup HTML
   // If content has HTML (from rich text editor), render directly
+  // <details class="chapter-note"> elements toggle natively via HTML spec
   if (hasHtml) {
     return (
       <div
-        className="prose prose-sm max-w-none flex-1 p-4 text-base font-normal leading-relaxed text-gray-900 dark:text-white dark:prose-invert"
+        className="prose prose-sm max-w-none flex-1 p-4 text-base font-normal leading-relaxed text-gray-900 dark:text-white dark:prose-invert chapter-content"
         dangerouslySetInnerHTML={{ __html: content }}
       />
     );

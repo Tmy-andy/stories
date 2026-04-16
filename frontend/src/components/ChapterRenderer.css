@@ -1,18 +1,113 @@
-/* Details element styling for chapter notes */
-details {
-  display: block;
+/* ============================================
+   Chapter Note — <details class="chapter-note">
+   Collapsible note block for author notes.
+   Works in both contentEditable editor and
+   ChapterRenderer read mode (dangerouslySetInnerHTML).
+   ============================================ */
+
+/* Container */
+.chapter-note {
+  margin: 16px 0;
+  border-radius: 12px;
+  border: 1px solid #e0d4f5;
+  background: linear-gradient(135deg, #f5f0ff 0%, #ede5ff 100%);
+  overflow: hidden;
+  transition: box-shadow 0.2s;
 }
 
-details summary {
+.chapter-note:hover {
+  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.1);
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  .chapter-note {
+    border-color: #3c2d6b;
+    background: linear-gradient(135deg, #1e1633 0%, #251d40 100%);
+  }
+  .chapter-note:hover {
+    box-shadow: 0 2px 8px rgba(124, 58, 237, 0.2);
+  }
+}
+.dark .chapter-note {
+  border-color: #3c2d6b;
+  background: linear-gradient(135deg, #1e1633 0%, #251d40 100%);
+}
+.dark .chapter-note:hover {
+  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.2);
+}
+
+/* Summary (clickable header) */
+.chapter-note > summary {
   display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
   cursor: pointer;
   user-select: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #7c3aed;
+  list-style: none;
 }
 
-details summary::-webkit-details-marker {
+.chapter-note > summary::-webkit-details-marker {
   display: none;
 }
 
-details[open] .group-open\:rotate-90 {
+/* Arrow icon via pseudo-element */
+.chapter-note > summary::before {
+  content: '▶';
+  display: inline-block;
+  font-size: 0.65rem;
+  transition: transform 0.25s ease;
+  flex-shrink: 0;
+}
+
+.chapter-note[open] > summary::before {
   transform: rotate(90deg);
+}
+
+/* Pen icon after arrow */
+.chapter-note > summary::after {
+  content: '✎';
+  font-size: 0.85rem;
+  margin-right: 2px;
+}
+
+/* Note body */
+.chapter-note .note-body,
+.chapter-note > div {
+  padding: 4px 16px 16px 16px;
+  color: #4b3a6e;
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.dark .chapter-note .note-body,
+.dark .chapter-note > div {
+  color: #c4b5e0;
+}
+
+/* Support for images inside notes */
+.chapter-note .note-body img,
+.chapter-note > div img {
+  max-width: 100%;
+  border-radius: 8px;
+  margin: 8px 0;
+}
+
+/* Support for paragraphs inside notes */
+.chapter-note .note-body p,
+.chapter-note > div p {
+  margin: 4px 0;
+}
+
+/* Separator between summary and body */
+.chapter-note[open] > summary {
+  border-bottom: 1px solid #e0d4f5;
+  padding-bottom: 10px;
+}
+.dark .chapter-note[open] > summary {
+  border-bottom-color: #3c2d6b;
 }
