@@ -13,7 +13,7 @@ Format mỗi dòng:
 
 ### Tháng 04
 
-- 2026-04-16 `[FIX]` `LOW` — Khôi phục "Chèn ghi chú" cho contentEditable editor (admin + manager) → [entry](entries/2026-04-16-002-fix-chen-ghi-chu-contenteditable.md) · commit: `(chưa commit)`
+- 2026-04-16 `[FIX]` `LOW` — Khôi phục "Chèn ghi chú" cho contentEditable editor (admin + manager) → [entry](entries/2026-04-16-002-fix-chen-ghi-chu-contenteditable.md) · commit: `3652754`
 - 2026-04-16 `[FIX]` `MEDIUM` — Fix toolbar editor (textarea→contentEditable) + manager chapters thành page riêng (bỏ modal) → [entry](entries/2026-04-16-001-fix-editor-toolbar-va-manager-chapters-page.md) · commit: `25d0363`
 - 2026-04-14 `[FEATURE]` `LOW` — Trang lỗi 404 / 500 / 502 / 503 + `ErrorBoundary` bọc App → [entry](entries/2026-04-14-007-trang-loi-404-500-502-503.md) · commit: `f506246`
 - 2026-04-14 `[FEATURE]` `MEDIUM` — `/manager/stories`: edit truyện thành page riêng + nút "Thêm truyện" có live preview (bỏ modal) → [entry](entries/2026-04-14-006-edit-story-thanh-page-va-create-co-preview.md) · commit: `50e6410`
