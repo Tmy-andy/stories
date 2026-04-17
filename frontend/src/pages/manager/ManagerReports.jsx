@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ManagerLayout from '../../components/manager/ManagerLayout';
-import api from '../../services/api';
+import api from '../../services/managerAPI';
 
 const STATUS_LABELS = {
   pending: { label: 'Chờ xử lý', color: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' },
@@ -33,7 +33,7 @@ const ManagerReports = () => {
   const loadReports = async () => {
     try {
       setLoading(true);
-      const res = await api.get(`/reports?status=${filterStatus}&page=${page}&limit=20`);
+      const res = await api.get(`/api/reports?status=${filterStatus}&page=${page}&limit=20`);
       setReports(res.data.reports);
       setTotalPages(res.data.totalPages);
     } catch (err) {
@@ -45,7 +45,7 @@ const ManagerReports = () => {
 
   const loadStats = async () => {
     try {
-      const res = await api.get('/reports/stats');
+      const res = await api.get('/api/reports/stats');
       setStats(res.data);
     } catch (err) {
       console.error(err);
@@ -54,7 +54,7 @@ const ManagerReports = () => {
 
   const handleUpdate = async (id, status) => {
     try {
-      await api.patch(`/reports/${id}`, { status });
+      await api.patch(`/api/reports/${id}`, { status });
       setReports(prev => prev.filter(r => r._id !== id));
       setStats(prev => ({
         ...prev,
