@@ -13,7 +13,7 @@ Format mỗi dòng:
 
 ### Tháng 04
 
-- 2026-04-17 `[FEATURE]` `MEDIUM` — Tính năng ẩn bình luận spoiler: checkbox "Spoil" + overlay đỏ che nội dung → [entry](entries/2026-04-17-001-tinh-nang-spoiler-comment.md) · commit: (chưa commit)
+- 2026-04-17 `[FEATURE]` `MEDIUM` — Tính năng ẩn bình luận spoiler: checkbox "Spoil" + overlay đỏ che nội dung → [entry](entries/2026-04-17-001-tinh-nang-spoiler-comment.md) · commit: `79d2547`
 - 2026-04-16 `[FIX]` `LOW` — Restyle ghi chú: nền trắng/xám, tiêu đề xanh, nội dung xám, mặc định đóng → [entry](entries/2026-04-16-004-restyle-ghi-chu-trang-xam-mac-dinh-dong.md) · commit: (chưa commit)
 - 2026-04-16 `[FIX]` `LOW` — Ghi chú → `<details>` collapsible, gradient tím, hỗ trợ multi-line + ảnh → [entry](entries/2026-04-16-003-ghi-chu-collapsible-details.md) · commit: `9a35ca5`
 - 2026-04-16 `[FIX]` `LOW` — Khôi phục "Chèn ghi chú" cho contentEditable editor (admin + manager) → [entry](entries/2026-04-16-002-fix-chen-ghi-chu-contenteditable.md) · commit: `3652754`
