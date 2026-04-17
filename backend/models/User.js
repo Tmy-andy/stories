@@ -67,6 +67,10 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  authorApprovedAt: {
+    type: Date,
+    default: null
+  },
   isAgeVerified: {
     type: Boolean,
     default: false

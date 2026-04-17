@@ -8,8 +8,15 @@ const notificationSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ['new_chapter', 'mention', 'reply', 'like', 'comment', 'contact_reply'],
+    enum: [
+      'new_chapter', 'new_story', 'mention', 'reply', 'like', 'comment', 'contact_reply',
+      'author_announcement', 'story_status_change', 'message_board_post'
+    ],
     required: true
+  },
+  authorPostId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'AuthorPost'
   },
   message: {
     type: String,

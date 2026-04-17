@@ -430,6 +430,9 @@ router.patch('/users/:id/toggle-author', verifyManagerToken, async (req, res) =>
     }
 
     user.isAuthor = !user.isAuthor;
+    if (user.isAuthor) {
+      user.authorApprovedAt = new Date();
+    }
     await user.save();
 
     res.json({
@@ -438,6 +441,7 @@ router.patch('/users/:id/toggle-author', verifyManagerToken, async (req, res) =>
         ? 'Đã cấp quyền Tác giả'
         : 'Đã gỡ quyền Tác giả',
       isAuthor: user.isAuthor,
+      authorApprovedAt: user.authorApprovedAt,
     });
   } catch (error) {
     console.error('Error toggling author:', error);

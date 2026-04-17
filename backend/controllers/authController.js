@@ -286,6 +286,7 @@ exports.getUserProfile = async (req, res) => {
         displayName: user.displayName,
         role: user.role,
         isAuthor: user.isAuthor,
+        authorApprovedAt: user.authorApprovedAt,
         isAgeVerified: user.isAgeVerified,
         ageVerifiedAt: user.ageVerifiedAt,
         membershipPoints: user.membershipPoints,

@@ -76,6 +76,8 @@ const managerAPIRoutes = require('./routes/managerAPI');
 const settingsRoutes = require('./routes/settings');
 const pageRoutes = require('./routes/pages');
 const reportRoutes = require('./routes/reports');
+const authorFollowRoutes = require('./routes/authorFollows');
+const authorPostRoutes = require('./routes/authorPosts');
 
 // Routes
 app.use('/api/stories', storyRoutes);
@@ -92,6 +94,8 @@ app.use('/api/manager', managerAPIRoutes);
 app.use('/api/settings', settingsRoutes);
 app.use('/api/pages', pageRoutes);
 app.use('/api/reports', reportRoutes);
+app.use('/api/author-follows', authorFollowRoutes);
+app.use('/api/author-posts', authorPostRoutes);
 
 // Route mặc định
 app.get('/', (req, res) => {

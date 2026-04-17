@@ -7,6 +7,7 @@ import UserTooltip from '../components/UserTooltip';
 import ReadingHistory from '../components/ReadingHistory';
 import ProfileReadingHistory from '../components/ProfileReadingHistory';
 import axios from 'axios';
+import api from '../services/api';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001/api';
 
@@ -16,6 +17,8 @@ function Profile() {
   const [comments, setComments] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const [favoritesLoading, setFavoritesLoading] = useState(false);
+  const [followedAuthors, setFollowedAuthors] = useState([]);
+  const [followedAuthorsLoading, setFollowedAuthorsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('comments');
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -64,6 +67,24 @@ function Profile() {
     return () => { cancelled = true; };
   }, [activeTab, user]);
 
+  useEffect(() => {
+    if (activeTab !== 'following' || !user) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        setFollowedAuthorsLoading(true);
+        const res = await api.get('/author-follows/my-follows');
+        if (!cancelled) setFollowedAuthors(Array.isArray(res.data) ? res.data : []);
+      } catch (err) {
+        console.error('Error loading followed authors:', err);
+        if (!cancelled) setFollowedAuthors([]);
+      } finally {
+        if (!cancelled) setFollowedAuthorsLoading(false);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [activeTab, user]);
+
   const getMembershipLevelColor = (level) => {
     const colors = {
       'Đồng': 'bg-orange-100 dark:bg-orange-900/50 text-orange-700 dark:text-orange-300',
@@ -85,6 +106,18 @@ function Profile() {
       month: '2-digit',
       year: 'numeric'
     });
+  };
+
+  const handleUnfollowAuthor = async (authorId) => {
+    try {
+      await api.delete(`/author-follows/${authorId}`);
+      setFollowedAuthors(prev => prev.filter(f => {
+        const id = f.authorId?._id || f.authorId;
+        return id !== authorId;
+      }));
+    } catch (err) {
+      console.error('Unfollow error:', err);
+    }
   };
 
   const getTimeAgo = (date) => {
@@ -247,6 +280,18 @@ function Profile() {
               Truyện yêu thích
             </p>
           </button>
+          <button
+            onClick={() => setActiveTab('following')}
+            className={`flex flex-col items-center justify-center border-b-[3px] pb-[13px] pt-4 ${
+              activeTab === 'following'
+                ? 'border-b-primary text-primary'
+                : 'border-b-transparent text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+            } transition-colors`}
+          >
+            <p className="text-sm font-bold leading-normal tracking-[0.015em]">
+              Tác giả theo dõi
+            </p>
+          </button>
         </div>
       </div>
 
@@ -373,6 +418,66 @@ function Profile() {
               </div>
             )}
           </>
+        )}
+
+        {activeTab === 'following' && (
+          <div className="p-4">
+            {followedAuthorsLoading ? (
+              <div className="flex justify-center items-center py-8">
+                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+              </div>
+            ) : followedAuthors.length > 0 ? (
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                {followedAuthors.map((follow) => {
+                  const author = follow.authorId;
+                  if (!author) return null;
+                  const authorId = author._id || author;
+                  return (
+                    <div key={follow._id} className="relative group">
+                      <Link
+                        to={`/profile/${authorId}`}
+                        className="flex flex-col items-center gap-2 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:shadow-md hover:border-primary/40 transition-all"
+                      >
+                        <div className="w-16 h-16 rounded-full bg-primary text-white flex items-center justify-center text-2xl font-bold overflow-hidden">
+                          {author.avatar ? (
+                            <img src={author.avatar} alt={author.displayName || author.username} className="w-full h-full object-cover" />
+                          ) : (
+                            (author.displayName || author.username || '?').charAt(0).toUpperCase()
+                          )}
+                        </div>
+                        <div className="text-center min-w-0 w-full">
+                          <p className="text-sm font-semibold text-gray-900 dark:text-white line-clamp-1 group-hover:text-primary transition-colors">
+                            {author.displayName || author.username}
+                          </p>
+                          <p className="text-xs text-gray-400 dark:text-gray-500">@{author.username}</p>
+                        </div>
+                      </Link>
+                      {/* Nút hủy theo dõi */}
+                      <button
+                        onClick={() => handleUnfollowAuthor(authorId)}
+                        title="Hủy theo dõi"
+                        className="absolute top-2 right-2 w-6 h-6 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-400 hover:bg-red-100 dark:hover:bg-red-900/40 hover:text-red-500 flex items-center justify-center transition-colors opacity-0 group-hover:opacity-100"
+                      >
+                        <span className="material-symbols-outlined text-xs">close</span>
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="flex flex-col items-center justify-center text-center p-10 bg-white dark:bg-background-dark rounded-lg mt-4">
+                <span className="material-symbols-outlined text-5xl text-gray-400 dark:text-gray-500 mb-4">
+                  person_search
+                </span>
+                <h3 className="text-lg font-bold text-gray-800 dark:text-gray-200">
+                  Chưa theo dõi tác giả nào
+                </h3>
+                <p className="text-gray-500 dark:text-gray-400 mt-1">
+                  Theo dõi tác giả yêu thích để nhận thông báo khi có chương mới!
+                </p>
+              </div>
+            )}
+          </div>
         )}
       </div>
     </div>

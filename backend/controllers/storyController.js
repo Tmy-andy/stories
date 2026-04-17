@@ -1,6 +1,9 @@
 const Story = require('../models/Story');
 const Chapter = require('../models/Chapter');
 const mongoose = require('mongoose');
+const AuthorFollow = require('../models/AuthorFollow');
+const Notification = require('../models/Notification');
+const Favorite = require('../models/Favorite');
 
 // Lấy tất cả truyện với phân trang và lọc
 exports.getAllStories = async (req, res) => {
@@ -96,6 +99,12 @@ exports.createStory = async (req, res) => {
     
     const story = new Story(storyData);
     const newStory = await story.save();
+
+    // Gửi thông báo cho người đang theo dõi tác giả (fire-and-forget)
+    sendNewStoryNotifications(newStory, req.user.id).catch(err =>
+      console.error('Notification error:', err.message)
+    );
+
     res.status(201).json(newStory);
   } catch (error) {
     console.error('Create story error:', error.message);
@@ -103,19 +112,69 @@ exports.createStory = async (req, res) => {
   }
 };
 
+async function sendNewStoryNotifications(story, authorId) {
+  const follows = await AuthorFollow.find({ authorId })
+    .select('userId')
+    .limit(500);
+
+  const notifications = follows.map(f => ({
+    userId: f.userId,
+    type: 'new_story',
+    message: `Tác giả bạn theo dõi vừa đăng truyện mới: "${story.title}"`,
+    storyId: story._id,
+    triggeredBy: authorId
+  }));
+
+  if (notifications.length > 0) {
+    await Notification.insertMany(notifications);
+  }
+}
+
 // Cập nhật truyện
 exports.updateStory = async (req, res) => {
   try {
+    const oldStory = await Story.findById(req.params.id);
+    if (!oldStory) {
+      return res.status(404).json({ message: 'Không tìm thấy truyện' });
+    }
+
+    const oldStatus = oldStory.status;
+
     const story = await Story.findByIdAndUpdate(
       req.params.id,
       req.body,
       { new: true, runValidators: true }
     );
-    
-    if (!story) {
-      return res.status(404).json({ message: 'Không tìm thấy truyện' });
+
+    // Nếu trạng thái thay đổi → thông báo cho người đã yêu thích truyện
+    const newStatus = story.status;
+    if (req.body.status && oldStatus !== newStatus) {
+      const statusLabels = {
+        publishing: 'Đang ra',
+        completed: 'Hoàn thành',
+        paused_indefinite: 'Hoãn vô thời hạn',
+        paused_timed: 'Hoãn có thời hạn',
+        dropped: 'Ngừng xuất bản'
+      };
+      const label = statusLabels[newStatus] || newStatus;
+
+      const favorites = await Favorite.find({ storyId: story._id }).select('userId');
+      const io = req.app?.locals?.io;
+
+      for (const fav of favorites) {
+        const noti = await Notification.create({
+          userId: fav.userId,
+          type: 'story_status_change',
+          message: `Truyện "${story.title}" đã đổi trạng thái: ${label}`,
+          storyId: story._id,
+          triggeredBy: story.authorId
+        });
+        if (io) {
+          io.to(`user_${fav.userId}`).emit('notification', noti);
+        }
+      }
     }
-    
+
     res.json(story);
   } catch (error) {
     res.status(400).json({ message: error.message });
