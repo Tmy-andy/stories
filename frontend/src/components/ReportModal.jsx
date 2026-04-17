@@ -16,6 +16,7 @@ const REASONS = [
  */
 const ReportModal = ({ commentId, replyId, onClose }) => {
   const [selected, setSelected] = useState(null);
+  const [detail, setDetail] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState('');
@@ -25,12 +26,24 @@ const ReportModal = ({ commentId, replyId, onClose }) => {
     setSubmitting(true);
     setError('');
     try {
-      await api.post('/reports', { commentId, replyId: replyId || null, reason: selected });
+      await api.post('/reports', {
+        commentId,
+        replyId: replyId || null,
+        reason: selected,
+        detail: detail.trim() || undefined
+      });
       setDone(true);
     } catch (err) {
       setError(err.response?.data?.message || 'Có lỗi xảy ra, vui lòng thử lại');
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  const handleSelectReason = (key) => {
+    if (selected !== key) {
+      setSelected(key);
+      setDetail('');
     }
   };
 
@@ -66,18 +79,42 @@ const ReportModal = ({ commentId, replyId, onClose }) => {
 
             <div className="divide-y divide-gray-100 dark:divide-gray-700">
               {REASONS.map(({ key, label }) => (
-                <button
-                  key={key}
-                  onClick={() => setSelected(key)}
-                  className={`flex items-center justify-between w-full px-5 py-3.5 text-sm transition-colors text-left ${
-                    selected === key
-                      ? 'bg-primary/10 text-primary dark:text-primary'
-                      : 'text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700'
-                  }`}
-                >
-                  <span>{label}</span>
-                  <span className="material-symbols-outlined text-base text-gray-400">chevron_right</span>
-                </button>
+                <div key={key}>
+                  <button
+                    onClick={() => handleSelectReason(key)}
+                    className={`flex items-center justify-between w-full px-5 py-3.5 text-sm transition-colors text-left ${
+                      selected === key
+                        ? 'bg-primary/10 text-primary dark:text-primary'
+                        : 'text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
+                        selected === key ? 'border-primary' : 'border-gray-300 dark:border-gray-600'
+                      }`}>
+                        {selected === key && (
+                          <span className="w-2 h-2 rounded-full bg-primary block" />
+                        )}
+                      </span>
+                      {label}
+                    </div>
+                  </button>
+
+                  {/* Chi tiết — hiện ngay dưới lý do được chọn */}
+                  {selected === key && (
+                    <div className="px-5 pb-3 bg-primary/5 dark:bg-primary/10">
+                      <textarea
+                        value={detail}
+                        onChange={(e) => setDetail(e.target.value)}
+                        placeholder="Mô tả thêm chi tiết (tùy chọn)..."
+                        rows={3}
+                        maxLength={500}
+                        className="w-full text-sm text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-primary/40 placeholder-gray-400 dark:placeholder-gray-500"
+                      />
+                      <p className="text-right text-xs text-gray-400 mt-0.5">{detail.length}/500</p>
+                    </div>
+                  )}
+                </div>
               ))}
             </div>
 

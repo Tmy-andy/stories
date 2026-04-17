@@ -13,6 +13,7 @@ Format mỗi dòng:
 
 ### Tháng 04
 
+- 2026-04-17 `[FEATURE]` `LOW` — Trang Quy Tắc Ứng Xử (/community-rules) + ô nhập chi tiết khi báo cáo → [entry](entries/2026-04-17-007-community-rules-va-report-detail.md) · commit: (chưa commit)
 - 2026-04-17 `[FEATURE]` `MEDIUM` — Comment 3-dot menu (báo cáo, liên kết, quy tắc, xóa) + nút Đọc tiếp ở StoryDetail → [entry](entries/2026-04-17-006-comment-menu-report-va-read-button.md) · commit: `c5e8a8d`
 - 2026-04-17 `[FEATURE]` `LOW` — Public profile hiển thị danh sách truyện + số truyện cho tác giả → [entry](entries/2026-04-17-005-public-profile-author-stories.md) · commit: `d8caee0`
 - 2026-04-17 `[FIX]` `MEDIUM` — Fix @mention gợi ý + hiển thị mention nổi bật + noti dẫn tới chapter → [entry](entries/2026-04-17-004-fix-mention-suggestions-va-noti-chapter.md) · commit: `af64449`

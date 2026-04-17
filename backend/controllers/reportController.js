@@ -10,7 +10,7 @@ const REASON_LABELS = {
 // POST /api/reports — Gửi báo cáo
 exports.createReport = async (req, res) => {
   try {
-    const { commentId, replyId, reason } = req.body;
+    const { commentId, replyId, reason, detail } = req.body;
     const reportedBy = req.user.id;
 
     if (!commentId || !reason) {
@@ -30,7 +30,8 @@ exports.createReport = async (req, res) => {
       commentId,
       replyId: replyId || null,
       reportedBy,
-      reason
+      reason,
+      detail: detail?.trim() || ''
     });
 
     res.status(201).json({ message: 'Báo cáo đã được gửi', report });

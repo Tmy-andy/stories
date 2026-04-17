@@ -41,6 +41,7 @@ import ManagerCategories from './pages/manager/ManagerCategories';
 import ManagerPages from './pages/manager/ManagerPages';
 import ManagerPageEdit from './pages/manager/ManagerPageEdit';
 import ManagerReports from './pages/manager/ManagerReports';
+import CommunityRules from './pages/CommunityRules';
 import About from './pages/About';
 import NotFound from './pages/errors/NotFound';
 import ServerError from './pages/errors/ServerError';
@@ -123,6 +124,7 @@ function App() {
                   <Route path="/about" element={<About />} />
                   <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
                   <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                  <Route path="/community-rules" element={<CommunityRules />} />
                   <Route path="/story/:id" element={<StoryDetail />} />
                   <Route path="/chapter/:storyId/:chapterNumber" element={<ChapterReader />} />
                   <Route path="/login" element={<Login />} />

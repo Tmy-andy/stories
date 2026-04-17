@@ -140,6 +140,13 @@ const ManagerReports = () => {
                       </p>
                     )}
 
+                    {/* Detail */}
+                    {report.detail && (
+                      <p className="text-xs text-gray-500 dark:text-gray-400 italic mb-1.5">
+                        Chi tiết: "{report.detail}"
+                      </p>
+                    )}
+
                     {/* Reporter */}
                     <p className="text-xs text-gray-500 dark:text-gray-400">
                       Báo cáo bởi:{' '}

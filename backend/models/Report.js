@@ -20,6 +20,11 @@ const reportSchema = new mongoose.Schema({
     enum: ['inappropriate', 'copyright', 'unwanted'],
     required: true
   },
+  detail: {
+    type: String,
+    default: '',
+    maxlength: 500
+  },
   status: {
     type: String,
     enum: ['pending', 'reviewed', 'dismissed'],
