@@ -16,6 +16,7 @@ exports.getUserNotifications = async (req, res) => {
     const notifications = await Notification.find(query)
       .populate('triggeredBy', 'username avatar')
       .populate('storyId', 'title slug')
+      .populate('chapterId', 'chapterNumber title')
       .populate('commentId', '_id')
       .populate({
         path: 'contactId',

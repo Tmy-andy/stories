@@ -4,6 +4,7 @@ import { authService } from '../services/authService';
 import { MedalIcon, calculateLevel, AdminVerifiedIcon } from '../utils/tierSystem';
 import UserTooltip from './UserTooltip';
 import CommentInput from './CommentInput';
+import CommentContent from './CommentContent';
 import ReplyList from './ReplyList';
 
 const CommentSection = ({ storyId, chapterId }) => {
@@ -173,9 +174,11 @@ const CommentSection = ({ storyId, chapterId }) => {
                       </div>
                     </div>
                   ) : (
-                    <p className="text-sm text-text-light dark:text-gray-200 break-words whitespace-pre-wrap">
-                      {comment.content}
-                    </p>
+                    <CommentContent
+                      content={comment.content}
+                      mentions={comment.mentions}
+                      className="text-sm text-text-light dark:text-gray-200 break-words whitespace-pre-wrap"
+                    />
                   )}
 
                   {/* Actions */}

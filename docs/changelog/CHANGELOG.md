@@ -13,6 +13,7 @@ Format mỗi dòng:
 
 ### Tháng 04
 
+- 2026-04-17 `[FIX]` `MEDIUM` — Fix @mention gợi ý + hiển thị mention nổi bật + noti dẫn tới chapter → [entry](entries/2026-04-17-004-fix-mention-suggestions-va-noti-chapter.md) · commit: (chưa commit)
 - 2026-04-17 `[FIX]` `LOW` — Dropdown @mention hiển thị avatar, displayName, username → [entry](entries/2026-04-17-003-mention-suggestions-avt-displayname.md) · commit: (chưa commit)
 - 2026-04-17 `[FIX]` `LOW` — Cải thiện spoiler overlay (frosted glass) + auto-@ khi reply → [entry](entries/2026-04-17-002-fix-spoiler-overlay-va-auto-mention-reply.md) · commit: `5963b42`
 - 2026-04-17 `[FEATURE]` `MEDIUM` — Tính năng ẩn bình luận spoiler: checkbox "Spoil" + overlay đỏ che nội dung → [entry](entries/2026-04-17-001-tinh-nang-spoiler-comment.md) · commit: `79d2547`

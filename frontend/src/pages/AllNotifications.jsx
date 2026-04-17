@@ -54,12 +54,18 @@ const AllNotifications = () => {
     const storyId = notification.storyId?._id || notification.storyId;
     const storyKey = notification.storyId?.slug || storyId;
     const commentId = notification.commentId?._id || notification.commentId;
+    const chapterNumber = notification.chapterId?.chapterNumber;
 
     // Navigate based on notification type
     if (notification.type === 'new_chapter' && storyKey) {
       navigate(`/story/${storyKey}`);
-    } else if ((notification.type === 'mention' || notification.type === 'reply' || notification.type === 'comment') && commentId && storyKey) {
-      navigate(`/story/${storyKey}?comment=${commentId}`);
+    } else if ((notification.type === 'mention' || notification.type === 'reply' || notification.type === 'comment') && commentId) {
+      // Nếu comment thuộc chapter → navigate tới chapter page
+      if (chapterNumber && storyId) {
+        navigate(`/chapter/${storyId}/${chapterNumber}?comment=${commentId}`);
+      } else if (storyKey) {
+        navigate(`/story/${storyKey}?comment=${commentId}`);
+      }
     } else if (storyKey) {
       navigate(`/story/${storyKey}`);
     }

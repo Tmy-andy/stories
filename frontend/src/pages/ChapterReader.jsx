@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link, useNavigate, useSearchParams } from 'react-router-dom';
 import ChapterRenderer from '../components/ChapterRenderer';
 import CommentSection from '../components/CommentSection';
 import api from '../services/api';
@@ -7,6 +7,8 @@ import readingHistoryService from '../services/readingHistoryService';
 
 const ChapterReader = () => {
   const { storyId, chapterNumber } = useParams();
+  const [searchParams] = useSearchParams();
+  const commentId = searchParams.get('comment');
   const navigate = useNavigate();
   const [chapter, setChapter] = useState(null);
   const [story, setStory] = useState(null);
@@ -60,10 +62,22 @@ const ChapterReader = () => {
       }
     };
 
-    if (chapter && story) {
+    if (chapter && story && !commentId) {
       restorePosition();
     }
   }, [chapter, story]);
+
+  // Scroll tới comment khi có ?comment= query param
+  useEffect(() => {
+    if (commentId && !loading) {
+      setTimeout(() => {
+        const element = document.getElementById(`comment-${commentId}`);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 500);
+    }
+  }, [commentId, loading]);
 
   const loadChapterData = async () => {
     try {

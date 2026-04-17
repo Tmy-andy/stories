@@ -41,13 +41,10 @@ const CommentInput = ({ storyId, chapterId, onCommentAdded, isReply = false, onC
 
     // Tìm @mention
     const lastAtIndex = text.lastIndexOf('@', cursorPos);
-    if (lastAtIndex !== -1 && lastAtIndex === cursorPos - 1) {
-      setShowSuggestions(true);
-      setSuggestions([]);
-      setSelectedSuggestion(-1);
-    } else if (lastAtIndex !== -1) {
+    if (lastAtIndex !== -1) {
       const query = text.substring(lastAtIndex + 1, cursorPos);
-      if (query.length > 0 && /^[a-zA-Z0-9_-]*$/.test(query)) {
+      // Vừa gõ @ (chưa có ký tự) hoặc đang gõ tên
+      if (query.length === 0 || /^[a-zA-Z0-9_\-\p{L}]*$/u.test(query)) {
         try {
           const results = await commentService.getUserSuggestions(query, storyId);
           setSuggestions(results);

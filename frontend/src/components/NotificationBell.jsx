@@ -213,11 +213,17 @@ const NotificationBell = () => {
     const storyId = notification.storyId?._id || notification.storyId;
     const storySlug = notification.storyId?.slug;
     const commentId = notification.commentId?._id || notification.commentId;
+    const chapterNumber = notification.chapterId?.chapterNumber;
 
     if (notification.type === 'new_chapter' && storySlug) {
       navigate(`/story/${storySlug}`);
-    } else if ((notification.type === 'mention' || notification.type === 'reply') && commentId && storySlug) {
-      navigate(`/story/${storySlug}?comment=${commentId}`);
+    } else if ((notification.type === 'mention' || notification.type === 'reply' || notification.type === 'comment') && commentId) {
+      // Nếu comment thuộc chapter → navigate tới chapter page
+      if (chapterNumber && storyId) {
+        navigate(`/chapter/${storyId}/${chapterNumber}?comment=${commentId}`);
+      } else if (storySlug) {
+        navigate(`/story/${storySlug}?comment=${commentId}`);
+      }
     } else if (storySlug) {
       navigate(`/story/${storySlug}`);
     } else if (storyId) {

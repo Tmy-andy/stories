@@ -6,7 +6,7 @@ const { authMiddleware } = require('../middleware/auth');
 // Public routes
 router.get('/story/:storyId', commentController.getCommentsByStory);
 router.get('/story/:storyId/chapter/:chapterId', commentController.getCommentsByChapter);
-router.get('/suggestions', commentController.getUserSuggestions);
+router.get('/suggestions', authMiddleware, commentController.getUserSuggestions);
 
 // Protected routes
 router.get('/user', authMiddleware, commentController.getCommentsByUser);

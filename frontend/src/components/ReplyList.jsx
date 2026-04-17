@@ -4,6 +4,7 @@ import { authService } from '../services/authService';
 import { MedalIcon, calculateLevel, AdminVerifiedIcon } from '../utils/tierSystem';
 import UserTooltip from './UserTooltip';
 import CommentInput from './CommentInput';
+import CommentContent from './CommentContent';
 
 const ReplyList = ({ commentId, replies, onReplyAdded, onReplyDeleted }) => {
   const [expandedReplies, setExpandedReplies] = useState({});
@@ -106,7 +107,11 @@ const ReplyList = ({ commentId, replies, onReplyAdded, onReplyDeleted }) => {
                   </div>
                 </div>
               ) : (
-                <p className="text-sm text-text-light dark:text-white mb-2">{reply.content}</p>
+                <CommentContent
+                  content={reply.content}
+                  mentions={reply.mentions}
+                  className="text-sm text-text-light dark:text-white mb-2"
+                />
               )}
 
               <div className="flex items-center gap-4">

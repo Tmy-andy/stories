@@ -19,6 +19,10 @@ const notificationSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Story'
   },
+  chapterId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Chapter'
+  },
   commentId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Comment'

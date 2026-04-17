@@ -1,5 +1,8 @@
 const Comment = require('../models/Comment');
 const User = require('../models/User');
+const Chapter = require('../models/Chapter');
+const Story = require('../models/Story');
+const Favorite = require('../models/Favorite');
 const { createNotification } = require('./notificationController');
 
 // Tạo comment mới
@@ -29,6 +32,17 @@ exports.createComment = async (req, res) => {
       .populate('userId', 'username avatar role membershipPoints displayName')
       .populate('storyId', 'title authorId');
 
+    // Lấy thông tin chapter nếu comment trên chapter
+    let chapterInfo = null;
+    if (chapterId) {
+      chapterInfo = await Chapter.findById(chapterId).select('chapterNumber title');
+    }
+    const chapterLabel = chapterInfo ? ` (Chương ${chapterInfo.chapterNumber}: ${chapterInfo.title})` : '';
+    const notiData = {
+      storyId, commentId: comment._id, triggeredBy: req.user.id,
+      ...(chapterId ? { chapterId } : {})
+    };
+
     // Tập hợp những người đã nhận noti để tránh gửi trùng
     const notifiedUsers = new Set();
 
@@ -43,8 +57,8 @@ exports.createComment = async (req, res) => {
         const notification = await createNotification(
           storyAuthorId,
           'comment',
-          `${user.username} vừa bình luận trên truyện "${populatedComment.storyId.title}"`,
-          { storyId, commentId: comment._id, triggeredBy: req.user.id }
+          `${user.username} vừa bình luận trên truyện "${populatedComment.storyId.title}"${chapterLabel}`,
+          notiData
         );
         notifiedUsers.add(storyAuthorId);
 
@@ -64,8 +78,8 @@ exports.createComment = async (req, res) => {
           const notification = await createNotification(
             mentionUserId,
             'mention',
-            `${user.username} mention bạn trong một bình luận`,
-            { storyId, commentId: comment._id, triggeredBy: req.user.id }
+            `${user.username} mention bạn trong một bình luận${chapterLabel}`,
+            notiData
           );
           notifiedUsers.add(mentionUserId);
 
@@ -85,16 +99,26 @@ exports.createComment = async (req, res) => {
 // Helper function to populate replies with user data
 const populateRepliesUsers = async (comments) => {
   const userIds = new Set();
-  
-  // Collect all unique user IDs from comments and replies
+
+  // Collect all unique user IDs from comments, replies, and mentions
   comments.forEach(comment => {
     if (comment.userId && comment.userId._id) {
       userIds.add(comment.userId._id.toString());
     }
+    // Mention userIds trong comment
+    if (comment.mentions) {
+      comment.mentions.forEach(m => {
+        if (m.userId) userIds.add(m.userId.toString());
+      });
+    }
     if (comment.replies && comment.replies.length > 0) {
       comment.replies.forEach(reply => {
-        if (reply.userId) {
-          userIds.add(reply.userId.toString());
+        if (reply.userId) userIds.add(reply.userId.toString());
+        // Mention userIds trong reply
+        if (reply.mentions) {
+          reply.mentions.forEach(m => {
+            if (m.userId) userIds.add(m.userId.toString());
+          });
         }
       });
     }
@@ -110,10 +134,26 @@ const populateRepliesUsers = async (comments) => {
 
   // Replace userId references with actual user objects
   comments.forEach(comment => {
+    // Populate mentions trong comment
+    if (comment.mentions) {
+      comment.mentions.forEach(m => {
+        if (m.userId && userMap[m.userId.toString()]) {
+          m.userId = userMap[m.userId.toString()];
+        }
+      });
+    }
     if (comment.replies && comment.replies.length > 0) {
       comment.replies.forEach(reply => {
         if (reply.userId && userMap[reply.userId.toString()]) {
           reply.userId = userMap[reply.userId.toString()];
+        }
+        // Populate mentions trong reply
+        if (reply.mentions) {
+          reply.mentions.forEach(m => {
+            if (m.userId && userMap[m.userId.toString()]) {
+              m.userId = userMap[m.userId.toString()];
+            }
+          });
         }
       });
     }
@@ -260,6 +300,17 @@ exports.addReply = async (req, res) => {
     comment.replies.push(reply);
     await comment.save();
 
+    // Lấy thông tin chapter nếu comment thuộc chapter
+    let chapterInfo = null;
+    if (comment.chapterId) {
+      chapterInfo = await Chapter.findById(comment.chapterId).select('chapterNumber title');
+    }
+    const chapterLabel = chapterInfo ? ` (Chương ${chapterInfo.chapterNumber}: ${chapterInfo.title})` : '';
+    const notiData = {
+      storyId: comment.storyId, commentId: comment._id, triggeredBy: req.user.id,
+      ...(comment.chapterId ? { chapterId: comment.chapterId } : {})
+    };
+
     // Tập hợp những người đã nhận noti để tránh gửi trùng
     const notifiedUsers = new Set();
 
@@ -272,8 +323,8 @@ exports.addReply = async (req, res) => {
       const notification = await createNotification(
         origCommentUserId,
         'reply',
-        `${currentUser.username} trả lời bình luận của bạn`,
-        { storyId: comment.storyId, commentId: comment._id, triggeredBy: req.user.id }
+        `${currentUser.username} trả lời bình luận của bạn${chapterLabel}`,
+        notiData
       );
       notifiedUsers.add(origCommentUserId);
 
@@ -291,8 +342,8 @@ exports.addReply = async (req, res) => {
           const notification = await createNotification(
             mentionUserId,
             'mention',
-            `${currentUser.username} mention bạn trong một reply`,
-            { storyId: comment.storyId, commentId: comment._id, triggeredBy: req.user.id }
+            `${currentUser.username} mention bạn trong một reply${chapterLabel}`,
+            notiData
           );
           notifiedUsers.add(mentionUserId);
 
@@ -331,27 +382,67 @@ exports.addReply = async (req, res) => {
 };
 
 // Lấy user suggestions cho @mention
+// Ưu tiên: (1) user đã comment trên truyện → (2) tác giả truyện → (3) tác giả truyện yêu thích → (4) tất cả user
 exports.getUserSuggestions = async (req, res) => {
   try {
     const { query, storyId } = req.query;
+    const currentUserId = req.user.id;
 
-    if (!query || query.length < 1) {
-      return res.json([]);
+    // Build search filter cho tên
+    const nameFilter = {};
+    if (query && query.length > 0) {
+      nameFilter.$or = [
+        { username: { $regex: query, $options: 'i' } },
+        { displayName: { $regex: query, $options: 'i' } }
+      ];
     }
 
-    // Lấy danh sách user đã comment trên truyện này
-    const comments = await Comment.find({ storyId })
-      .distinct('userId')
+    // Thu thập các nhóm ưu tiên song song
+    const [commentUserIds, story, favoriteStories] = await Promise.all([
+      // Nhóm 1: User đã comment trên truyện này
+      storyId ? Comment.find({ storyId }).distinct('userId') : [],
+      // Nhóm 2: Tác giả truyện này
+      storyId ? Story.findById(storyId).select('authorId') : null,
+      // Nhóm 3: Truyện yêu thích của user hiện tại
+      Favorite.find({ userId: currentUserId }).select('storyId').limit(50)
+    ]);
+
+    const storyAuthorId = story?.authorId?.toString();
+
+    // Lấy tác giả các truyện yêu thích
+    let favAuthorIds = [];
+    if (favoriteStories.length > 0) {
+      const favStoryIds = favoriteStories.map(f => f.storyId);
+      const favStories = await Story.find({ _id: { $in: favStoryIds } }).select('authorId');
+      favAuthorIds = favStories.map(s => s.authorId?.toString()).filter(Boolean);
+    }
+
+    // Tìm tất cả users match query (giới hạn 20)
+    const allUsers = await User.find({
+      _id: { $ne: currentUserId },
+      ...nameFilter
+    })
+      .select('_id username displayName avatar')
       .limit(20);
 
-    const users = await User.find({
-      _id: { $in: comments },
-      username: { $regex: query, $options: 'i' }
-    })
-    .select('_id username displayName avatar')
-    .limit(10);
+    // Gán priority score cho mỗi user
+    const commentSet = new Set(commentUserIds.map(id => id.toString()));
+    const favAuthorSet = new Set(favAuthorIds);
 
-    res.json(users);
+    const scored = allUsers.map(u => {
+      const uid = u._id.toString();
+      let priority = 3; // mặc định: tất cả user khác
+      if (commentSet.has(uid)) priority = 0; // ưu tiên cao nhất
+      else if (uid === storyAuthorId) priority = 1;
+      else if (favAuthorSet.has(uid)) priority = 2;
+      return { user: u, priority };
+    });
+
+    // Sắp xếp theo priority rồi trả về tối đa 10
+    scored.sort((a, b) => a.priority - b.priority);
+    const result = scored.slice(0, 10).map(s => s.user);
+
+    res.json(result);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

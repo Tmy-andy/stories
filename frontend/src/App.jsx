@@ -20,6 +20,7 @@ import EditProfile from './pages/EditProfile';
 import UserProfile from './pages/UserProfile';
 import Favorites from './pages/Favorites';
 import AllNotifications from './pages/AllNotifications';
+import PublicProfile from './pages/PublicProfile';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import CreateStory from './pages/admin/CreateStory';
 import EditStory from './pages/admin/EditStory';
@@ -126,6 +127,7 @@ function App() {
                   <Route path="/register" element={<Register />} />
                   <Route path="/change-password" element={<ChangePassword />} />
                   <Route path="/profile" element={<Profile />} />
+                  <Route path="/profile/:userId" element={<PublicProfile />} />
                   <Route path="/edit-profile" element={<EditProfile />} />
                   <Route path="/user-profile" element={<UserProfile />} />
                   <Route path="/favorites" element={<Favorites />} />
