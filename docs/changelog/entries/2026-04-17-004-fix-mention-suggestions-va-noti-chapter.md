@@ -8,7 +8,7 @@
 | **Người thực hiện** | Claude |
 | **Tag** | `[FIX]` |
 | **Mức rủi ro** | `MEDIUM` |
-| **Commit hash** | (chưa commit) |
+| **Commit hash** | `af64449` |
 | **Branch** | main |
 
 ## Mục đích
