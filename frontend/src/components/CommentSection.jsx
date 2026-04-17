@@ -12,6 +12,7 @@ const CommentSection = ({ storyId, chapterId }) => {
   const [error, setError] = useState('');
   const [currentUser, setCurrentUser] = useState(null);
   const [replyingTo, setReplyingTo] = useState(null);
+  const [revealedSpoilers, setRevealedSpoilers] = useState({});
 
   useEffect(() => {
     const user = authService.getCurrentUser();
@@ -156,9 +157,25 @@ const CommentSection = ({ storyId, chapterId }) => {
                   </div>
 
                   {/* Comment Text */}
-                  <p className="text-sm text-text-light dark:text-gray-200 break-words whitespace-pre-wrap">
-                    {comment.content}
-                  </p>
+                  {comment.isSpoiler && !revealedSpoilers[comment._id] ? (
+                    <div className="relative">
+                      <p className="text-sm text-text-light dark:text-gray-200 break-words whitespace-pre-wrap blur-md select-none" aria-hidden="true">
+                        {comment.content}
+                      </p>
+                      <button
+                        onClick={() => setRevealedSpoilers(prev => ({ ...prev, [comment._id]: true }))}
+                        className="absolute inset-0 flex items-center justify-center bg-black/20 dark:bg-black/40 rounded cursor-pointer"
+                      >
+                        <span className="bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded shadow-lg">
+                          SPOILER — Click để xem
+                        </span>
+                      </button>
+                    </div>
+                  ) : (
+                    <p className="text-sm text-text-light dark:text-gray-200 break-words whitespace-pre-wrap">
+                      {comment.content}
+                    </p>
+                  )}
 
                   {/* Actions */}
                   <div className="flex gap-4 mt-3">

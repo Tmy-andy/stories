@@ -37,13 +37,14 @@ export const commentService = {
   },
 
   // Tạo comment mới
-  createComment: async (storyId, chapterId, content, mentions = []) => {
+  createComment: async (storyId, chapterId, content, mentions = [], isSpoiler = false) => {
     try {
       const response = await api.post('/comments', {
         storyId,
         chapterId: chapterId || null,
         content,
-        mentions
+        mentions,
+        isSpoiler
       });
       return response.data;
     } catch (error) {
@@ -88,11 +89,12 @@ export const commentService = {
   },
 
   // Thêm reply vào comment
-  addReply: async (commentId, content, mentions = []) => {
+  addReply: async (commentId, content, mentions = [], isSpoiler = false) => {
     try {
       const response = await api.post(`/comments/${commentId}/replies`, {
         content,
-        mentions
+        mentions,
+        isSpoiler
       });
       return response.data;
     } catch (error) {

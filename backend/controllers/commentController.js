@@ -5,15 +5,16 @@ const { createNotification } = require('./notificationController');
 // Tạo comment mới
 exports.createComment = async (req, res) => {
   try {
-    const { storyId, chapterId, content } = req.body;
+    const { storyId, chapterId, content, isSpoiler } = req.body;
     const io = req.app.locals.io;
     const userConnections = req.app.locals.userConnections;
-    
+
     const comment = new Comment({
       userId: req.user.id,
       storyId,
       chapterId: chapterId || null,
-      content
+      content,
+      isSpoiler: isSpoiler || false
     });
 
     await comment.save();
@@ -214,7 +215,7 @@ exports.deleteComment = async (req, res) => {
 exports.addReply = async (req, res) => {
   try {
     const { commentId } = req.params;
-    const { content, mentions } = req.body;
+    const { content, mentions, isSpoiler } = req.body;
     const io = req.app.locals.io;
     const userConnections = req.app.locals.userConnections;
 
@@ -226,7 +227,8 @@ exports.addReply = async (req, res) => {
     const reply = {
       userId: req.user.id,
       content,
-      mentions: mentions || []
+      mentions: mentions || [],
+      isSpoiler: isSpoiler || false
     };
 
     comment.replies.push(reply);

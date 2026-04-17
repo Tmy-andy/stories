@@ -8,6 +8,7 @@ import CommentInput from './CommentInput';
 const ReplyList = ({ commentId, replies, onReplyAdded, onReplyDeleted }) => {
   const [expandedReplies, setExpandedReplies] = useState({});
   const [showReplyForm, setShowReplyForm] = useState({});
+  const [revealedSpoilers, setRevealedSpoilers] = useState({});
   const user = authService.getCurrentUser();
 
   const handleToggleReply = (replyId) => {
@@ -89,7 +90,23 @@ const ReplyList = ({ commentId, replies, onReplyAdded, onReplyDeleted }) => {
                 </span>
               </div>
 
-              <p className="text-sm text-text-light dark:text-white mb-2">{reply.content}</p>
+              {reply.isSpoiler && !revealedSpoilers[reply._id] ? (
+                <div className="relative mb-2">
+                  <p className="text-sm text-text-light dark:text-white blur-md select-none" aria-hidden="true">
+                    {reply.content}
+                  </p>
+                  <button
+                    onClick={() => setRevealedSpoilers(prev => ({ ...prev, [reply._id]: true }))}
+                    className="absolute inset-0 flex items-center justify-center bg-black/20 dark:bg-black/40 rounded cursor-pointer"
+                  >
+                    <span className="bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded shadow-lg">
+                      SPOILER — Click để xem
+                    </span>
+                  </button>
+                </div>
+              ) : (
+                <p className="text-sm text-text-light dark:text-white mb-2">{reply.content}</p>
+              )}
 
               <div className="flex items-center gap-4">
                 <button

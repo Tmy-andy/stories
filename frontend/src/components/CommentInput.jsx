@@ -9,6 +9,7 @@ const CommentInput = ({ storyId, chapterId, onCommentAdded, isReply = false, onC
   const [suggestions, setSuggestions] = useState([]);
   const [selectedSuggestion, setSelectedSuggestion] = useState(-1);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [isSpoiler, setIsSpoiler] = useState(false);
   const [loading, setLoading] = useState(false);
   const [cursorPosition, setCursorPosition] = useState(0);
   const textareaRef = useRef(null);
@@ -97,14 +98,15 @@ const CommentInput = ({ storyId, chapterId, onCommentAdded, isReply = false, onC
     setLoading(true);
     try {
       if (isReply) {
-        const reply = await commentService.addReply(commentId, content.trim(), mentions);
+        const reply = await commentService.addReply(commentId, content.trim(), mentions, isSpoiler);
         if (onReplyAdded) onReplyAdded(reply);
       } else {
-        const comment = await commentService.createComment(storyId, chapterId, content.trim(), mentions);
+        const comment = await commentService.createComment(storyId, chapterId, content.trim(), mentions, isSpoiler);
         if (onCommentAdded) onCommentAdded(comment);
       }
       setContent('');
       setMentions([]);
+      setIsSpoiler(false);
       setSuggestions([]);
     } catch (error) {
       console.error('Error submitting comment:', error);
@@ -168,7 +170,18 @@ const CommentInput = ({ storyId, chapterId, onCommentAdded, isReply = false, onC
             )}
           </div>
 
-          <div className="flex gap-2 mt-3 justify-end">
+          <div className="flex items-center gap-2 mt-3 justify-between">
+            <label className="flex items-center gap-1.5 cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={isSpoiler}
+                onChange={(e) => setIsSpoiler(e.target.checked)}
+                className="w-4 h-4 rounded border-gray-300 dark:border-gray-600 text-red-500 focus:ring-red-500 cursor-pointer"
+                disabled={loading}
+              />
+              <span className="text-xs text-text-muted-light dark:text-text-muted-dark">Spoil</span>
+            </label>
+            <div className="flex gap-2">
             {isReply && onCancel && (
               <button
                 type="button"
@@ -186,6 +199,7 @@ const CommentInput = ({ storyId, chapterId, onCommentAdded, isReply = false, onC
             >
               {loading ? 'Đang gửi...' : isReply ? 'Trả lời' : 'Bình luận'}
             </button>
+            </div>
           </div>
         </div>
       </div>
