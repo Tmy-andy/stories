@@ -5,7 +5,7 @@ const { createNotification } = require('./notificationController');
 // Tạo comment mới
 exports.createComment = async (req, res) => {
   try {
-    const { storyId, chapterId, content, isSpoiler } = req.body;
+    const { storyId, chapterId, content, isSpoiler, mentions } = req.body;
     const io = req.app.locals.io;
     const userConnections = req.app.locals.userConnections;
 
@@ -14,6 +14,7 @@ exports.createComment = async (req, res) => {
       storyId,
       chapterId: chapterId || null,
       content,
+      mentions: mentions || [],
       isSpoiler: isSpoiler || false
     });
 
@@ -28,12 +29,15 @@ exports.createComment = async (req, res) => {
       .populate('userId', 'username avatar role membershipPoints displayName')
       .populate('storyId', 'title authorId');
 
+    // Tập hợp những người đã nhận noti để tránh gửi trùng
+    const notifiedUsers = new Set();
+
     // Gửi thông báo cho tác giả khi có bình luận mới
     if (populatedComment.storyId && populatedComment.storyId.authorId) {
-      const storyAuthorId = populatedComment.storyId.authorId._id ? 
-        populatedComment.storyId.authorId._id.toString() : 
+      const storyAuthorId = populatedComment.storyId.authorId._id ?
+        populatedComment.storyId.authorId._id.toString() :
         populatedComment.storyId.authorId.toString();
-      
+
       // Chỉ gửi thông báo nếu người comment không phải là tác giả
       if (storyAuthorId !== req.user.id) {
         const notification = await createNotification(
@@ -42,10 +46,32 @@ exports.createComment = async (req, res) => {
           `${user.username} vừa bình luận trên truyện "${populatedComment.storyId.title}"`,
           { storyId, commentId: comment._id, triggeredBy: req.user.id }
         );
+        notifiedUsers.add(storyAuthorId);
 
         // Gửi qua Socket.io nếu user online
         if (userConnections[storyAuthorId]) {
           io.to(`user_${storyAuthorId}`).emit('notification', notification);
+        }
+      }
+    }
+
+    // Gửi thông báo cho những người được @mention trong comment
+    if (mentions && mentions.length > 0) {
+      for (const mention of mentions) {
+        const mentionUserId = mention.userId.toString();
+        // Không gửi noti cho chính mình hoặc người đã nhận noti (tác giả)
+        if (mentionUserId !== req.user.id && !notifiedUsers.has(mentionUserId)) {
+          const notification = await createNotification(
+            mentionUserId,
+            'mention',
+            `${user.username} mention bạn trong một bình luận`,
+            { storyId, commentId: comment._id, triggeredBy: req.user.id }
+          );
+          notifiedUsers.add(mentionUserId);
+
+          if (userConnections[mentionUserId]) {
+            io.to(`user_${mentionUserId}`).emit('notification', notification);
+          }
         }
       }
     }
@@ -234,38 +260,45 @@ exports.addReply = async (req, res) => {
     comment.replies.push(reply);
     await comment.save();
 
+    // Tập hợp những người đã nhận noti để tránh gửi trùng
+    const notifiedUsers = new Set();
+
     // Gửi thông báo cho người tạo comment gốc
     const origCommentUser = await User.findById(comment.userId);
     const currentUser = await User.findById(req.user.id);
+    const origCommentUserId = comment.userId.toString();
 
-    if (origCommentUser && origCommentUser._id.toString() !== req.user.id) {
+    if (origCommentUser && origCommentUserId !== req.user.id) {
       const notification = await createNotification(
-        comment.userId.toString(),
+        origCommentUserId,
         'reply',
         `${currentUser.username} trả lời bình luận của bạn`,
         { storyId: comment.storyId, commentId: comment._id, triggeredBy: req.user.id }
       );
+      notifiedUsers.add(origCommentUserId);
 
       // Gửi qua Socket.io nếu user online
-      if (userConnections[comment.userId.toString()]) {
-        io.to(`user_${comment.userId.toString()}`).emit('notification', notification);
+      if (userConnections[origCommentUserId]) {
+        io.to(`user_${origCommentUserId}`).emit('notification', notification);
       }
     }
 
-    // Gửi thông báo cho những người được mention
+    // Gửi thông báo cho những người được mention (trừ người đã nhận noti reply ở trên)
     if (mentions && mentions.length > 0) {
       for (const mention of mentions) {
-        if (mention.userId !== req.user.id) {
+        const mentionUserId = mention.userId.toString();
+        if (mentionUserId !== req.user.id && !notifiedUsers.has(mentionUserId)) {
           const notification = await createNotification(
-            mention.userId.toString(),
+            mentionUserId,
             'mention',
             `${currentUser.username} mention bạn trong một reply`,
             { storyId: comment.storyId, commentId: comment._id, triggeredBy: req.user.id }
           );
+          notifiedUsers.add(mentionUserId);
 
           // Gửi qua Socket.io nếu user online
-          if (userConnections[mention.userId.toString()]) {
-            io.to(`user_${mention.userId.toString()}`).emit('notification', notification);
+          if (userConnections[mentionUserId]) {
+            io.to(`user_${mentionUserId}`).emit('notification', notification);
           }
         }
       }

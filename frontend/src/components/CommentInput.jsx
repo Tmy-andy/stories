@@ -3,9 +3,17 @@ import { commentService } from '../services/commentService';
 import { authService } from '../services/authService';
 import { MedalIcon, calculateLevel, AdminVerifiedIcon } from '../utils/tierSystem';
 
-const CommentInput = ({ storyId, chapterId, onCommentAdded, isReply = false, onCancel = null, onReplyAdded = null, commentId = null }) => {
-  const [content, setContent] = useState('');
-  const [mentions, setMentions] = useState([]);
+const CommentInput = ({ storyId, chapterId, onCommentAdded, isReply = false, onCancel = null, onReplyAdded = null, commentId = null, replyToUser = null }) => {
+  const [content, setContent] = useState(() => {
+    if (isReply && replyToUser?.username) return `@${replyToUser.username} `;
+    return '';
+  });
+  const [mentions, setMentions] = useState(() => {
+    if (isReply && replyToUser?._id && replyToUser?.username) {
+      return [{ userId: replyToUser._id, username: replyToUser.username }];
+    }
+    return [];
+  });
   const [suggestions, setSuggestions] = useState([]);
   const [selectedSuggestion, setSelectedSuggestion] = useState(-1);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -14,6 +22,15 @@ const CommentInput = ({ storyId, chapterId, onCommentAdded, isReply = false, onC
   const [cursorPosition, setCursorPosition] = useState(0);
   const textareaRef = useRef(null);
   const user = authService.getCurrentUser();
+
+  useEffect(() => {
+    if (isReply && replyToUser?.username && textareaRef.current) {
+      const pos = `@${replyToUser.username} `.length;
+      textareaRef.current.focus();
+      textareaRef.current.selectionStart = pos;
+      textareaRef.current.selectionEnd = pos;
+    }
+  }, []);
 
   const handleContentChange = async (e) => {
     const text = e.target.value;

@@ -91,21 +91,19 @@ const ReplyList = ({ commentId, replies, onReplyAdded, onReplyDeleted }) => {
               </div>
 
               {reply.isSpoiler && !revealedSpoilers[reply._id] ? (
-                <div className="relative overflow-hidden rounded mb-2">
-                  <p className="text-sm text-text-light dark:text-white select-none" aria-hidden="true">
+                <div
+                  className="relative overflow-hidden rounded cursor-pointer group mb-2"
+                  onClick={() => setRevealedSpoilers(prev => ({ ...prev, [reply._id]: true }))}
+                >
+                  <p className="text-sm text-text-light dark:text-white select-none blur-[8px]" aria-hidden="true">
                     {reply.content}
                   </p>
-                  <button
-                    onClick={() => setRevealedSpoilers(prev => ({ ...prev, [reply._id]: true }))}
-                    className="absolute inset-0 flex items-center justify-center backdrop-blur-lg cursor-pointer"
-                    style={{
-                      background: 'repeating-conic-gradient(rgba(120,120,120,0.12) 0% 25%, transparent 0% 50%) 0 0 / 3px 3px',
-                    }}
-                  >
-                    <span className="bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded shadow-lg">
+                  <div className="absolute inset-0 bg-gray-200/60 dark:bg-gray-900/70 backdrop-blur-sm flex items-center justify-center">
+                    <span className="bg-red-500 hover:bg-red-600 text-white text-xs font-bold px-4 py-2 rounded-md shadow-lg transition-colors flex items-center gap-1.5">
+                      <span className="material-symbols-outlined text-sm">visibility_off</span>
                       SPOILER — Click để xem
                     </span>
-                  </button>
+                  </div>
                 </div>
               ) : (
                 <p className="text-sm text-text-light dark:text-white mb-2">{reply.content}</p>
@@ -147,6 +145,7 @@ const ReplyList = ({ commentId, replies, onReplyAdded, onReplyDeleted }) => {
                     storyId={null}
                     commentId={commentId}
                     isReply={true}
+                    replyToUser={reply.userId}
                     onCancel={() => toggleReplyForm(reply._id)}
                     onReplyAdded={(updatedComment) => {
                       if (onReplyAdded) onReplyAdded(updatedComment);
