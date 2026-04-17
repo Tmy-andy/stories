@@ -1,6 +1,8 @@
 const Chapter = require('../models/Chapter');
 const Story = require('../models/Story');
 const mongoose = require('mongoose');
+const Favorite = require('../models/Favorite');
+const Notification = require('../models/Notification');
 
 // Lấy tất cả chapters của một truyện (by ID hoặc slug) - KHÔNG LẤY DRAFT & ARCHIVED
 exports.getChaptersByStory = async (req, res) => {
@@ -130,18 +132,50 @@ exports.createChapter = async (req, res) => {
   try {
     const chapter = new Chapter(req.body);
     const newChapter = await chapter.save();
-    
+
     // Cập nhật số lượng chapter trong story
     await Story.findByIdAndUpdate(
       req.body.storyId,
       { $inc: { chapterCount: 1 }, updatedAt: Date.now() }
     );
-    
+
+    // Gửi thông báo cho người đã favorite truyện (fire-and-forget)
+    if (newChapter.status === 'published') {
+      sendNewChapterNotifications(newChapter).catch(err =>
+        console.error('Notification error:', err.message)
+      );
+    }
+
     res.status(201).json(newChapter);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
+
+async function sendNewChapterNotifications(chapter) {
+  const story = await Story.findById(chapter.storyId).select('title authorId slug');
+  if (!story) return;
+
+  const favorites = await Favorite.find({ storyId: chapter.storyId })
+    .select('userId')
+    .limit(500);
+
+  const authorId = story.authorId?.toString();
+  const notifications = favorites
+    .filter(fav => fav.userId.toString() !== authorId)
+    .map(fav => ({
+      userId: fav.userId,
+      type: 'new_chapter',
+      message: `"${story.title}" vừa cập nhật ${chapter.title}`,
+      storyId: story._id,
+      chapterId: chapter._id,
+      triggeredBy: authorId || undefined
+    }));
+
+  if (notifications.length > 0) {
+    await Notification.insertMany(notifications);
+  }
+}
 
 // Cập nhật chapter
 exports.updateChapter = async (req, res) => {
