@@ -46,40 +46,46 @@ const RULES = [
 
 const CommunityRules = () => {
   return (
-    <div className="max-w-2xl mx-auto px-4 py-8">
-      {/* Header */}
-      <div className="text-center mb-10">
-        <span className="material-symbols-outlined text-5xl text-primary mb-3 block">gavel</span>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Quy Tắc Ứng Xử</h1>
-        <p className="text-gray-500 dark:text-gray-400 text-sm">
-          Để cộng đồng luôn là nơi thảo luận thân thiện và an toàn, tất cả thành viên cần tuân thủ các quy tắc dưới đây.
-        </p>
-      </div>
-
-      {/* Rules list */}
-      <div className="space-y-4">
-        {RULES.map((rule, i) => (
-          <div key={i} className="flex gap-4 p-5 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
-            <div className="w-10 h-10 rounded-full bg-primary/10 dark:bg-primary/20 flex items-center justify-center shrink-0">
-              <span className="material-symbols-outlined text-primary text-xl">{rule.icon}</span>
-            </div>
-            <div>
-              <h3 className="font-semibold text-gray-900 dark:text-white mb-1 text-sm">{rule.title}</h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{rule.body}</p>
-            </div>
+    <main className="flex flex-col gap-8 md:gap-12 min-h-screen">
+      <div className="flex flex-1 justify-center py-10 md:py-16">
+        <div className="layout-content-container flex flex-col flex-1 gap-8">
+          {/* Header */}
+          <div className="flex flex-col gap-3 px-4 text-center items-center">
+            <span className="material-symbols-outlined text-5xl text-primary">gavel</span>
+            <h1 className="text-text-light dark:text-white text-4xl md:text-5xl font-black leading-tight tracking-tighter">
+              Quy Tắc Ứng Xử
+            </h1>
+            <p className="text-text-secondary-light dark:text-text-secondary-dark text-base md:text-lg font-normal leading-normal max-w-2xl">
+              Để cộng đồng luôn là nơi thảo luận thân thiện và an toàn, tất cả thành viên cần tuân thủ các quy tắc dưới đây.
+            </p>
           </div>
-        ))}
-      </div>
 
-      {/* Footer note */}
-      <div className="mt-8 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-xl text-sm text-yellow-700 dark:text-yellow-400">
-        <span className="font-semibold">Lưu ý:</span> Vi phạm nghiêm trọng hoặc lặp lại có thể dẫn đến tạm khóa hoặc cấm vĩnh viễn tài khoản. Quản trị viên có toàn quyền quyết định về các trường hợp vi phạm.
-      </div>
+          {/* Rules list */}
+          <div className="px-4 space-y-4">
+            {RULES.map((rule, i) => (
+              <div key={i} className="flex gap-4 p-5 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+                <div className="w-10 h-10 rounded-full bg-primary/10 dark:bg-primary/20 flex items-center justify-center shrink-0">
+                  <span className="material-symbols-outlined text-primary text-xl">{rule.icon}</span>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900 dark:text-white mb-1">{rule.title}</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{rule.body}</p>
+                </div>
+              </div>
+            ))}
+          </div>
 
-      <div className="mt-6 text-center">
-        <Link to="/" className="text-primary hover:underline text-sm">← Quay về trang chủ</Link>
+          {/* Footer note */}
+          <div className="mx-4 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-xl text-sm text-yellow-700 dark:text-yellow-400">
+            <span className="font-semibold">Lưu ý:</span> Vi phạm nghiêm trọng hoặc lặp lại có thể dẫn đến tạm khóa hoặc cấm vĩnh viễn tài khoản. Quản trị viên có toàn quyền quyết định về các trường hợp vi phạm.
+          </div>
+
+          <div className="px-4 text-center pb-4">
+            <Link to="/" className="text-primary hover:underline text-sm">← Quay về trang chủ</Link>
+          </div>
+        </div>
       </div>
-    </div>
+    </main>
   );
 };
 
