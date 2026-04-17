@@ -348,7 +348,7 @@ exports.getUserSuggestions = async (req, res) => {
       _id: { $in: comments },
       username: { $regex: query, $options: 'i' }
     })
-    .select('_id username')
+    .select('_id username displayName avatar')
     .limit(10);
 
     res.json(users);

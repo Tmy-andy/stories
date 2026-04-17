@@ -168,19 +168,33 @@ const CommentInput = ({ storyId, chapterId, onCommentAdded, isReply = false, onC
             
             {/* User suggestions dropdown */}
             {showSuggestions && suggestions.length > 0 && (
-              <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-[#1e1c27] border border-gray-200 dark:border-white/10 rounded-lg shadow-lg z-10 max-h-40 overflow-y-auto">
+              <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-[#1e1c27] border border-gray-200 dark:border-white/10 rounded-lg shadow-lg z-10 max-h-48 overflow-y-auto">
                 {suggestions.map((suggestion, idx) => (
                   <button
                     key={suggestion._id}
                     type="button"
                     onClick={() => insertMention(suggestion)}
-                    className={`w-full text-left px-4 py-2 flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-white/10 ${
+                    className={`w-full text-left px-3 py-2 flex items-center gap-3 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors ${
                       idx === selectedSuggestion ? 'bg-primary/10 dark:bg-primary/20' : ''
                     }`}
                   >
-                    <span className="text-sm text-text-light dark:text-white font-medium">
-                      @{suggestion.username}
-                    </span>
+                    <div className="w-8 h-8 rounded-full bg-gray-300 dark:bg-gray-600 flex-shrink-0 flex items-center justify-center overflow-hidden">
+                      {suggestion.avatar ? (
+                        <img src={suggestion.avatar} alt={suggestion.username} className="w-full h-full object-cover" />
+                      ) : (
+                        <span className="text-xs font-bold text-gray-600 dark:text-gray-300">
+                          {(suggestion.displayName || suggestion.username)?.[0]?.toUpperCase()}
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex flex-col min-w-0">
+                      <span className="text-sm text-text-light dark:text-white font-semibold truncate">
+                        {suggestion.displayName || suggestion.username}
+                      </span>
+                      <span className="text-xs text-text-muted-light dark:text-text-muted-dark truncate">
+                        @{suggestion.username}
+                      </span>
+                    </div>
                   </button>
                 ))}
               </div>
