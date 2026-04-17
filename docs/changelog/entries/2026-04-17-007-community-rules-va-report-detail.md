@@ -8,7 +8,7 @@
 | **Người thực hiện** | Claude |
 | **Tag** | `[FEATURE]` |
 | **Mức rủi ro** | `LOW` |
-| **Commit hash** | (chưa commit) |
+| **Commit hash** | `b65ce42` |
 | **Branch** | main |
 
 ## Mục đích
