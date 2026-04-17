@@ -10,7 +10,8 @@ import {
   Settings,
   FileText,
   Menu,
-  X
+  X,
+  Flag
 } from 'lucide-react';
 
 const ManagerLayout = ({ children }) => {
@@ -58,6 +59,11 @@ const ManagerLayout = ({ children }) => {
       label: 'Liên hệ',
       icon: Mail,
       path: '/manager/contacts',
+    },
+    {
+      label: 'Báo cáo',
+      icon: Flag,
+      path: '/manager/reports',
     },
     {
       label: 'Thể loại',

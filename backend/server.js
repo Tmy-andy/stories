@@ -75,6 +75,7 @@ const managerAuthRoutes = require('./routes/manager');
 const managerAPIRoutes = require('./routes/managerAPI');
 const settingsRoutes = require('./routes/settings');
 const pageRoutes = require('./routes/pages');
+const reportRoutes = require('./routes/reports');
 
 // Routes
 app.use('/api/stories', storyRoutes);
@@ -90,6 +91,7 @@ app.use('/api/manager', managerAuthRoutes);
 app.use('/api/manager', managerAPIRoutes);
 app.use('/api/settings', settingsRoutes);
 app.use('/api/pages', pageRoutes);
+app.use('/api/reports', reportRoutes);
 
 // Route mặc định
 app.get('/', (req, res) => {

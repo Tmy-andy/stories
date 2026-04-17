@@ -40,6 +40,7 @@ import ManagerSettings from './pages/manager/ManagerSettings';
 import ManagerCategories from './pages/manager/ManagerCategories';
 import ManagerPages from './pages/manager/ManagerPages';
 import ManagerPageEdit from './pages/manager/ManagerPageEdit';
+import ManagerReports from './pages/manager/ManagerReports';
 import About from './pages/About';
 import NotFound from './pages/errors/NotFound';
 import ServerError from './pages/errors/ServerError';
@@ -69,6 +70,7 @@ function App() {
         <Route path="/manager/categories" element={<ManagerCategories />} />
         <Route path="/manager/pages" element={<ManagerPages />} />
         <Route path="/manager/pages/:slug" element={<ManagerPageEdit />} />
+        <Route path="/manager/reports" element={<ManagerReports />} />
 
         {/* Admin routes - full layout without Header/Footer/padding */}
         <Route path="/admin" element={

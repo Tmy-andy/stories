@@ -5,11 +5,14 @@ import { MedalIcon, calculateLevel, AdminVerifiedIcon } from '../utils/tierSyste
 import UserTooltip from './UserTooltip';
 import CommentInput from './CommentInput';
 import CommentContent from './CommentContent';
+import CommentMenu from './CommentMenu';
+import ReportModal from './ReportModal';
 
-const ReplyList = ({ commentId, replies, onReplyAdded, onReplyDeleted }) => {
+const ReplyList = ({ commentId, replies, onReplyAdded, onReplyDeleted, storyAuthorId }) => {
   const [expandedReplies, setExpandedReplies] = useState({});
   const [showReplyForm, setShowReplyForm] = useState({});
   const [revealedSpoilers, setRevealedSpoilers] = useState({});
+  const [reportTarget, setReportTarget] = useState(null);
   const user = authService.getCurrentUser();
 
   const handleToggleReply = (replyId) => {
@@ -38,12 +41,28 @@ const ReplyList = ({ commentId, replies, onReplyAdded, onReplyDeleted }) => {
     }
   };
 
+  const canDeleteReply = (reply) => {
+    if (!user) return false;
+    return (
+      user._id === reply.userId?._id ||
+      user.role === 'admin' ||
+      user.id === storyAuthorId
+    );
+  };
+
   if (!replies || replies.length === 0) {
     return null;
   }
 
   return (
     <div className="ml-8 mt-4 border-l border-gray-200 dark:border-white/10 pl-4">
+      {reportTarget && (
+        <ReportModal
+          commentId={reportTarget.commentId}
+          replyId={reportTarget.replyId}
+          onClose={() => setReportTarget(null)}
+        />
+      )}
       {replies.map((reply) => (
         <div key={reply._id} id={`comment-${reply._id}`} className="mb-4 scroll-m-20">
           <div className="flex gap-2">
@@ -124,24 +143,23 @@ const ReplyList = ({ commentId, replies, onReplyAdded, onReplyDeleted }) => {
                 </button>
 
                 {user && (
-                  <>
-                    <button
-                      onClick={() => toggleReplyForm(reply._id)}
-                      className="text-xs text-text-muted-light dark:text-text-muted-dark hover:text-primary transition-colors"
-                    >
-                      Trả lời
-                    </button>
-
-                    {(user._id === reply.userId?._id || user.role === 'admin') && (
-                      <button
-                        onClick={() => handleDeleteReply(reply._id)}
-                        className="text-xs text-red-500 hover:text-red-600 transition-colors"
-                      >
-                        Xóa
-                      </button>
-                    )}
-                  </>
+                  <button
+                    onClick={() => toggleReplyForm(reply._id)}
+                    className="text-xs text-text-muted-light dark:text-text-muted-dark hover:text-primary transition-colors"
+                  >
+                    Trả lời
+                  </button>
                 )}
+
+                <div className="ml-auto">
+                  <CommentMenu
+                    commentId={commentId}
+                    replyId={reply._id}
+                    canDelete={canDeleteReply(reply)}
+                    onDelete={() => handleDeleteReply(reply._id)}
+                    onReport={user ? () => setReportTarget({ commentId, replyId: reply._id }) : null}
+                  />
+                </div>
               </div>
 
               {showReplyForm[reply._id] && (

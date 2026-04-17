@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useSearchParams, Link } from 'react-router-dom';
 import { storyService, getChaptersByStory } from '../services/storyService';
+import { authService } from '../services/authService';
+import readingHistoryService from '../services/readingHistoryService';
 import CommentSection from '../components/CommentSection';
 import FavoriteButton from '../components/FavoriteButton';
 
@@ -11,6 +13,7 @@ const StoryDetail = () => {
   const [chapters, setChapters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [lastReadChapter, setLastReadChapter] = useState(null);
   const chaptersPerPage = 20;
   const commentId = searchParams.get('comment');
 
@@ -46,10 +49,23 @@ const StoryDetail = () => {
   const loadStoryData = async () => {
     try {
       setLoading(true);
-      const storyData = await storyService.getStoryById(id);
-      const chaptersData = await getChaptersByStory(id);
+      const [storyData, chaptersData] = await Promise.all([
+        storyService.getStoryById(id),
+        getChaptersByStory(id)
+      ]);
       setStory(storyData);
       setChapters(chaptersData);
+
+      // Lấy lịch sử đọc nếu đã đăng nhập
+      const currentUser = authService.getCurrentUser();
+      if (currentUser && storyData?._id) {
+        try {
+          const history = await readingHistoryService.getReadingPosition(storyData._id);
+          if (history?.chapterNumber) setLastReadChapter(history.chapterNumber);
+        } catch {
+          // Chưa có lịch sử đọc
+        }
+      }
     } catch (error) {
       console.error('Error loading story:', error);
     } finally {
@@ -106,8 +122,24 @@ const StoryDetail = () => {
                   <div className="flex h-7 items-center justify-center rounded-full bg-gray-200 dark:bg-white/10 px-3"><p className="text-gray-800 dark:text-white text-xs font-medium">{getStatusLabel(story.status)}</p></div>
                 </div>
                 <p className="text-gray-600 dark:text-[#a29db9] text-base mt-2">{story.description}</p>
-                <div className="pt-4">
-                  <FavoriteButton storyId={story._id} size={28} className="text-gray-600 dark:text-gray-400" />
+                <div className="pt-4 flex items-center gap-3">
+                  {chapters.length > 0 && (
+                    <Link
+                      to={lastReadChapter
+                        ? `/chapter/${story.slug || id}/${lastReadChapter}`
+                        : `/chapter/${story.slug || id}/1`
+                      }
+                      className="flex items-center gap-2 px-5 py-2.5 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm font-bold rounded-full hover:opacity-90 transition-opacity"
+                    >
+                      <span className="material-symbols-outlined text-base">
+                        {lastReadChapter ? 'play_arrow' : 'menu_book'}
+                      </span>
+                      {lastReadChapter ? `Đọc tiếp` : 'Bắt đầu đọc truyện'}
+                    </Link>
+                  )}
+                  <div className="flex items-center justify-center w-10 h-10 rounded-full border border-gray-300 dark:border-gray-600">
+                    <FavoriteButton storyId={story._id} size={22} className="text-gray-600 dark:text-gray-400" />
+                  </div>
                 </div>
               </div>
             </div>
@@ -115,9 +147,6 @@ const StoryDetail = () => {
         </div>
 
         <div className="flex flex-col sm:flex-row-reverse gap-4 p-4">
-          <div className="flex w-full flex-col sm:flex-row gap-3 sm:w-auto">
-            {chapters.length > 0 && <Link to={`/chapter/${story.slug || id}/1`} className="flex items-center justify-center h-11 px-5 bg-primary text-white text-sm font-bold hover:bg-primary/90 transition-colors rounded-lg">Đọc từ đầu</Link>}
-          </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 flex-1">
             <div className="flex flex-col gap-1 rounded-lg p-4 bg-gray-100 dark:bg-white/5"><p className="text-gray-600 dark:text-[#a29db9] text-sm font-medium">Lượt xem</p><p className="text-gray-900 dark:text-white text-xl font-bold">{story.views}</p></div>
             <div className="flex flex-col gap-1 rounded-lg p-4 bg-gray-100 dark:bg-white/5"><p className="text-gray-600 dark:text-[#a29db9] text-sm font-medium">Số chương</p><p className="text-gray-900 dark:text-white text-xl font-bold">{chapters.length}</p></div>
@@ -152,7 +181,7 @@ const StoryDetail = () => {
 
         {/* Comments Section */}
         <div className="mt-12 border-t border-gray-200 dark:border-white/10 pt-8">
-          <CommentSection storyId={story._id} />
+          <CommentSection storyId={story._id} storyAuthorId={story.authorId?._id || story.authorId} />
         </div>
       </div>
     </main>

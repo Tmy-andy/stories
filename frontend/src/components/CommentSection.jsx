@@ -5,15 +5,18 @@ import { MedalIcon, calculateLevel, AdminVerifiedIcon } from '../utils/tierSyste
 import UserTooltip from './UserTooltip';
 import CommentInput from './CommentInput';
 import CommentContent from './CommentContent';
+import CommentMenu from './CommentMenu';
+import ReportModal from './ReportModal';
 import ReplyList from './ReplyList';
 
-const CommentSection = ({ storyId, chapterId }) => {
+const CommentSection = ({ storyId, chapterId, storyAuthorId }) => {
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [currentUser, setCurrentUser] = useState(null);
   const [replyingTo, setReplyingTo] = useState(null);
   const [revealedSpoilers, setRevealedSpoilers] = useState({});
+  const [reportTarget, setReportTarget] = useState(null); // { commentId, replyId }
 
   useEffect(() => {
     const user = authService.getCurrentUser();
@@ -75,11 +78,23 @@ const CommentSection = ({ storyId, chapterId }) => {
 
   const canDeleteComment = (comment) => {
     if (!currentUser) return false;
-    return comment.userId?._id === currentUser.id || currentUser.role === 'admin';
+    return (
+      comment.userId?._id === currentUser.id ||
+      currentUser.role === 'admin' ||
+      currentUser.id === storyAuthorId
+    );
   };
 
   return (
     <div className="space-y-6">
+      {/* Report Modal */}
+      {reportTarget && (
+        <ReportModal
+          commentId={reportTarget.commentId}
+          replyId={reportTarget.replyId}
+          onClose={() => setReportTarget(null)}
+        />
+      )}
       {/* Comments Header */}
       <div>
         <h2 className="text-2xl font-bold mb-6 text-text-light dark:text-white">
@@ -182,7 +197,7 @@ const CommentSection = ({ storyId, chapterId }) => {
                   )}
 
                   {/* Actions */}
-                  <div className="flex gap-4 mt-3">
+                  <div className="flex items-center gap-4 mt-3">
                     <button
                       onClick={() => handleLikeComment(comment._id)}
                       className="flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400 hover:text-primary transition-colors"
@@ -201,15 +216,14 @@ const CommentSection = ({ storyId, chapterId }) => {
                       </button>
                     )}
 
-                    {canDeleteComment(comment) && (
-                      <button
-                        onClick={() => handleDeleteComment(comment._id)}
-                        className="flex items-center gap-1 text-sm text-red-500 hover:text-red-700 dark:hover:text-red-400 transition-colors"
-                      >
-                        <span className="material-symbols-outlined text-base">delete</span>
-                        <span>Xóa</span>
-                      </button>
-                    )}
+                    <div className="ml-auto">
+                      <CommentMenu
+                        commentId={comment._id}
+                        canDelete={canDeleteComment(comment)}
+                        onDelete={() => handleDeleteComment(comment._id)}
+                        onReport={currentUser ? () => setReportTarget({ commentId: comment._id }) : null}
+                      />
+                    </div>
                   </div>
 
                   {/* Reply Form */}
@@ -236,6 +250,7 @@ const CommentSection = ({ storyId, chapterId }) => {
                     <ReplyList
                       commentId={comment._id}
                       replies={comment.replies}
+                      storyAuthorId={storyAuthorId}
                       onReplyAdded={(updatedComment) => {
                         setComments(comments.map(c =>
                           c._id === comment._id ? updatedComment : c
