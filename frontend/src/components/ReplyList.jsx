@@ -91,13 +91,16 @@ const ReplyList = ({ commentId, replies, onReplyAdded, onReplyDeleted }) => {
               </div>
 
               {reply.isSpoiler && !revealedSpoilers[reply._id] ? (
-                <div className="relative mb-2">
-                  <p className="text-sm text-text-light dark:text-white blur-md select-none" aria-hidden="true">
+                <div className="relative overflow-hidden rounded mb-2">
+                  <p className="text-sm text-text-light dark:text-white select-none" aria-hidden="true">
                     {reply.content}
                   </p>
                   <button
                     onClick={() => setRevealedSpoilers(prev => ({ ...prev, [reply._id]: true }))}
-                    className="absolute inset-0 flex items-center justify-center bg-black/20 dark:bg-black/40 rounded cursor-pointer"
+                    className="absolute inset-0 flex items-center justify-center backdrop-blur-lg cursor-pointer"
+                    style={{
+                      background: 'repeating-conic-gradient(rgba(120,120,120,0.12) 0% 25%, transparent 0% 50%) 0 0 / 3px 3px',
+                    }}
                   >
                     <span className="bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded shadow-lg">
                       SPOILER — Click để xem
