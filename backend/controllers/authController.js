@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const Comment = require('../models/Comment');
+const Story = require('../models/Story');
 const Blacklist = require('../models/Blacklist');
 const jwt = require('jsonwebtoken');
 
@@ -231,6 +232,14 @@ exports.getUserProfile = async (req, res) => {
       return res.status(404).json({ message: 'Không tìm thấy người dùng' });
     }
 
+    // Lấy truyện của tác giả (nếu là tác giả)
+    let authorStories = [];
+    if (user.isAuthor) {
+      authorStories = await Story.find({ authorId: userId })
+        .select('title slug coverImage createdAt')
+        .sort({ createdAt: -1 });
+    }
+
     // Lấy bình luận gần đây
     let recentComments = await Comment.find({ userId })
       .populate('storyId', 'title slug')
@@ -287,7 +296,9 @@ exports.getUserProfile = async (req, res) => {
         readingHistory: user.readingHistory,
         favorites: user.favorites
       },
-      recentComments
+      recentComments,
+      authorStories,
+      storyCount: authorStories.length
     });
   } catch (error) {
     res.status(500).json({ message: error.message });

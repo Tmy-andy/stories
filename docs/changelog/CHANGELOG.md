@@ -13,6 +13,7 @@ Format mỗi dòng:
 
 ### Tháng 04
 
+- 2026-04-17 `[FEATURE]` `LOW` — Public profile hiển thị danh sách truyện + số truyện cho tác giả → [entry](entries/2026-04-17-005-public-profile-author-stories.md) · commit: (chưa commit)
 - 2026-04-17 `[FIX]` `MEDIUM` — Fix @mention gợi ý + hiển thị mention nổi bật + noti dẫn tới chapter → [entry](entries/2026-04-17-004-fix-mention-suggestions-va-noti-chapter.md) · commit: `af64449`
 - 2026-04-17 `[FIX]` `LOW` — Dropdown @mention hiển thị avatar, displayName, username → [entry](entries/2026-04-17-003-mention-suggestions-avt-displayname.md) · commit: `af64449`
 - 2026-04-17 `[FIX]` `LOW` — Cải thiện spoiler overlay (frosted glass) + auto-@ khi reply → [entry](entries/2026-04-17-002-fix-spoiler-overlay-va-auto-mention-reply.md) · commit: `5963b42`

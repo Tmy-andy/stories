@@ -7,6 +7,7 @@ function PublicProfile() {
   const { userId } = useParams();
   const [profile, setProfile] = useState(null);
   const [comments, setComments] = useState([]);
+  const [stories, setStories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -21,6 +22,7 @@ function PublicProfile() {
       const response = await api.get(`/auth/profile/${userId}`);
       setProfile(response.data.user);
       setComments(response.data.recentComments || []);
+      setStories(response.data.authorStories || []);
     } catch (err) {
       console.error('Error loading profile:', err);
       setError('Không tìm thấy người dùng');
@@ -158,6 +160,14 @@ function PublicProfile() {
               </div>
             )}
 
+            {/* Truyện đã đăng (chỉ tác giả) */}
+            {profile.isAuthor && (
+              <div className="flex flex-col">
+                <span className="text-xs text-gray-500 dark:text-gray-400">Truyện đã đăng</span>
+                <span className="text-sm font-medium text-gray-900 dark:text-white">{stories.length}</span>
+              </div>
+            )}
+
             {/* Bình luận */}
             <div className="flex flex-col">
               <span className="text-xs text-gray-500 dark:text-gray-400">Bình luận</span>
@@ -166,6 +176,43 @@ function PublicProfile() {
           </div>
         </div>
       </div>
+
+      {/* Author Stories */}
+      {profile.isAuthor && stories.length > 0 && (
+        <div className="mt-6">
+          <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
+            Danh sách truyện của {profile.displayName || profile.username}
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+            {stories.map((story) => (
+              <Link
+                key={story._id}
+                to={`/story/${story.slug || story._id}`}
+                className="group bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-md transition-shadow"
+              >
+                <div className="aspect-[3/4] bg-gray-100 dark:bg-gray-700 overflow-hidden">
+                  {story.coverImage ? (
+                    <img
+                      src={story.coverImage}
+                      alt={story.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <span className="material-symbols-outlined text-4xl text-gray-400 dark:text-gray-500">menu_book</span>
+                    </div>
+                  )}
+                </div>
+                <div className="p-2.5">
+                  <h3 className="text-sm font-semibold text-gray-900 dark:text-white line-clamp-2 group-hover:text-primary transition-colors">
+                    {story.title}
+                  </h3>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Recent Comments */}
       <div className="mt-6">
