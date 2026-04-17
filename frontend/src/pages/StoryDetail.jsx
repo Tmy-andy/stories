@@ -112,7 +112,16 @@ const StoryDetail = () => {
               <div className="bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg w-48 shrink-0 mx-auto sm:mx-0" style={{ backgroundImage: `url("${story.coverImage || 'https://via.placeholder.com/300x400?text=No+Image'}")` }}></div>
               <div className="flex flex-col gap-2">
                 <h1 className="text-gray-900 dark:text-white text-3xl font-display font-bold">{story.title}</h1>
-                <p className="text-primary text-base font-medium">Tác giả: {typeof story.authorId === 'object' ? (story.authorId?.displayName || story.authorId?.username) : 'N/A'}</p>
+                <p className="text-base font-medium">
+                  Tác giả:{' '}
+                  {typeof story.authorId === 'object' && story.authorId?._id ? (
+                    <Link to={`/profile/${story.authorId._id}`} className="text-primary hover:underline">
+                      {story.authorId.displayName || story.authorId.username}
+                    </Link>
+                  ) : (
+                    <span className="text-primary">N/A</span>
+                  )}
+                </p>
                 <div className="flex gap-2 flex-wrap pt-2">
                   <div className="flex h-7 items-center justify-center rounded-full bg-gray-200 dark:bg-white/10 px-3"><p className="text-gray-800 dark:text-white text-xs font-medium">
                     {Array.isArray(story.category) 
