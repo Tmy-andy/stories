@@ -78,7 +78,12 @@ exports.updateReport = async (req, res) => {
 
     const report = await Report.findByIdAndUpdate(
       req.params.id,
-      { status, reviewedBy: req.user.id, reviewedAt: new Date() },
+      {
+        status,
+        reviewedBy: req.user.id,
+        reviewedAt: new Date(),
+        deleteAt: Report.getDeleteAt()  // tự xóa sau 7 ngày
+      },
       { new: true }
     );
 
